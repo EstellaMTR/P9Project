@@ -1,0 +1,14 @@
+# .NET
+**/bin/
+**/obj/
+.idea/
+.vs/
+
+# Frontend
+**/node_modules/
+**/dist/
+
+# Local credentials
+**/.env
+**/.env.*
+**/appsettings.Development.json
