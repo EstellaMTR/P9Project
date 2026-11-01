@@ -1,4 +1,5 @@
 using Eurowind.Backend.Config;
+using Eurowind.Backend.Services;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -12,7 +13,7 @@ builder.Services.AddDbContext<AppDbContext>(options =>
     ));
 
 // Add services to the container.
-
+builder.Services.AddScoped<EmployeeService>(); // DO EVERY TIME CREATE A NEW SERVICE
 builder.Services.AddControllers();
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.AddOpenApi();
@@ -30,9 +31,6 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
-
 app.UseAuthorization();
-
 app.MapControllers();
-
 app.Run();

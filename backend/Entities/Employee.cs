@@ -1,4 +1,7 @@
-﻿namespace Eurowind.Backend.Entities;
+﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+
+namespace Eurowind.Backend.Entities;
 
 public class Employee
 {
@@ -11,6 +14,9 @@ public class Employee
     // so in the email example, we would need to make a function to allow users to update their email.
     // But 'updating an email' is outside the scope of our project, so we wont do that. It will only ever be set once
     // in our constructor. So the setter should still be private here. We just wont make a function to set it.
+    [Key]
+    [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+    public int Id { get; private set; }
     public string Email {get; private set;}
     public string FirstName {get; private set;}
     public string LastName {get; private set;}
@@ -25,5 +31,10 @@ public class Employee
         FirstName = firstName;
         LastName = lastName;
         Password = password;
+    }
+
+    public bool Login(string email, string password)
+    {
+        return Email == email && Password == password;
     }
 }
