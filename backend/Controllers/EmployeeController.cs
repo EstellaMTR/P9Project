@@ -1,5 +1,4 @@
 ﻿using Eurowind.Backend.DTOs;
-using Eurowind.Backend.Entities;
 using Eurowind.Backend.Services;
 using Microsoft.AspNetCore.Mvc;
 
@@ -7,6 +6,7 @@ namespace Eurowind.Backend.Controllers;
 
 [ApiController]
 [Route("[controller]")]
+[Produces("application/json")]
 public class EmployeeController : ControllerBase
 {
     private readonly EmployeeService _employeeService;
@@ -15,8 +15,11 @@ public class EmployeeController : ControllerBase
         _employeeService = employeeService;
     }
 
-    [HttpPost]
-    public IActionResult Login(EmployeeLoginRequest request)
+    [HttpPost(Name = "LoginEmployee")]
+    [ProducesResponseType<int>(StatusCodes.Status200OK)]
+    [ProducesResponseType<ProblemDetails>(StatusCodes.Status404NotFound)]
+    [ProducesResponseType<ProblemDetails>(StatusCodes.Status400BadRequest)]
+    public ActionResult<int> Login(EmployeeLoginRequest request)
     {
         var result = _employeeService.Login(request);
         if (result.IsT0)
