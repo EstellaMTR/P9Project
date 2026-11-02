@@ -9,6 +9,14 @@ export type EmployeeLoginRequest = {
     password: string;
 };
 
+export type Lesson = {
+    id?: number;
+    courseId: number;
+    title: string;
+    description: string;
+    task: string;
+};
+
 export type ProblemDetails = {
     type?: null | string;
     title?: null | string;
@@ -45,3 +53,57 @@ export type LoginEmployeeResponses = {
 };
 
 export type LoginEmployeeResponse = LoginEmployeeResponses[keyof LoginEmployeeResponses];
+
+export type GetLessonByIdData = {
+    body?: never;
+    path: {
+        id: number;
+    };
+    query?: never;
+    url: '/Lesson/{id}';
+};
+
+export type GetLessonByIdErrors = {
+    /**
+     * Not Found
+     */
+    404: ProblemDetails;
+};
+
+export type GetLessonByIdError = GetLessonByIdErrors[keyof GetLessonByIdErrors];
+
+export type GetLessonByIdResponses = {
+    /**
+     * OK
+     */
+    200: Lesson;
+};
+
+export type GetLessonByIdResponse = GetLessonByIdResponses[keyof GetLessonByIdResponses];
+
+export type GetLessonCourseByCourseIdData = {
+    body?: never;
+    path: {
+        courseId: number;
+    };
+    query?: never;
+    url: '/Lesson/course/{courseId}';
+};
+
+export type GetLessonCourseByCourseIdErrors = {
+    /**
+     * Not Found
+     */
+    404: ProblemDetails;
+};
+
+export type GetLessonCourseByCourseIdError = GetLessonCourseByCourseIdErrors[keyof GetLessonCourseByCourseIdErrors];
+
+export type GetLessonCourseByCourseIdResponses = {
+    /**
+     * OK
+     */
+    200: Array<Lesson>;
+};
+
+export type GetLessonCourseByCourseIdResponse = GetLessonCourseByCourseIdResponses[keyof GetLessonCourseByCourseIdResponses];
