@@ -18,4 +18,5 @@ public class AppDbContext : DbContext
     
     // we are just basically saying that we have an employees table
     public DbSet<Employee> Employees { get; set; }
+    public DbSet<Lesson> Lessons { get; set; }
 }
