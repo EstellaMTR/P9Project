@@ -1,4 +1,5 @@
 using Eurowind.Backend.Config;
+using Eurowind.Backend.Services;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -12,9 +13,17 @@ builder.Services.AddDbContext<AppDbContext>(options =>
     ));
 
 // Add services to the container.
-
-builder.Services.AddControllers();
+builder.Services.AddScoped<EmployeeService>(); // DO EVERY TIME CREATE A NEW SERVICE
+builder.Services.AddControllers().AddJsonOptions(options =>
+{
+    // Keep numeric contracts numeric in both JSON and generated clients.
+    options.JsonSerializerOptions.NumberHandling = System.Text.Json.Serialization.JsonNumberHandling.Strict;
+});
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
+builder.Services.ConfigureHttpJsonOptions(options =>
+{
+    options.SerializerOptions.NumberHandling = System.Text.Json.Serialization.JsonNumberHandling.Strict;
+});
 builder.Services.AddOpenApi();
 
 var app = builder.Build();
@@ -30,9 +39,6 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
-
 app.UseAuthorization();
-
 app.MapControllers();
-
 app.Run();
