@@ -2,7 +2,7 @@
 
 import type { Client, ClientMeta, Options as Options2, RequestResult, TDataShape } from './client';
 import { client } from './client.gen';
-import type { LoginEmployeeData, LoginEmployeeErrors, LoginEmployeeResponses } from './types.gen';
+import type { GetLessonByIdData, GetLessonByIdErrors, GetLessonByIdResponses, GetLessonCourseByCourseIdData, GetLessonCourseByCourseIdErrors, GetLessonCourseByCourseIdResponses, LoginEmployeeData, LoginEmployeeErrors, LoginEmployeeResponses } from './types.gen';
 
 export type Options<TData extends TDataShape = TDataShape, ThrowOnError extends boolean = boolean, TResponse = unknown> = Options2<TData, ThrowOnError, TResponse> & {
     /**
@@ -26,3 +26,7 @@ export const loginEmployee = <ThrowOnError extends boolean = false>(options: Opt
         ...options.headers
     }
 });
+
+export const getLessonById = <ThrowOnError extends boolean = false>(options: Options<GetLessonByIdData, ThrowOnError>): RequestResult<GetLessonByIdResponses, GetLessonByIdErrors, ThrowOnError> => (options.client ?? client).get<GetLessonByIdResponses, GetLessonByIdErrors, ThrowOnError>({ url: '/Lesson/{id}', ...options });
+
+export const getLessonCourseByCourseId = <ThrowOnError extends boolean = false>(options: Options<GetLessonCourseByCourseIdData, ThrowOnError>): RequestResult<GetLessonCourseByCourseIdResponses, GetLessonCourseByCourseIdErrors, ThrowOnError> => (options.client ?? client).get<GetLessonCourseByCourseIdResponses, GetLessonCourseByCourseIdErrors, ThrowOnError>({ url: '/Lesson/course/{courseId}', ...options });
