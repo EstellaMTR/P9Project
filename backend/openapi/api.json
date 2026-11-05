@@ -88,7 +88,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Lesson"
+                  "$ref": "#/components/schemas/LessonDTO"
                 }
               }
             }
@@ -191,6 +191,34 @@
             "type": "string"
           },
           "task": {
+            "type": "string"
+          }
+        }
+      },
+      "LessonDTO": {
+        "required": [
+          "title",
+          "description",
+          "task",
+          "courseId",
+          "courseTitle"
+        ],
+        "type": "object",
+        "properties": {
+          "title": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "task": {
+            "type": "string"
+          },
+          "courseId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "courseTitle": {
             "type": "string"
           }
         }

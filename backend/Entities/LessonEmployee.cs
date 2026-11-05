@@ -8,7 +8,7 @@ public class LessonEmployee
     public int LessonId {get; private set;}
     public int EmployeeId {get; private set;}
     
-    public string TaskAnswer {get; private set;}
+    public string? TaskAnswer {get; private set;}
     public string? TaskFeedback {get; private set;}
     public int TryCount {get; private set;}
     public bool IsCompleted {get; private set;}
@@ -25,4 +25,20 @@ public class LessonEmployee
         IsCompleted = false;
         ThumbCount = 0;
     }
+    
+    public LessonEmployee(Lesson lesson, Employee employee)
+    {
+        Lesson = lesson;
+        Employee = employee;
+        TaskAnswer = null;
+        TryCount = 0;
+        IsCompleted = false;
+        ThumbCount = 0;
+    }
+    
+    public void Complete()
+    {
+        IsCompleted = true;
+    }
+    
 }
