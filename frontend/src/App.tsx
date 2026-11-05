@@ -2,19 +2,21 @@ import { Container, Typography } from '@mui/material';
 import Login from './pages/Login';
 import { useState } from 'react';
 import Home from './pages/Home';
-import Button from './components/Button'
 
 function App() {
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+
   return (
-    <>
-      <Button label="Save" color="primary" onClick={() => console.log('clicked')} />
-      <Button label="Delete" color="secondary" icon="logout" onClick={() => console.log('clicked')} />
-      <Button label="Warn" color="warning" onClick={() => console.log('clicked')} />
-      <Button label="Plain" color="white" onClick={() => console.log('clicked')} />
-    </>
-  )
+    <Container sx={{ mt: 5 }}>
+      <Typography variant="h3">Eurowind Learning Platform</Typography>
+
+      {isLoggedIn ? (
+        <Home />
+      ) : (
+        <Login onLoginSuccess={() => setIsLoggedIn(true)} />
+      )}
+    </Container>
+  );
 }
-
-
 
 export default App;
