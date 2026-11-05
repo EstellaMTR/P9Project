@@ -1,4 +1,5 @@
 using Eurowind.Backend.Config;
+using Eurowind.Backend.Seed;
 using Eurowind.Backend.Services;
 using Microsoft.EntityFrameworkCore;
 
@@ -14,7 +15,8 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 
 // Add services to the container.
 builder.Services.AddScoped<EmployeeService>(); // DO EVERY TIME CREATE A NEW SERVICE
-builder.Services.AddScoped<LessonService>(); 
+builder.Services.AddScoped<LessonService>();
+builder.Services.AddScoped<DataSeeder>();
 builder.Services.AddControllers().AddJsonOptions(options =>
 {
     // Keep numeric contracts numeric in both JSON and generated clients.
@@ -28,6 +30,17 @@ builder.Services.ConfigureHttpJsonOptions(options =>
 builder.Services.AddOpenApi();
 
 var app = builder.Build();
+
+// Seed initial course and lesson data when running locally.
+// The seeder only runs in Development and skips execution if data already exists.
+if (app.Environment.IsDevelopment())
+{
+    using var scope = app.Services.CreateScope();
+
+    var dataSeeder = scope.ServiceProvider.GetRequiredService<DataSeeder>();
+
+    await dataSeeder.SeedAsync();
+}
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())

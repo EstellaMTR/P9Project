@@ -5,6 +5,21 @@
     "version": "1.0.0"
   },
   "paths": {
+    "/Course": {
+      "get": {
+        "tags": [
+          "Course"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": { }
+            }
+          }
+        }
+      }
+    },
     "/Employee": {
       "post": {
         "tags": [
@@ -234,6 +249,9 @@
     }
   },
   "tags": [
+    {
+      "name": "Course"
+    },
     {
       "name": "Employee"
     },
