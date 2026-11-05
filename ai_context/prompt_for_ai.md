@@ -71,13 +71,8 @@
         GET \= retrieve, POST \= create, PUT/PATCH \= edit, DELETE \= delete.  
       \</layer\>  
       \<layer name="Service" role="thinks"\>  
-        All business logic lives here. Pattern: read, think, write. Load the needed entities via  
-        the repository, apply the rules, then hand the changed entity back to be saved. Entities  
+        All business logic lives here. Pattern: read, think, write. Load the needed entities, apply the rules, then hand the changed entity back to be saved. Entities  
         are loaded, modified, then saved, not created from scratch at the end.  
-      \</layer\>  
-      \<layer name="Repository" role="stores"\>  
-        Encapsulates EF Core so the service does not need to know how data is fetched or saved.  
-        Translates entities to and from the database.  
       \</layer\>  
       \<layer name="Database" role="remembers"\>  
         MySQL tables. Schema changes happen only through EF Core migrations.  
@@ -93,9 +88,8 @@
     \<example\>  
       A user completes a lesson and earns XP. The frontend sends roughly POST /api/lessons/5/complete  
       with no XP amount. The controller puts the lesson id and user in a DTO and calls the service.  
-      The service reads the user and lesson through the repository, checks whether the lesson was  
-      already completed (XP is awarded only the first time), takes the amount from lesson.XpReward,  
-      adds it to user.TotalXp, and passes the changed entity to the repository to be saved. The  
+      The service reads the user and lesson from the database through EF Core, checks whether the lesson was already completed (XP is awarded only the first time), takes the amount from lesson.XpReward,  
+      adds it to user.TotalXp, and passes the changed entity to the database to be saved. The  
       response returns as a response DTO through the controller.  
     \</example\>  
     \<why\>  

@@ -338,8 +338,6 @@ Open Swagger UI in your browser:
 
 You should see our API documentation and available endpoints.
 
-You can also test the example WeatherForecast endpoint.
-
 **Note:** If the backend uses a different port, use the HTTPS address displayed in the terminal.
 
 To stop the backend, press `Ctrl + C` in the terminal or use Rider's Stop button.
