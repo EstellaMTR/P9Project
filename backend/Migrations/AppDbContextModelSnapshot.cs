@@ -135,7 +135,6 @@ namespace Eurowind.Backend.Migrations
                         .HasColumnType("tinyint(1)");
 
                     b.Property<string>("TaskAnswer")
-                        .IsRequired()
                         .HasColumnType("longtext");
 
                     b.Property<string>("TaskFeedback")

@@ -88,7 +88,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Lesson"
+                  "$ref": "#/components/schemas/LessonDTO"
                 }
               }
             }
@@ -148,10 +148,163 @@
           }
         }
       }
+    },
+    "/Lesson/{lessonId}/start": {
+      "post": {
+        "tags": [
+          "Lesson"
+        ],
+        "parameters": [
+          {
+            "name": "lessonId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "employeeId",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": { }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/Lesson/{lessonId}/complete": {
+      "post": {
+        "tags": [
+          "Lesson"
+        ],
+        "parameters": [
+          {
+            "name": "lessonId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "employeeId",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": { }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/Lesson/course/{courseId}/progress": {
+      "get": {
+        "tags": [
+          "Lesson"
+        ],
+        "parameters": [
+          {
+            "name": "courseId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "employeeId",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CourseProgressDTO"
+                }
+              }
+            }
+          }
+        }
+      }
     }
   },
   "components": {
     "schemas": {
+      "CourseProgressDTO": {
+        "required": [
+          "courseId",
+          "totalLessons",
+          "completedLessons",
+          "progressPercentage"
+        ],
+        "type": "object",
+        "properties": {
+          "courseId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "totalLessons": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "completedLessons": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "progressPercentage": {
+            "type": "integer",
+            "format": "int32"
+          }
+        }
+      },
       "EmployeeLoginRequest": {
         "required": [
           "email",
@@ -191,6 +344,34 @@
             "type": "string"
           },
           "task": {
+            "type": "string"
+          }
+        }
+      },
+      "LessonDTO": {
+        "required": [
+          "title",
+          "description",
+          "task",
+          "courseId",
+          "courseTitle"
+        ],
+        "type": "object",
+        "properties": {
+          "title": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "task": {
+            "type": "string"
+          },
+          "courseId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "courseTitle": {
             "type": "string"
           }
         }
