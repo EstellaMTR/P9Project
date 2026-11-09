@@ -40,4 +40,9 @@ public class Employee
     {
         return Email == email && Password == password;
     }
+
+    public void AddXp(int amount)
+    {
+        XpAccumulated += amount;
+    }
 }

@@ -60,4 +60,21 @@ public class EmployeeService
         // return dtoList;
         
     }
+    
+    // ADD XP FUNCTION
+    public async Task<OneOf<Success, NotFound>> AddXpAsync(int lessonId, int employeeId)
+    {
+        var employee = await _dbContext.Employees.FindAsync(employeeId);
+        var lessonEmployee = await _dbContext.LessonEmployees.FindAsync(lessonId, employeeId);
+
+        if (employee == null || lessonEmployee == null)
+        {
+            return new NotFound();
+        }
+
+        employee.AddXp(lessonEmployee.ThumbCount);
+
+        await _dbContext.SaveChangesAsync();
+        return new Success();
+    }
 }
