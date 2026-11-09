@@ -21,6 +21,8 @@ public class Employee
     public string FirstName {get; private set;}
     public string LastName {get; private set;}
     public string Password {get; private set;}
+    
+    public int XpAccumulated { get; private set; }
 
     // private Employee() // EF core needs an empty constructor. You can have a public one with parameters also :)
     // {
@@ -31,6 +33,7 @@ public class Employee
         FirstName = firstName;
         LastName = lastName;
         Password = password;
+        XpAccumulated = 0;
     }
 
     public bool Login(string email, string password)

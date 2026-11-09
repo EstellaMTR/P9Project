@@ -90,6 +90,9 @@ namespace Eurowind.Backend.Migrations
                         .IsRequired()
                         .HasColumnType("longtext");
 
+                    b.Property<int>("XpAccumulated")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
 
                     b.ToTable("Employees");

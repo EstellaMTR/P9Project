@@ -3,7 +3,7 @@
 // this is a record, not a calss.
 // records are classes but they are easier to write as they take fewer characters.
 // just a class, but faster
-public record EmployeeDTO(string FirstName, string LastName, string Email);
+public record EmployeeDTO(string FirstName, string LastName, string Email, int XpAccumulated);
 
 // this is literally, somehow, exactly the same as:
 
