@@ -66,6 +66,57 @@
         }
       }
     },
+    "/Employee/{id}": {
+      "get": {
+        "tags": [
+          "Employee"
+        ],
+        "operationId": "GetEmployeeById",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/EmployeeDTO"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/Lesson/{id}": {
       "get": {
         "tags": [
@@ -152,6 +203,30 @@
   },
   "components": {
     "schemas": {
+      "EmployeeDTO": {
+        "required": [
+          "firstName",
+          "lastName",
+          "email",
+          "xpAccumulated"
+        ],
+        "type": "object",
+        "properties": {
+          "firstName": {
+            "type": "string"
+          },
+          "lastName": {
+            "type": "string"
+          },
+          "email": {
+            "type": "string"
+          },
+          "xpAccumulated": {
+            "type": "integer",
+            "format": "int32"
+          }
+        }
+      },
       "EmployeeLoginRequest": {
         "required": [
           "email",
