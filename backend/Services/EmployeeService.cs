@@ -1,6 +1,7 @@
 ﻿using Eurowind.Backend.Config;
 using Eurowind.Backend.DTOs;
 using Eurowind.Backend.Entities;
+using Microsoft.EntityFrameworkCore;
 using OneOf;
 using OneOf.Types;
 
@@ -40,5 +41,23 @@ public class EmployeeService
         }
 
         return new EmployeeDTO(employee.FirstName, employee.LastName, employee.Email, employee.XpAccumulated);
+    }
+    
+    // GET ALL EMPLOYEES FUNCTION
+
+    public async Task<List<EmployeeDTO>> GetAllEmployees()
+    {
+        return await _dbContext.Employees
+                .Select(employee => new EmployeeDTO(employee.FirstName, employee.LastName, employee.Email, employee.XpAccumulated))
+            .ToListAsync();
+        
+        // The above is the same as doing this below, but above uses LINQ
+        // var dtoList = new List<EmployeeDTO>();
+        // foreach (var employee in employeeList)
+        // {
+        //     dtoList.Add(new EmployeeDTO(...));
+        // }
+        // return dtoList;
+        
     }
 }

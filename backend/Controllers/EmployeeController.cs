@@ -59,4 +59,21 @@ public class EmployeeController : ControllerBase
         
         return Ok(result);
     }
+    
+    // GET ALL EMPLOYEES
+    [HttpGet(Name = "GetAllEmployees")]
+    [ProducesResponseType<EmployeeDTO>(StatusCodes.Status200OK)]
+    [ProducesResponseType<ProblemDetails>(StatusCodes.Status404NotFound)]
+
+    public async Task<ActionResult<List<EmployeeDTO>>> GetAllEmployees()
+    {
+        var result = await _employeeService.GetAllEmployees();
+
+        if (result.Count == 0) // checking if list is empty
+        {
+            return NotFound();
+        }
+
+        return Ok(result);
+    }
 }
