@@ -1,6 +1,5 @@
 ﻿using Eurowind.Backend.Config;
 using Eurowind.Backend.DTOs;
-using Eurowind.Backend.Entities;
 using Microsoft.EntityFrameworkCore;
 using OneOf;
 using OneOf.Types;
@@ -72,7 +71,18 @@ public class EmployeeService
             return new NotFound();
         }
 
-        employee.AddXp(lessonEmployee.ThumbCount);
+        var thumbCount = lessonEmployee.ThumbCount;
+
+        if (!lessonEmployee.IsCompleted)
+        {
+            if (thumbCount == 1) employee.AddXp(10);
+
+            if (thumbCount == 2) employee.AddXp(20);
+
+            if (thumbCount == 3) employee.AddXp(30);
+            lessonEmployee.ChangeCompletionStatus(true);
+        }
+
 
         await _dbContext.SaveChangesAsync();
         return new Success();

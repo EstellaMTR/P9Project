@@ -25,4 +25,9 @@ public class LessonEmployee
         IsCompleted = false;
         ThumbCount = 0;
     }
+
+    public void ChangeCompletionStatus(bool isCompleted)
+    {
+        IsCompleted = isCompleted;
+    }
 }
