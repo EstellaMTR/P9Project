@@ -58,7 +58,10 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/EmployeeDTO"
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/CourseDTO"
+                  }
                 }
               }
             }
@@ -76,7 +79,7 @@
         }
       }
     },
-    "/courseEmployee/{employeeId}": {
+    "/Course/courseEmployee/{employeeId}": {
       "get": {
         "tags": [
           "Course"
@@ -99,7 +102,10 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/EmployeeDTO"
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/CourseDTO"
+                  }
                 }
               }
             }
