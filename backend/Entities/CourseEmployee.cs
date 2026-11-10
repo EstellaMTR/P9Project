@@ -1,6 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
-
-namespace Eurowind.Backend.Entities;
+﻿namespace Eurowind.Backend.Entities;
 
 public class CourseEmployee
 {
@@ -21,6 +19,12 @@ public class CourseEmployee
     {
         Course = course;
         Employee = employee;
-        Status = CourseStatus.NotStarted;
+        Status = CourseStatus.InProgress;
     }
+
+    public void UpdateStatus(CourseStatus newStatus)
+    {
+        Status = newStatus;
+    }
+
 }

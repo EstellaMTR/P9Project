@@ -123,6 +123,62 @@
         }
       }
     },
+    "/CourseEmployee": {
+      "put": {
+        "tags": [
+          "CourseEmployee"
+        ],
+        "operationId": "UpdateCourseEmployee",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateCourseStatusRequest"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateCourseStatusRequest"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateCourseStatusRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": { }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/Employee": {
       "post": {
         "tags": [
@@ -425,6 +481,9 @@
           }
         }
       },
+      "CourseStatus": {
+        "type": "integer"
+      },
       "EmployeeDTO": {
         "required": [
           "firstName",
@@ -527,12 +586,36 @@
             ]
           }
         }
+      },
+      "UpdateCourseStatusRequest": {
+        "required": [
+          "courseId",
+          "employeeId",
+          "newStatus"
+        ],
+        "type": "object",
+        "properties": {
+          "courseId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "employeeId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "newStatus": {
+            "$ref": "#/components/schemas/CourseStatus"
+          }
+        }
       }
     }
   },
   "tags": [
     {
       "name": "Course"
+    },
+    {
+      "name": "CourseEmployee"
     },
     {
       "name": "Employee"
