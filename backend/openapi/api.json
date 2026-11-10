@@ -179,6 +179,40 @@
         }
       }
     },
+    "/CourseEmployee/employee/{employeeId}": {
+      "get": {
+        "tags": [
+          "CourseEmployee"
+        ],
+        "operationId": "GetCourseEmployee",
+        "parameters": [
+          {
+            "name": "employeeId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/CourseEmployeeDto"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/Employee": {
       "post": {
         "tags": [
@@ -478,6 +512,22 @@
           "length": {
             "type": "integer",
             "format": "int32"
+          }
+        }
+      },
+      "CourseEmployeeDto": {
+        "required": [
+          "courseId",
+          "status"
+        ],
+        "type": "object",
+        "properties": {
+          "courseId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "status": {
+            "$ref": "#/components/schemas/CourseStatus"
           }
         }
       },
