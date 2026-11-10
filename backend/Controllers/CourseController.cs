@@ -38,7 +38,7 @@ public class CourseController : ControllerBase
 
     // GET ALL COURSES
     [HttpGet(Name = "GetAllCourses")]
-    [ProducesResponseType<CourseDTO>(StatusCodes.Status200OK)]
+    [ProducesResponseType<List<CourseDTO>>(StatusCodes.Status200OK)]
     [ProducesResponseType<ProblemDetails>(StatusCodes.Status404NotFound)]
     public async Task<ActionResult<List<CourseDTO>>> GetAllCourses()
     {
