@@ -7,8 +7,8 @@ public class LessonEmployee
     
     public int LessonId {get; private set;}
     public int EmployeeId {get; private set;}
-    
-    public string TaskAnswer {get; private set;}
+
+    public string? TaskAnswer { get; private set; }
     public string? TaskFeedback {get; private set;}
     public int TryCount {get; private set;}
     public bool IsCompleted {get; private set;}
