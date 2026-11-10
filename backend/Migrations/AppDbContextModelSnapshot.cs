@@ -40,7 +40,7 @@ namespace Eurowind.Backend.Migrations
                         .IsRequired()
                         .HasColumnType("longtext");
 
-                    b.Property<int>("Xp_Reward")
+                    b.Property<int>("XpReward")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
