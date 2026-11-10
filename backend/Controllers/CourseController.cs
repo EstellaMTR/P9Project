@@ -35,4 +35,32 @@ public class CourseController : ControllerBase
 
         return result != null ? Ok(result) : NotFound();
     }
+
+    // GET ALL COURSES
+    [HttpGet(Name = "GetAllCourses")]
+    [ProducesResponseType<CourseDTO>(StatusCodes.Status200OK)]
+    [ProducesResponseType<ProblemDetails>(StatusCodes.Status404NotFound)]
+    public async Task<ActionResult<List<CourseDTO>>> GetAllCourses()
+    {
+        var result = await _courseService.GetAllCourses();
+
+        if (result.Count == 0) // checking if list is empty
+            return NotFound();
+
+        return Ok(result);
+    }
+
+    // GET ALL COURSES BY EMPLOYEE ID
+    [HttpGet("courseEmployee/{employeeId}", Name = "GetCourseByEmployeeId")]
+    [ProducesResponseType(typeof(List<CourseDTO>), StatusCodes.Status200OK)]
+    [ProducesResponseType<ProblemDetails>(StatusCodes.Status404NotFound)]
+    public async Task<ActionResult<List<CourseDTO>>> GetCoursesByEmployeeId(int employeeId)
+    {
+        var result = await _courseService.GetCoursesByEmployeeId(employeeId);
+
+        if (result.Count == 0) // checking if list is empty
+            return NotFound();
+
+        return Ok(result);
+    }
 }
