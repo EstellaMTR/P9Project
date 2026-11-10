@@ -4,6 +4,13 @@ export type ClientOptions = {
     baseUrl: `${string}://${string}` | (string & {});
 };
 
+export type EmployeeDto = {
+    firstName: string;
+    lastName: string;
+    email: string;
+    xpAccumulated: number;
+};
+
 export type EmployeeLoginRequest = {
     email: string;
     password: string;
@@ -24,6 +31,31 @@ export type ProblemDetails = {
     detail?: null | string;
     instance?: null | string;
 };
+
+export type GetAllEmployeesData = {
+    body?: never;
+    path?: never;
+    query?: never;
+    url: '/Employee';
+};
+
+export type GetAllEmployeesErrors = {
+    /**
+     * Not Found
+     */
+    404: ProblemDetails;
+};
+
+export type GetAllEmployeesError = GetAllEmployeesErrors[keyof GetAllEmployeesErrors];
+
+export type GetAllEmployeesResponses = {
+    /**
+     * OK
+     */
+    200: EmployeeDto;
+};
+
+export type GetAllEmployeesResponse = GetAllEmployeesResponses[keyof GetAllEmployeesResponses];
 
 export type LoginEmployeeData = {
     body: EmployeeLoginRequest;
@@ -53,6 +85,37 @@ export type LoginEmployeeResponses = {
 };
 
 export type LoginEmployeeResponse = LoginEmployeeResponses[keyof LoginEmployeeResponses];
+
+export type GetEmployeeByIdData = {
+    body?: never;
+    path: {
+        id: number;
+    };
+    query?: never;
+    url: '/Employee/{id}';
+};
+
+export type GetEmployeeByIdErrors = {
+    /**
+     * Bad Request
+     */
+    400: ProblemDetails;
+    /**
+     * Not Found
+     */
+    404: ProblemDetails;
+};
+
+export type GetEmployeeByIdError = GetEmployeeByIdErrors[keyof GetEmployeeByIdErrors];
+
+export type GetEmployeeByIdResponses = {
+    /**
+     * OK
+     */
+    200: EmployeeDto;
+};
+
+export type GetEmployeeByIdResponse = GetEmployeeByIdResponses[keyof GetEmployeeByIdResponses];
 
 export type GetLessonByIdData = {
     body?: never;

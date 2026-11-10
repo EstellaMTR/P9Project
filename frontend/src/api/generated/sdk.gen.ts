@@ -2,7 +2,7 @@
 
 import type { Client, ClientMeta, Options as Options2, RequestResult, TDataShape } from './client';
 import { client } from './client.gen';
-import type { GetLessonByIdData, GetLessonByIdErrors, GetLessonByIdResponses, GetLessonCourseByCourseIdData, GetLessonCourseByCourseIdErrors, GetLessonCourseByCourseIdResponses, LoginEmployeeData, LoginEmployeeErrors, LoginEmployeeResponses } from './types.gen';
+import type { GetAllEmployeesData, GetAllEmployeesErrors, GetAllEmployeesResponses, GetEmployeeByIdData, GetEmployeeByIdErrors, GetEmployeeByIdResponses, GetLessonByIdData, GetLessonByIdErrors, GetLessonByIdResponses, GetLessonCourseByCourseIdData, GetLessonCourseByCourseIdErrors, GetLessonCourseByCourseIdResponses, LoginEmployeeData, LoginEmployeeErrors, LoginEmployeeResponses } from './types.gen';
 
 export type Options<TData extends TDataShape = TDataShape, ThrowOnError extends boolean = boolean, TResponse = unknown> = Options2<TData, ThrowOnError, TResponse> & {
     /**
@@ -18,6 +18,8 @@ export type Options<TData extends TDataShape = TDataShape, ThrowOnError extends 
     meta?: keyof ClientMeta extends never ? Record<string, unknown> : ClientMeta;
 };
 
+export const getAllEmployees = <ThrowOnError extends boolean = false>(options?: Options<GetAllEmployeesData, ThrowOnError>): RequestResult<GetAllEmployeesResponses, GetAllEmployeesErrors, ThrowOnError> => (options?.client ?? client).get<GetAllEmployeesResponses, GetAllEmployeesErrors, ThrowOnError>({ url: '/Employee', ...options });
+
 export const loginEmployee = <ThrowOnError extends boolean = false>(options: Options<LoginEmployeeData, ThrowOnError>): RequestResult<LoginEmployeeResponses, LoginEmployeeErrors, ThrowOnError> => (options.client ?? client).post<LoginEmployeeResponses, LoginEmployeeErrors, ThrowOnError>({
     url: '/Employee',
     ...options,
@@ -26,6 +28,8 @@ export const loginEmployee = <ThrowOnError extends boolean = false>(options: Opt
         ...options.headers
     }
 });
+
+export const getEmployeeById = <ThrowOnError extends boolean = false>(options: Options<GetEmployeeByIdData, ThrowOnError>): RequestResult<GetEmployeeByIdResponses, GetEmployeeByIdErrors, ThrowOnError> => (options.client ?? client).get<GetEmployeeByIdResponses, GetEmployeeByIdErrors, ThrowOnError>({ url: '/Employee/{id}', ...options });
 
 export const getLessonById = <ThrowOnError extends boolean = false>(options: Options<GetLessonByIdData, ThrowOnError>): RequestResult<GetLessonByIdResponses, GetLessonByIdErrors, ThrowOnError> => (options.client ?? client).get<GetLessonByIdResponses, GetLessonByIdErrors, ThrowOnError>({ url: '/Lesson/{id}', ...options });
 
