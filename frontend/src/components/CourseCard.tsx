@@ -1,6 +1,7 @@
 
 import { Box, Typography, LinearProgress } from "@mui/material";
 import Button from "./Button";
+import theme from "../styles/theme";
 
 type CourseCardProps = {
   variant: "featured" | "inProgress" | "recommended";
@@ -22,25 +23,43 @@ function CourseCard({
   const isFeatured = variant === "featured";
   const isRecommended = variant === "recommended";
 
-  const textColor = isFeatured ? "#FFFFFF" : "#082044";
+  const cardTheme = theme.palette.courseCard;
+
+  const textColor = isFeatured
+    ? cardTheme.featuredText
+    : cardTheme.standardText;
 
   return (
-<Box
-  sx={{
-    width: isFeatured ? "100%" : isRecommended ? "280px" : "380px",
-    minHeight: isFeatured ? 185 : isRecommended ? 160 : 170,
-    boxSizing: "border-box",
-    p: isFeatured ? 3 : isRecommended ? 1.5 : 2,
-    borderRadius: "18px",
-    backgroundColor: isFeatured ? "#041E42" : "#FFFFFF",
-    color: textColor,
-    boxShadow: "0 3px 5px rgba(0,0,0,0.15)",
-    display: "flex",
-    flexDirection: "column",
-    justifyContent: "space-between",
-    gap: 1.5,
-  }}
->
+    <Box
+      sx={{
+        width: isFeatured
+          ? cardTheme.featuredWidth
+          : isRecommended
+            ? cardTheme.recommendedWidth
+            : cardTheme.inProgressWidth,
+        minHeight: isFeatured
+          ? cardTheme.featuredMinHeight
+          : isRecommended
+            ? cardTheme.recommendedMinHeight
+            : cardTheme.inProgressMinHeight,
+        boxSizing: "border-box",
+        p: isFeatured
+          ? cardTheme.featuredPadding
+          : isRecommended
+            ? cardTheme.recommendedPadding
+            : cardTheme.inProgressPadding,
+        borderRadius: cardTheme.borderRadius,
+        backgroundColor: isFeatured
+          ? cardTheme.featuredBackground
+          : cardTheme.standardBackground,
+        color: textColor,
+        boxShadow: cardTheme.boxShadow,
+        display: "flex",
+        flexDirection: "column",
+        justifyContent: "space-between",
+        gap: cardTheme.cardGap,
+      }}
+    >
       {/* Title and XP */}
       <Box
         sx={{
@@ -51,26 +70,28 @@ function CourseCard({
         }}
       >
         <Typography
-        variant={isFeatured ? "h4" : "h6"}
-        sx={{
-            fontWeight: 700,
+          variant={isFeatured ? "h4" : "h6"}
+          sx={{
+            fontWeight: cardTheme.titleFontWeight,
             color: textColor,
-            ...(isRecommended && { fontSize: "20px" }),
-        }}
+            ...(isRecommended && {
+              fontSize: cardTheme.recommendedTitleFontSize,
+            }),
+          }}
         >
-        {title}
+          {title}
         </Typography>
 
         <Box
           sx={{
-            backgroundColor: "#FFB51B",
-            color: "#082044",
-            borderRadius: "20px",
-            px: 1.5,
-            py: 0.5,
+            backgroundColor: cardTheme.xpBackground,
+            color: cardTheme.xpText,
+            borderRadius: cardTheme.xpBorderRadius,
+            px: cardTheme.xpPaddingX,
+            py: cardTheme.xpPaddingY,
             whiteSpace: "nowrap",
-            fontSize: "12px",
-            fontWeight: 700,
+            fontSize: cardTheme.xpFontSize,
+            fontWeight: cardTheme.xpFontWeight,
           }}
         >
           +{xp} XP
@@ -80,7 +101,10 @@ function CourseCard({
       {/* Description */}
       <Typography
         variant="body2"
-        sx={{ color: textColor, opacity: 0.9 }}
+        sx={{
+          color: textColor,
+          opacity: cardTheme.descriptionOpacity,
+        }}
       >
         {description}
       </Typography>
@@ -92,11 +116,11 @@ function CourseCard({
             variant="determinate"
             value={Math.max(0, Math.min(progress, 100))}
             sx={{
-              height: 10,
-              borderRadius: 10,
-              backgroundColor: "#FFFFFF",
+              height: cardTheme.progressHeight,
+              borderRadius: cardTheme.progressBorderRadius,
+              backgroundColor: cardTheme.progressBackground,
               "& .MuiLinearProgress-bar": {
-                backgroundColor: "#48D69B",
+                backgroundColor: cardTheme.progressBar,
               },
             }}
           />
@@ -106,7 +130,7 @@ function CourseCard({
             sx={{
               display: "block",
               textAlign: "right",
-              mt: 0.5,
+              mt: cardTheme.progressTextMarginTop,
               color: textColor,
             }}
           >
@@ -116,27 +140,27 @@ function CourseCard({
       )}
 
       {/* Course buttons */}
-        {isFeatured ? (
+      {isFeatured ? (
         <Button
-            label="Continue course"
-            color="primary"
-            onClick={onAction}
+          label="Continue course"
+          color="primary"
+          onClick={onAction}
         />
-        ) : isRecommended ? (
-        <Box sx={{ width: "90%" }}>
-            <Button
+      ) : isRecommended ? (
+        <Box sx={{ width: cardTheme.recommendedButtonWidth }}>
+          <Button
             label="Start course"
             color="secondary"
             onClick={onAction}
-            />
+          />
         </Box>
-        ) : (
+      ) : (
         <Button
-            label="Continue course"
-            color="secondary"
-            onClick={onAction}
+          label="Continue course"
+          color="secondary"
+          onClick={onAction}
         />
-        )}
+      )}
     </Box>
   );
 }
