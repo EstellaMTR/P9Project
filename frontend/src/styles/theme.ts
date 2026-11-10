@@ -24,6 +24,7 @@ const theme = createTheme({
     background: {
       default: '#ABCAF6', // background color for the app
       paper: '#FFFFFF',
+      inner: '#CDE0FA',   // inner light-blue background applied accross pages
     },
     // yellow style
     warning: {
