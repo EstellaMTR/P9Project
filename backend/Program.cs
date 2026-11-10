@@ -16,6 +16,7 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 builder.Services.AddScoped<EmployeeService>(); // DO EVERY TIME CREATE A NEW SERVICE
 builder.Services.AddScoped<LessonService>(); 
 builder.Services.AddScoped<CourseService>();
+builder.Services.AddScoped<CourseEmployeeService>();
 builder.Services.AddControllers().AddJsonOptions(options =>
 {
     // Keep numeric contracts numeric in both JSON and generated clients.
