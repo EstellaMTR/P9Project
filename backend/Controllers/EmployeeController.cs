@@ -76,4 +76,20 @@ public class EmployeeController : ControllerBase
 
         return Ok(result);
     }
+    
+    // PUT ACCUMULATED XP
+    [HttpPut("{employeeId}/lessons/{lessonId}/xp", Name = "AddXp")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType<ProblemDetails>(StatusCodes.Status404NotFound)]
+    public async Task<ActionResult> AddXpAsync(int lessonId, int employeeId)
+    {
+        var result = await _employeeService.AddXpAsync(lessonId, employeeId);
+
+        if (result.IsT0)
+        {
+            return Ok();
+        }
+
+        return NotFound();
+    }
 }
