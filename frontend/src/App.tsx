@@ -7,7 +7,7 @@ function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   return (
-    <Container sx={{ mt: 5 }}>
+    <Container maxWidth={false} disableGutters>
       <Typography variant="h3">Eurowind Learning Platform</Typography>
 
       {isLoggedIn ? (
