@@ -30,4 +30,10 @@ public class LessonEmployee
     {
         IsCompleted = isCompleted;
     }
+
+    public void UpdateThumbCount(int thumbCount)
+    {
+        ThumbCount = thumbCount;
+    }
+    
 }
