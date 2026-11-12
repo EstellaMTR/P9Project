@@ -4,18 +4,16 @@ import { useState } from 'react';
 import Home from './pages/Home';
 
 function App() {
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(
+    () => sessionStorage.getItem('isLoggedIn') === 'true',
+  );
 
+  function handleLoginSuccess() {
+    sessionStorage.setItem('isLoggedIn', 'true');
+    setIsLoggedIn(true);
+  }
   return (
-    <Container maxWidth={false} disableGutters>
-      <Typography variant="h3">Eurowind Learning Platform</Typography>
-
-      {isLoggedIn ? (
-        <Home />
-      ) : (
-        <Login onLoginSuccess={() => setIsLoggedIn(true)} />
-      )}
-    </Container>
+    <>{isLoggedIn ? <Home /> : <Login onLoginSuccess={handleLoginSuccess} />}</>
   );
 }
 

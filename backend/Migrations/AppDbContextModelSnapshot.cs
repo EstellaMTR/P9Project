@@ -40,7 +40,7 @@ namespace Eurowind.Backend.Migrations
                         .IsRequired()
                         .HasColumnType("longtext");
 
-                    b.Property<int>("Xp_Reward")
+                    b.Property<int>("XpReward")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
@@ -90,6 +90,9 @@ namespace Eurowind.Backend.Migrations
                         .IsRequired()
                         .HasColumnType("longtext");
 
+                    b.Property<int>("XpAccumulated")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
 
                     b.ToTable("Employees");
@@ -135,7 +138,6 @@ namespace Eurowind.Backend.Migrations
                         .HasColumnType("tinyint(1)");
 
                     b.Property<string>("TaskAnswer")
-                        .IsRequired()
                         .HasColumnType("longtext");
 
                     b.Property<string>("TaskFeedback")

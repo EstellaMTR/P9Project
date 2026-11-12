@@ -1,4 +1,5 @@
 ﻿using Eurowind.Backend.DTOs;
+using Eurowind.Backend.Entities;
 using Eurowind.Backend.Services;
 using Microsoft.AspNetCore.Mvc;
 
@@ -14,7 +15,8 @@ public class EmployeeController : ControllerBase
     {
         _employeeService = employeeService;
     }
-
+    
+    // POST LOGIN REQUEST
     [HttpPost(Name = "LoginEmployee")]
     [ProducesResponseType<int>(StatusCodes.Status200OK)]
     [ProducesResponseType<ProblemDetails>(StatusCodes.Status404NotFound)]
@@ -33,5 +35,61 @@ public class EmployeeController : ControllerBase
         }
         
         return BadRequest(); // can just return bad request
+    }
+    
+    // GET EMPLOYEE BY ID REQUEST
+    [HttpGet("{id}",Name = "GetEmployeeById")]
+    [ProducesResponseType<EmployeeDTO>(StatusCodes.Status200OK)]
+    [ProducesResponseType<ProblemDetails>(StatusCodes.Status404NotFound)]
+    [ProducesResponseType<ProblemDetails>(StatusCodes.Status400BadRequest)]
+    
+    public async Task<ActionResult<EmployeeDTO>> GetEmployeeById(int id)
+    {
+        var result = await _employeeService.GetEmployeeByIdAsync(id);
+        
+        if (id <= 0) // id should not be 0 or less
+        {
+            return BadRequest();
+        }
+        
+        if (result == null)
+        {
+            return NotFound();
+        }
+        
+        return Ok(result);
+    }
+    
+    // GET ALL EMPLOYEES
+    [HttpGet(Name = "GetAllEmployees")]
+    [ProducesResponseType<EmployeeDTO>(StatusCodes.Status200OK)]
+    [ProducesResponseType<ProblemDetails>(StatusCodes.Status404NotFound)]
+
+    public async Task<ActionResult<List<EmployeeDTO>>> GetAllEmployees()
+    {
+        var result = await _employeeService.GetAllEmployees();
+
+        if (result.Count == 0) // checking if list is empty
+        {
+            return NotFound();
+        }
+
+        return Ok(result);
+    }
+    
+    // PUT ACCUMULATED XP
+    [HttpPut("{employeeId}/lessons/{lessonId}/xp", Name = "AddXp")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType<ProblemDetails>(StatusCodes.Status404NotFound)]
+    public async Task<ActionResult> AddXpAsync(int lessonId, int employeeId)
+    {
+        var result = await _employeeService.AddXpAsync(lessonId, employeeId);
+
+        if (result.IsT0)
+        {
+            return Ok();
+        }
+
+        return NotFound();
     }
 }

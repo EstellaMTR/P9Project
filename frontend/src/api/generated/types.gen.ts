@@ -4,6 +4,21 @@ export type ClientOptions = {
     baseUrl: `${string}://${string}` | (string & {});
 };
 
+export type CourseDto = {
+    id: number;
+    title: string;
+    description: string;
+    xpReward: number;
+    length: number;
+};
+
+export type EmployeeDto = {
+    firstName: string;
+    lastName: string;
+    email: string;
+    xpAccumulated: number;
+};
+
 export type EmployeeLoginRequest = {
     email: string;
     password: string;
@@ -24,6 +39,110 @@ export type ProblemDetails = {
     detail?: null | string;
     instance?: null | string;
 };
+
+export type GetCourseByCourseIdData = {
+    body?: never;
+    path: {
+        id: number;
+    };
+    query?: never;
+    url: '/Course/{id}';
+};
+
+export type GetCourseByCourseIdErrors = {
+    /**
+     * Not Found
+     */
+    404: ProblemDetails;
+};
+
+export type GetCourseByCourseIdError = GetCourseByCourseIdErrors[keyof GetCourseByCourseIdErrors];
+
+export type GetCourseByCourseIdResponses = {
+    /**
+     * OK
+     */
+    200: CourseDto;
+};
+
+export type GetCourseByCourseIdResponse = GetCourseByCourseIdResponses[keyof GetCourseByCourseIdResponses];
+
+export type GetAllCoursesData = {
+    body?: never;
+    path?: never;
+    query?: never;
+    url: '/Course';
+};
+
+export type GetAllCoursesErrors = {
+    /**
+     * Not Found
+     */
+    404: ProblemDetails;
+};
+
+export type GetAllCoursesError = GetAllCoursesErrors[keyof GetAllCoursesErrors];
+
+export type GetAllCoursesResponses = {
+    /**
+     * OK
+     */
+    200: Array<CourseDto>;
+};
+
+export type GetAllCoursesResponse = GetAllCoursesResponses[keyof GetAllCoursesResponses];
+
+export type GetCourseByEmployeeIdData = {
+    body?: never;
+    path: {
+        employeeId: number;
+    };
+    query?: never;
+    url: '/Course/courseEmployee/{employeeId}';
+};
+
+export type GetCourseByEmployeeIdErrors = {
+    /**
+     * Not Found
+     */
+    404: ProblemDetails;
+};
+
+export type GetCourseByEmployeeIdError = GetCourseByEmployeeIdErrors[keyof GetCourseByEmployeeIdErrors];
+
+export type GetCourseByEmployeeIdResponses = {
+    /**
+     * OK
+     */
+    200: Array<CourseDto>;
+};
+
+export type GetCourseByEmployeeIdResponse = GetCourseByEmployeeIdResponses[keyof GetCourseByEmployeeIdResponses];
+
+export type GetAllEmployeesData = {
+    body?: never;
+    path?: never;
+    query?: never;
+    url: '/Employee';
+};
+
+export type GetAllEmployeesErrors = {
+    /**
+     * Not Found
+     */
+    404: ProblemDetails;
+};
+
+export type GetAllEmployeesError = GetAllEmployeesErrors[keyof GetAllEmployeesErrors];
+
+export type GetAllEmployeesResponses = {
+    /**
+     * OK
+     */
+    200: EmployeeDto;
+};
+
+export type GetAllEmployeesResponse = GetAllEmployeesResponses[keyof GetAllEmployeesResponses];
 
 export type LoginEmployeeData = {
     body: EmployeeLoginRequest;
@@ -53,6 +172,63 @@ export type LoginEmployeeResponses = {
 };
 
 export type LoginEmployeeResponse = LoginEmployeeResponses[keyof LoginEmployeeResponses];
+
+export type GetEmployeeByIdData = {
+    body?: never;
+    path: {
+        id: number;
+    };
+    query?: never;
+    url: '/Employee/{id}';
+};
+
+export type GetEmployeeByIdErrors = {
+    /**
+     * Bad Request
+     */
+    400: ProblemDetails;
+    /**
+     * Not Found
+     */
+    404: ProblemDetails;
+};
+
+export type GetEmployeeByIdError = GetEmployeeByIdErrors[keyof GetEmployeeByIdErrors];
+
+export type GetEmployeeByIdResponses = {
+    /**
+     * OK
+     */
+    200: EmployeeDto;
+};
+
+export type GetEmployeeByIdResponse = GetEmployeeByIdResponses[keyof GetEmployeeByIdResponses];
+
+export type AddXpData = {
+    body?: never;
+    path: {
+        lessonId: number;
+        employeeId: number;
+    };
+    query?: never;
+    url: '/Employee/{employeeId}/lessons/{lessonId}/xp';
+};
+
+export type AddXpErrors = {
+    /**
+     * Not Found
+     */
+    404: ProblemDetails;
+};
+
+export type AddXpError = AddXpErrors[keyof AddXpErrors];
+
+export type AddXpResponses = {
+    /**
+     * OK
+     */
+    200: unknown;
+};
 
 export type GetLessonByIdData = {
     body?: never;

@@ -1,6 +1,11 @@
-import { Button } from '@mui/material';
+import { Box, Button } from '@mui/material';
 import { useRef, useState } from 'react';
 import { loginEmployee } from '../api';
+import solarPanel from '/src/assets/solarPanel.svg';
+import windmill from '/src/assets/windmill.svg';
+import eweLogo from '/src/assets/eweLogo.svg';
+import '../App.css';
+import '../styles/Login.css';
 
 type LoginProps = {
   onLoginSuccess: () => void;
@@ -44,36 +49,72 @@ export default function Login({ onLoginSuccess }: LoginProps) {
   }
 
   return (
-    <div>
-      <h1>Login</h1>
-      <form onSubmit={handleLogin} aria-busy={isLoading}>
-        <label htmlFor="login-email">Email</label>
-        <input
-          id="login-email"
-          name="email"
-          type="email"
-          autoComplete="username"
-          required
-          disabled={isLoading}
-          value={email}
-          onChange={(event) => setEmail(event.target.value)}
-        />
-        <label htmlFor="login-password">Password</label>
-        <input
-          id="login-password"
-          name="password"
-          type="password"
-          autoComplete="current-password"
-          required
-          disabled={isLoading}
-          value={password}
-          onChange={(event) => setPassword(event.target.value)}
-        />
-        {error && <p role="alert" style={{ color: 'red' }}>{error}</p>}
-        <Button type="submit" disabled={isLoading}>
-          {isLoading ? 'Logging in…' : 'Login'}
-        </Button>
-      </form>
+    <div className="login-container">
+      <Box
+        className="login-box"
+        sx={{
+          width: '100%',
+          maxWidth: '450px',
+          backgroundColor: '#CFE2F5',
+          borderRadius: '35px',
+          padding: 'clamp(16px, 4vh, 40px)',
+          boxSizing: 'border-box',
+        }}
+      >
+        <img src={solarPanel} alt="" className="solarPanel" />
+        <img src={windmill} alt="" className="windmill-left" />
+        <img src={windmill} alt="" className="windmill-right" />
+        <form
+          className="login-form"
+          onSubmit={handleLogin}
+          aria-busy={isLoading}
+        >
+          <div className="login-fields">
+            <div className="login-field">
+              <label htmlFor="login-email" className="label">
+                Email
+              </label>
+              <input
+                className="login-input"
+                id="login-email"
+                name="email"
+                type="email"
+                autoComplete="username"
+                required
+                disabled={isLoading}
+                value={email}
+                onChange={(event) => setEmail(event.target.value)}
+              />
+            </div>
+
+            <div className="login-field">
+              <label htmlFor="login-password" className="label">
+                Password
+              </label>
+              <input
+                className="login-input"
+                id="login-password"
+                name="password"
+                type="password"
+                autoComplete="current-password"
+                required
+                disabled={isLoading}
+                value={password}
+                onChange={(event) => setPassword(event.target.value)}
+              />
+            </div>
+          </div>
+          {error && (
+            <p role="alert" style={{ color: 'red' }}>
+              {error}
+            </p>
+          )}
+          <Button type="submit" disabled={isLoading}>
+            {isLoading ? 'Logging in…' : 'Login'}
+          </Button>
+        </form>
+      </Box>
+      <img src={eweLogo} alt="" className="eweLogo" />
     </div>
   );
 }

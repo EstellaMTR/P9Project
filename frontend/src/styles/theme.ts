@@ -1,4 +1,4 @@
-import { createTheme } from '@mui/material/styles'
+import { createTheme } from '@mui/material/styles';
 
 /**
  * Central MUI theme for the app, generated from the Figma design system.
@@ -20,6 +20,11 @@ const theme = createTheme({
       main: '#041E42', // dark blue
       light: '#2A3F68', // hover state color from the Button component
       contrastText: '#FFFFFF',
+    },
+    background: {
+      default: '#ABCAF6', // background color for the app
+      paper: '#FFFFFF',
+      inner: '#CDE0FA',   // inner light-blue background applied accross pages
     },
     // yellow style
     warning: {
@@ -54,14 +59,20 @@ const theme = createTheme({
   },
   components: {
     MuiButton: {
+      defaultProps: {
+        variant: 'contained',
+      },
       styleOverrides: {
         root: {
           fontWeight: 700,
-          textTransform: 'none', // Figma buttons aren't uppercased
+          textTransform: 'none',
+          borderRadius: 20,
+          padding: '12px 32px',
+          fontSize: '18px',
         },
       },
     },
   },
-})
+});
 
-export default theme
+export default theme;
