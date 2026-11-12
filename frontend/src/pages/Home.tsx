@@ -1,8 +1,15 @@
+import NavigationSidebar from '../components/NavigationSidebar'
 import { Box, Button } from '@mui/material';
 
 export default function Home() {
   return (
-    <Box
+    <div>
+      <NavigationSidebar
+         defaultExpanded={true}
+         activeItem="Home"
+       /> 
+
+      <Box
       sx={{
         minHeight: '100vh',
         backgroundColor: 'background.default',
@@ -21,6 +28,9 @@ export default function Home() {
         <p>Pick up where you left off.</p>
         <h2>Continue learning.</h2>
 
+      </Box>
+    </Box>
+      
         <Button
           onClick={() => {
             sessionStorage.removeItem('isLoggedIn');
@@ -29,7 +39,7 @@ export default function Home() {
         >
           Logout
         </Button>
-      </Box>
-    </Box>
+      
+    </div>
   );
 }
