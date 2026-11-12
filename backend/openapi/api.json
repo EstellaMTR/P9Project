@@ -481,6 +481,52 @@
           }
         }
       }
+    },
+    "/LessonEmployee/course/{courseId}/employee/{employeeId}": {
+      "get": {
+        "tags": [
+          "LessonEmployee"
+        ],
+        "operationId": "GetCourseEmployeeByCourseIdEmployeeId",
+        "parameters": [
+          {
+            "name": "courseId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "employeeId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": { }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      }
     }
   },
   "components": {
@@ -672,6 +718,9 @@
     },
     {
       "name": "Lesson"
+    },
+    {
+      "name": "LessonEmployee"
     }
   ]
 }
