@@ -1,7 +1,7 @@
-export default function AllCoursesPage() {
+export default function CommunityPage() {
   return (
     <>
-      <h1>All Courses</h1>
+      <h1></h1>
       <p>This page is not implemented yet.</p>
     </>
   )
