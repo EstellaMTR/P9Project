@@ -12,6 +12,13 @@ export type CourseDto = {
     length: number;
 };
 
+export type CourseEmployeeDto = {
+    courseId: number;
+    status: CourseStatus;
+};
+
+export type CourseStatus = number;
+
 export type EmployeeDto = {
     firstName: string;
     lastName: string;
@@ -38,6 +45,12 @@ export type ProblemDetails = {
     status?: null | number;
     detail?: null | string;
     instance?: null | string;
+};
+
+export type UpdateCourseStatusRequest = {
+    courseId: number;
+    employeeId: number;
+    newStatus: CourseStatus;
 };
 
 export type GetCourseByCourseIdData = {
@@ -118,6 +131,51 @@ export type GetCourseByEmployeeIdResponses = {
 };
 
 export type GetCourseByEmployeeIdResponse = GetCourseByEmployeeIdResponses[keyof GetCourseByEmployeeIdResponses];
+
+export type UpdateCourseEmployeeData = {
+    body: UpdateCourseStatusRequest;
+    path?: never;
+    query?: never;
+    url: '/CourseEmployee';
+};
+
+export type UpdateCourseEmployeeErrors = {
+    /**
+     * Bad Request
+     */
+    400: ProblemDetails;
+    /**
+     * Not Found
+     */
+    404: ProblemDetails;
+};
+
+export type UpdateCourseEmployeeError = UpdateCourseEmployeeErrors[keyof UpdateCourseEmployeeErrors];
+
+export type UpdateCourseEmployeeResponses = {
+    /**
+     * OK
+     */
+    200: unknown;
+};
+
+export type GetCourseEmployeeData = {
+    body?: never;
+    path: {
+        employeeId: number;
+    };
+    query?: never;
+    url: '/CourseEmployee/employee/{employeeId}';
+};
+
+export type GetCourseEmployeeResponses = {
+    /**
+     * OK
+     */
+    200: Array<CourseEmployeeDto>;
+};
+
+export type GetCourseEmployeeResponse = GetCourseEmployeeResponses[keyof GetCourseEmployeeResponses];
 
 export type GetAllEmployeesData = {
     body?: never;

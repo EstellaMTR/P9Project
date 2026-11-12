@@ -45,6 +45,12 @@ function NavigationItem({
     backgroundColor: isActive ? 'secondary.main' : 'transparent',
     borderRadius: 999,
     paddingX: showLabel ? 2 : 0,
+
+    '&:hover': {
+      backgroundColor: isActive
+        ? 'secondary.main'
+        : 'rgba(4, 30, 66, 0.08)'
+    }
   }}
 >
    <Box
