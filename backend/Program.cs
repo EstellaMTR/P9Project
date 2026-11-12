@@ -1,3 +1,4 @@
+using System.Text.Json.Serialization;
 using Eurowind.Backend.Config;
 using Eurowind.Backend.Services;
 using Microsoft.EntityFrameworkCore;
@@ -17,15 +18,16 @@ builder.Services.AddScoped<EmployeeService>(); // DO EVERY TIME CREATE A NEW SER
 builder.Services.AddScoped<LessonService>(); 
 builder.Services.AddScoped<CourseService>();
 builder.Services.AddScoped<CourseEmployeeService>();
+builder.Services.AddScoped<LessonEmployeeService>();
 builder.Services.AddControllers().AddJsonOptions(options =>
 {
     // Keep numeric contracts numeric in both JSON and generated clients.
-    options.JsonSerializerOptions.NumberHandling = System.Text.Json.Serialization.JsonNumberHandling.Strict;
+    options.JsonSerializerOptions.NumberHandling = JsonNumberHandling.Strict;
 });
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.ConfigureHttpJsonOptions(options =>
 {
-    options.SerializerOptions.NumberHandling = System.Text.Json.Serialization.JsonNumberHandling.Strict;
+    options.SerializerOptions.NumberHandling = JsonNumberHandling.Strict;
 });
 builder.Services.AddOpenApi();
 

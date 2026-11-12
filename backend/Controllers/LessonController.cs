@@ -15,7 +15,7 @@ public class LessonController : ControllerBase
     {
         _lessonService = lessonService;
     }
-
+    
     [HttpGet("{id:int}")]
     [ProducesResponseType(typeof(Lesson), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
