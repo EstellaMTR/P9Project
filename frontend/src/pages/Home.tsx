@@ -1,12 +1,16 @@
 import NavigationSidebar from '../components/NavigationSidebar'
-import { Box, Button } from '@mui/material';
+import { Box } from '@mui/material';
 
-export default function Home() {
+type HomeProps = {
+  onLogout: () => void
+}
+
+export default function Home({ onLogout }: HomeProps) {
   return (
     <div>
       <NavigationSidebar
          defaultExpanded={true}
-         activeItem="Home"
+         onLogout={onLogout}
        /> 
 
       <Box
@@ -30,15 +34,6 @@ export default function Home() {
 
       </Box>
     </Box>
-      
-        <Button
-          onClick={() => {
-            sessionStorage.removeItem('isLoggedIn');
-            window.location.reload();
-          }}
-        >
-          Logout
-        </Button>
       
     </div>
   );

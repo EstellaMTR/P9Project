@@ -2,7 +2,7 @@
 
 import type { Client, ClientMeta, Options as Options2, RequestResult, TDataShape } from './client';
 import { client } from './client.gen';
-import type { AddXpData, AddXpErrors, AddXpResponses, GetAllCoursesData, GetAllCoursesErrors, GetAllCoursesResponses, GetAllEmployeesData, GetAllEmployeesErrors, GetAllEmployeesResponses, GetCourseByCourseIdData, GetCourseByCourseIdErrors, GetCourseByCourseIdResponses, GetCourseByEmployeeIdData, GetCourseByEmployeeIdErrors, GetCourseByEmployeeIdResponses, GetEmployeeByIdData, GetEmployeeByIdErrors, GetEmployeeByIdResponses, GetLessonByIdData, GetLessonByIdErrors, GetLessonByIdResponses, GetLessonCourseByCourseIdData, GetLessonCourseByCourseIdErrors, GetLessonCourseByCourseIdResponses, LoginEmployeeData, LoginEmployeeErrors, LoginEmployeeResponses } from './types.gen';
+import type { AddXpData, AddXpErrors, AddXpResponses, GetAllCoursesData, GetAllCoursesErrors, GetAllCoursesResponses, GetAllEmployeesData, GetAllEmployeesErrors, GetAllEmployeesResponses, GetCourseByCourseIdData, GetCourseByCourseIdErrors, GetCourseByCourseIdResponses, GetCourseByEmployeeIdData, GetCourseByEmployeeIdErrors, GetCourseByEmployeeIdResponses, GetCourseEmployeeData, GetCourseEmployeeResponses, GetEmployeeByIdData, GetEmployeeByIdErrors, GetEmployeeByIdResponses, GetLessonByIdData, GetLessonByIdErrors, GetLessonByIdResponses, GetLessonCourseByCourseIdData, GetLessonCourseByCourseIdErrors, GetLessonCourseByCourseIdResponses, LoginEmployeeData, LoginEmployeeErrors, LoginEmployeeResponses, UpdateCourseEmployeeData, UpdateCourseEmployeeErrors, UpdateCourseEmployeeResponses } from './types.gen';
 
 export type Options<TData extends TDataShape = TDataShape, ThrowOnError extends boolean = boolean, TResponse = unknown> = Options2<TData, ThrowOnError, TResponse> & {
     /**
@@ -23,6 +23,17 @@ export const getCourseByCourseId = <ThrowOnError extends boolean = false>(option
 export const getAllCourses = <ThrowOnError extends boolean = false>(options?: Options<GetAllCoursesData, ThrowOnError>): RequestResult<GetAllCoursesResponses, GetAllCoursesErrors, ThrowOnError> => (options?.client ?? client).get<GetAllCoursesResponses, GetAllCoursesErrors, ThrowOnError>({ url: '/Course', ...options });
 
 export const getCourseByEmployeeId = <ThrowOnError extends boolean = false>(options: Options<GetCourseByEmployeeIdData, ThrowOnError>): RequestResult<GetCourseByEmployeeIdResponses, GetCourseByEmployeeIdErrors, ThrowOnError> => (options.client ?? client).get<GetCourseByEmployeeIdResponses, GetCourseByEmployeeIdErrors, ThrowOnError>({ url: '/Course/courseEmployee/{employeeId}', ...options });
+
+export const updateCourseEmployee = <ThrowOnError extends boolean = false>(options: Options<UpdateCourseEmployeeData, ThrowOnError>): RequestResult<UpdateCourseEmployeeResponses, UpdateCourseEmployeeErrors, ThrowOnError> => (options.client ?? client).put<UpdateCourseEmployeeResponses, UpdateCourseEmployeeErrors, ThrowOnError>({
+    url: '/CourseEmployee',
+    ...options,
+    headers: {
+        'Content-Type': 'application/json',
+        ...options.headers
+    }
+});
+
+export const getCourseEmployee = <ThrowOnError extends boolean = false>(options: Options<GetCourseEmployeeData, ThrowOnError>): RequestResult<GetCourseEmployeeResponses, unknown, ThrowOnError> => (options.client ?? client).get<GetCourseEmployeeResponses, unknown, ThrowOnError>({ url: '/CourseEmployee/employee/{employeeId}', ...options });
 
 export const getAllEmployees = <ThrowOnError extends boolean = false>(options?: Options<GetAllEmployeesData, ThrowOnError>): RequestResult<GetAllEmployeesResponses, GetAllEmployeesErrors, ThrowOnError> => (options?.client ?? client).get<GetAllEmployeesResponses, GetAllEmployeesErrors, ThrowOnError>({ url: '/Employee', ...options });
 
