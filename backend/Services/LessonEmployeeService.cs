@@ -1,5 +1,6 @@
 ﻿using Eurowind.Backend.Config;
 using Eurowind.Backend.DTOs;
+using Eurowind.Backend.Entities;
 using Microsoft.EntityFrameworkCore;
 using OneOf;
 using OneOf.Types;
@@ -56,5 +57,28 @@ public class LessonEmployeeService
 
         return new Success();
     }
-    
+
+    // MAKE/POST NEW LESSONEMPLOYEE RECORD
+    public async Task<OneOf<Success, NotFound, Error>> CreateLessonEmployeeAsync(
+        int lessonId, int employeeId, string taskAnswer)
+    {
+        var employee = await _dbContext.Employees.FindAsync(employeeId);
+        var lesson = await _dbContext.Lessons.FindAsync(lessonId);
+
+        if (employee == null || lesson == null) return new NotFound();
+        var existingRecord = await _dbContext.LessonEmployees
+            .FindAsync(lessonId, employeeId);
+
+        if (existingRecord != null)
+            return new Error();
+
+        var newLessonEmployee = new LessonEmployee(
+            lesson, employee, taskAnswer);
+
+        _dbContext.LessonEmployees.Add(newLessonEmployee);
+
+        await _dbContext.SaveChangesAsync();
+
+        return new Success();
+    }
 }
