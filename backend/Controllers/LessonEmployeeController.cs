@@ -25,7 +25,8 @@ public class LessonEmployeeController : ControllerBase
         return result != null ? Ok(result) : NotFound();
     }
 
-    [HttpPut("lesson/{lessonId:int}/employee/{employeeId:int}", Name = "UpdateThumbCountByLessonIdEmployeeId")]
+    [HttpPut("lesson/{lessonId:int}/employee/{employeeId:int}/thumb-count",
+        Name = "UpdateThumbCountByLessonIdEmployeeId")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -38,4 +39,23 @@ public class LessonEmployeeController : ControllerBase
 
         return BadRequest();
     }
+
+    [HttpPost("lesson/{lessonId:int}/employee/{employeeId:int}", Name = "CreateNewLessonEmployee")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    public async Task<IActionResult> CreateLessonEmployee(
+        int lessonId, int employeeId, [FromBody] string taskAnswer)
+    {
+        var result = await _lessonEmployeeService
+            .CreateLessonEmployeeAsync(lessonId, employeeId, taskAnswer);
+
+        if (result.IsT0) return Ok();
+
+        if (result.IsT1) return NotFound();
+
+        return BadRequest();
+    }
+    
+    
 }
