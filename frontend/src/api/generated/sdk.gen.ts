@@ -2,7 +2,51 @@
 
 import type { Client, ClientMeta, Options as Options2, RequestResult, TDataShape } from './client';
 import { client } from './client.gen';
-import type { AddXpData, AddXpErrors, AddXpResponses, CreateNewLessonEmployeeData, CreateNewLessonEmployeeErrors, CreateNewLessonEmployeeResponses, GetAllCoursesData, GetAllCoursesErrors, GetAllCoursesResponses, GetAllEmployeesData, GetAllEmployeesErrors, GetAllEmployeesResponses, GetCourseByCourseIdData, GetCourseByCourseIdErrors, GetCourseByCourseIdResponses, GetCourseByEmployeeIdData, GetCourseByEmployeeIdErrors, GetCourseByEmployeeIdResponses, GetCourseEmployeeByCourseIdEmployeeIdData, GetCourseEmployeeByCourseIdEmployeeIdErrors, GetCourseEmployeeByCourseIdEmployeeIdResponses, GetCourseEmployeeData, GetCourseEmployeeResponses, GetEmployeeByIdData, GetEmployeeByIdErrors, GetEmployeeByIdResponses, GetLessonByIdData, GetLessonByIdErrors, GetLessonByIdResponses, GetLessonCourseByCourseIdData, GetLessonCourseByCourseIdErrors, GetLessonCourseByCourseIdResponses, LoginEmployeeData, LoginEmployeeErrors, LoginEmployeeResponses, UpdateCourseEmployeeData, UpdateCourseEmployeeErrors, UpdateCourseEmployeeResponses, UpdateThumbCountByLessonIdEmployeeIdData, UpdateThumbCountByLessonIdEmployeeIdErrors, UpdateThumbCountByLessonIdEmployeeIdResponses } from './types.gen';
+
+import type {
+  AddXpData,
+  AddXpErrors,
+  AddXpResponses,
+  CreateNewLessonEmployeeData,
+  CreateNewLessonEmployeeErrors,
+  CreateNewLessonEmployeeResponses,
+  GetAllCoursesData,
+  GetAllCoursesErrors,
+  GetAllCoursesResponses,
+  GetAllEmployeesData,
+  GetAllEmployeesErrors,
+  GetAllEmployeesResponses,
+  GetCourseByCourseIdData,
+  GetCourseByCourseIdErrors,
+  GetCourseByCourseIdResponses,
+  GetCourseByEmployeeIdData,
+  GetCourseByEmployeeIdErrors,
+  GetCourseByEmployeeIdResponses,
+  GetCourseEmployeeByCourseIdEmployeeIdData,
+  GetCourseEmployeeByCourseIdEmployeeIdErrors,
+  GetCourseEmployeeByCourseIdEmployeeIdResponses,
+  GetCourseEmployeeData,
+  GetCourseEmployeeResponses,
+  GetEmployeeByIdData,
+  GetEmployeeByIdErrors,
+  GetEmployeeByIdResponses,
+  GetLessonByIdData,
+  GetLessonByIdErrors,
+  GetLessonByIdResponses,
+  GetLessonCourseByCourseIdData,
+  GetLessonCourseByCourseIdErrors,
+  GetLessonCourseByCourseIdResponses,
+  LoginEmployeeData,
+  LoginEmployeeErrors,
+  LoginEmployeeResponses,
+  UpdateCourseEmployeeData,
+  UpdateCourseEmployeeErrors,
+  UpdateCourseEmployeeResponses,
+  UpdateThumbCountByLessonIdEmployeeIdData,
+  UpdateThumbCountByLessonIdEmployeeIdErrors,
+  UpdateThumbCountByLessonIdEmployeeIdResponses,
+} from './types.gen';
+
 
 export type Options<TData extends TDataShape = TDataShape, ThrowOnError extends boolean = boolean, TResponse = unknown> = Options2<TData, ThrowOnError, TResponse> & {
     /**
