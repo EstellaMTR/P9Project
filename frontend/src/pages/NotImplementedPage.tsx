@@ -1,8 +1,11 @@
-export default function CommunityPage() {
+import NavigationSidebar from '../components/NavigationSidebar'
+
+export default function NotImplementedPage() {
   return (
     <>
-      <h1></h1>
-      <p>This page is not implemented yet.</p>
+      <NavigationSidebar defaultExpanded={false} />
+
+      <h1>This page is not implemented yet</h1>
     </>
   )
 }
