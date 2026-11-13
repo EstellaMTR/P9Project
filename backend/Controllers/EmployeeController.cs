@@ -1,5 +1,4 @@
 ﻿using Eurowind.Backend.DTOs;
-using Eurowind.Backend.Entities;
 using Eurowind.Backend.Services;
 using Microsoft.AspNetCore.Mvc;
 
@@ -11,7 +10,8 @@ namespace Eurowind.Backend.Controllers;
 public class EmployeeController : ControllerBase
 {
     private readonly EmployeeService _employeeService;
-    public EmployeeController(EmployeeService employeeService)
+    
+    public EmployeeController(EmployeeService employeeService, LlmService llmService)
     {
         _employeeService = employeeService;
     }
@@ -92,4 +92,5 @@ public class EmployeeController : ControllerBase
 
         return NotFound();
     }
+    
 }
