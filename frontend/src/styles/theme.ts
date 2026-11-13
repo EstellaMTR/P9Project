@@ -40,58 +40,6 @@ const theme = createTheme({
     text: {
       primary: '#282828', // "Black" in the design system
     },
-        // Course Card design system
-    courseCard: {
-      // Colors
-      featuredBackground: '#041E42',
-      standardBackground: '#FFFFFF',
-      featuredText: '#FFFFFF',
-      standardText: '#082044',
-      xpBackground: '#FFB51B',
-      xpText: '#082044',
-      progressBackground: '#FFFFFF',
-      progressBar: '#48D69B',
-
-      // Card dimensions
-      featuredWidth: '100%',
-      inProgressWidth: '380px',
-      recommendedWidth: '280px',
-      featuredMinHeight: 185,
-      inProgressMinHeight: 170,
-      recommendedMinHeight: 160,
-
-      // Card spacing
-      featuredPadding: 3,
-      inProgressPadding: 2,
-      recommendedPadding: 1.5,
-      cardGap: 1.5,
-
-      // Card styling
-      borderRadius: '18px',
-      boxShadow: '0 3px 5px rgba(0,0,0,0.15)',
-
-      // Title typography
-      titleFontWeight: 700,
-      recommendedTitleFontSize: '20px',
-
-      // XP badge
-      xpBorderRadius: '20px',
-      xpPaddingX: 1.5,
-      xpPaddingY: 0.5,
-      xpFontSize: '12px',
-      xpFontWeight: 700,
-
-      // Description
-      descriptionOpacity: 0.9,
-
-      // Progress bar
-      progressHeight: 10,
-      progressBorderRadius: 10,
-      progressTextMarginTop: 0.5,
-
-      // Recommended button
-      recommendedButtonWidth: '90%',
-    },
   },
   typography: {
     fontFamily: ['Poppins', 'Century Gothic', 'sans-serif'].join(','),

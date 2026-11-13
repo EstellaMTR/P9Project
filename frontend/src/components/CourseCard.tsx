@@ -1,12 +1,12 @@
-
-import { Box, Typography, LinearProgress } from "@mui/material";
-import Button from "./Button";
-import theme from "../styles/theme";
+import { Box, Typography, LinearProgress } from '@mui/material';
+import Button from './Button';
+import courseCardStyles from '../styles/CourseCard';
 
 type CourseCardProps = {
-  variant: "featured" | "inProgress" | "recommended";
+  variant: 'featured' | 'inProgress' | 'recommended';
   title: string;
   description: string;
+  duration: string;
   progress?: number;
   xp: number;
   onAction: () => void;
@@ -16,121 +16,169 @@ function CourseCard({
   variant,
   title,
   description,
+  duration,
   progress,
   xp,
   onAction,
 }: CourseCardProps) {
-  const isFeatured = variant === "featured";
-  const isRecommended = variant === "recommended";
-
-  const cardTheme = theme.palette.courseCard;
-
-  const textColor = isFeatured
-    ? cardTheme.featuredText
-    : cardTheme.standardText;
+  const isFeatured = variant === 'featured';
+  const isRecommended = variant === 'recommended';
+  const textColor = isFeatured ? 'common.white' : 'secondary.main';
 
   return (
     <Box
       sx={{
         width: isFeatured
-          ? cardTheme.featuredWidth
+          ? courseCardStyles.featuredWidth
           : isRecommended
-            ? cardTheme.recommendedWidth
-            : cardTheme.inProgressWidth,
+            ? courseCardStyles.recommendedWidth
+            : courseCardStyles.inProgressWidth,
         minHeight: isFeatured
-          ? cardTheme.featuredMinHeight
+          ? courseCardStyles.featuredMinHeight
           : isRecommended
-            ? cardTheme.recommendedMinHeight
-            : cardTheme.inProgressMinHeight,
-        boxSizing: "border-box",
+            ? courseCardStyles.recommendedMinHeight
+            : courseCardStyles.inProgressMinHeight,
+        boxSizing: 'border-box',
+        minWidth: 0,
         p: isFeatured
-          ? cardTheme.featuredPadding
+          ? courseCardStyles.featuredPadding
           : isRecommended
-            ? cardTheme.recommendedPadding
-            : cardTheme.inProgressPadding,
-        borderRadius: cardTheme.borderRadius,
-        backgroundColor: isFeatured
-          ? cardTheme.featuredBackground
-          : cardTheme.standardBackground,
+            ? courseCardStyles.recommendedPadding
+            : courseCardStyles.inProgressPadding,
+        borderRadius: courseCardStyles.borderRadius,
+        backgroundColor: isFeatured ? 'secondary.main' : 'common.white',
         color: textColor,
-        boxShadow: cardTheme.boxShadow,
-        display: "flex",
-        flexDirection: "column",
-        justifyContent: "space-between",
-        gap: cardTheme.cardGap,
+        boxShadow: courseCardStyles.boxShadow,
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'space-between',
+        gap: courseCardStyles.cardGap,
       }}
     >
-      {/* Title and XP */}
       <Box
         sx={{
-          display: "flex",
-          justifyContent: "space-between",
-          alignItems: "flex-start",
-          gap: 1,
+          display: 'flex',
+          justifyContent: 'space-between',
+          alignItems: 'flex-start',
+          gap: courseCardStyles.titleRowGap,
+          flexWrap: courseCardStyles.titleRowFlexWrap,
         }}
       >
         <Typography
-          variant={isFeatured ? "h4" : "h6"}
+          variant={isFeatured ? 'h4' : 'h6'}
           sx={{
-            fontWeight: cardTheme.titleFontWeight,
+            fontWeight: courseCardStyles.titleFontWeight,
             color: textColor,
-            ...(isRecommended && {
-              fontSize: cardTheme.recommendedTitleFontSize,
-            }),
+            minWidth: 0,
+            overflowWrap: 'anywhere',
           }}
         >
           {title}
         </Typography>
 
-        <Box
+        <Typography
+          component="span"
+          variant="body2"
           sx={{
-            backgroundColor: cardTheme.xpBackground,
-            color: cardTheme.xpText,
-            borderRadius: cardTheme.xpBorderRadius,
-            px: cardTheme.xpPaddingX,
-            py: cardTheme.xpPaddingY,
-            whiteSpace: "nowrap",
-            fontSize: cardTheme.xpFontSize,
-            fontWeight: cardTheme.xpFontWeight,
+            display: 'inline-flex',
+            alignItems: 'center',
+            backgroundColor: 'warning.main',
+            color: 'secondary.main',
+            borderRadius: courseCardStyles.xpBorderRadius,
+            px: courseCardStyles.xpPaddingX,
+            py: courseCardStyles.xpPaddingY,
+            fontSize: courseCardStyles.xpFontSize,
+            whiteSpace: 'nowrap',
+            fontWeight: courseCardStyles.xpFontWeight,
           }}
         >
           +{xp} XP
-        </Box>
+        </Typography>
       </Box>
 
-      {/* Description */}
-      <Typography
-        variant="body2"
+      <Box
         sx={{
-          color: textColor,
-          opacity: cardTheme.descriptionOpacity,
+          display: 'flex',
+          justifyContent: 'space-between',
+          alignItems: 'flex-start',
+          gap: courseCardStyles.contentGap,
+          flexDirection: isFeatured
+            ? courseCardStyles.featuredContentFlexDirection
+            : 'row',
+          minWidth: 0,
         }}
       >
-        {description}
-      </Typography>
+        <Box sx={{ minWidth: 0, overflowWrap: 'anywhere' }}>
+          <Typography
+            variant="body2"
+            sx={{ color: textColor, opacity: courseCardStyles.descriptionOpacity }}
+          >
+            {description}
+          </Typography>
+          <Typography
+            variant="body2"
+            sx={{
+              color: textColor,
+              fontWeight: courseCardStyles.durationFontWeight,
+              mt: courseCardStyles.durationMarginTop,
+            }}
+          >
+            {duration}
+          </Typography>
+        </Box>
 
-      {/* Progress bar: featured and inProgress */}
-      {!isRecommended && progress !== undefined && (
+        {isFeatured && progress !== undefined && (
+          <Box
+            sx={{
+              width: courseCardStyles.featuredProgressWidth,
+              flexShrink: courseCardStyles.featuredProgressFlexShrink,
+              minWidth: 0,
+            }}
+          >
+            <LinearProgress
+              variant="determinate"
+              value={Math.max(0, Math.min(progress, 100))}
+              sx={{
+                height: courseCardStyles.progressHeight,
+                borderRadius: courseCardStyles.progressBorderRadius,
+                backgroundColor: 'common.white',
+                '& .MuiLinearProgress-bar': { backgroundColor: 'success.main' },
+              }}
+            />
+            <Typography
+              variant="caption"
+              sx={{
+                display: 'block',
+                textAlign: 'right',
+                mt: courseCardStyles.progressLabelMarginTop,
+                color: textColor,
+              }}
+            >
+              {progress}% done
+            </Typography>
+          </Box>
+        )}
+      </Box>
+
+      {!isFeatured && !isRecommended && progress !== undefined && (
         <Box>
           <LinearProgress
             variant="determinate"
             value={Math.max(0, Math.min(progress, 100))}
             sx={{
-              height: cardTheme.progressHeight,
-              borderRadius: cardTheme.progressBorderRadius,
-              backgroundColor: cardTheme.progressBackground,
-              "& .MuiLinearProgress-bar": {
-                backgroundColor: cardTheme.progressBar,
-              },
+              height: courseCardStyles.progressHeight,
+              borderRadius: courseCardStyles.progressBorderRadius,
+              backgroundColor: 'common.white',
+              boxShadow: courseCardStyles.progressBoxShadow,
+              '& .MuiLinearProgress-bar': { backgroundColor: 'success.main' },
             }}
           />
-
           <Typography
             variant="caption"
             sx={{
-              display: "block",
-              textAlign: "right",
-              mt: cardTheme.progressTextMarginTop,
+              display: 'block',
+              textAlign: 'right',
+              mt: courseCardStyles.progressLabelMarginTop,
               color: textColor,
             }}
           >
@@ -139,27 +187,26 @@ function CourseCard({
         </Box>
       )}
 
-      {/* Course buttons */}
       {isFeatured ? (
-        <Button
-          label="Continue course"
-          color="primary"
-          onClick={onAction}
-        />
+        <Box
+          sx={{
+            width: courseCardStyles.featuredButtonWidth,
+            maxWidth: courseCardStyles.featuredButtonMaxWidth,
+          }}
+        >
+          <Button label="Continue course" color="primary" onClick={onAction} />
+        </Box>
       ) : isRecommended ? (
-        <Box sx={{ width: cardTheme.recommendedButtonWidth }}>
-          <Button
-            label="Start course"
-            color="secondary"
-            onClick={onAction}
-          />
+        <Box
+          sx={{
+            width: courseCardStyles.recommendedButtonWidth,
+            maxWidth: courseCardStyles.featuredButtonMaxWidth,
+          }}
+        >
+          <Button label="Start course" color="white" onClick={onAction} />
         </Box>
       ) : (
-        <Button
-          label="Continue course"
-          color="secondary"
-          onClick={onAction}
-        />
+        <Button label="Continue course" color="secondary" onClick={onAction} />
       )}
     </Box>
   );
