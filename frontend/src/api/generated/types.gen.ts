@@ -341,3 +341,91 @@ export type GetLessonCourseByCourseIdResponses = {
 };
 
 export type GetLessonCourseByCourseIdResponse = GetLessonCourseByCourseIdResponses[keyof GetLessonCourseByCourseIdResponses];
+
+export type GetCourseEmployeeByCourseIdEmployeeIdData = {
+    body?: never;
+    path: {
+        courseId: number;
+        employeeId: number;
+    };
+    query?: never;
+    url: '/LessonEmployee/course/{courseId}/employee/{employeeId}';
+};
+
+export type GetCourseEmployeeByCourseIdEmployeeIdErrors = {
+    /**
+     * Not Found
+     */
+    404: ProblemDetails;
+};
+
+export type GetCourseEmployeeByCourseIdEmployeeIdError = GetCourseEmployeeByCourseIdEmployeeIdErrors[keyof GetCourseEmployeeByCourseIdEmployeeIdErrors];
+
+export type GetCourseEmployeeByCourseIdEmployeeIdResponses = {
+    /**
+     * OK
+     */
+    200: unknown;
+};
+
+export type UpdateThumbCountByLessonIdEmployeeIdData = {
+    body?: never;
+    path: {
+        lessonId: number;
+        employeeId: number;
+    };
+    query?: {
+        thumbCount?: number;
+    };
+    url: '/LessonEmployee/lesson/{lessonId}/employee/{employeeId}/thumb-count';
+};
+
+export type UpdateThumbCountByLessonIdEmployeeIdErrors = {
+    /**
+     * Bad Request
+     */
+    400: ProblemDetails;
+    /**
+     * Not Found
+     */
+    404: ProblemDetails;
+};
+
+export type UpdateThumbCountByLessonIdEmployeeIdError = UpdateThumbCountByLessonIdEmployeeIdErrors[keyof UpdateThumbCountByLessonIdEmployeeIdErrors];
+
+export type UpdateThumbCountByLessonIdEmployeeIdResponses = {
+    /**
+     * OK
+     */
+    200: unknown;
+};
+
+export type CreateNewLessonEmployeeData = {
+    body: string;
+    path: {
+        lessonId: number;
+        employeeId: number;
+    };
+    query?: never;
+    url: '/LessonEmployee/lesson/{lessonId}/employee/{employeeId}';
+};
+
+export type CreateNewLessonEmployeeErrors = {
+    /**
+     * Bad Request
+     */
+    400: ProblemDetails;
+    /**
+     * Not Found
+     */
+    404: ProblemDetails;
+};
+
+export type CreateNewLessonEmployeeError = CreateNewLessonEmployeeErrors[keyof CreateNewLessonEmployeeErrors];
+
+export type CreateNewLessonEmployeeResponses = {
+    /**
+     * OK
+     */
+    200: unknown;
+};

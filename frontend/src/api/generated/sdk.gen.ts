@@ -2,7 +2,51 @@
 
 import type { Client, ClientMeta, Options as Options2, RequestResult, TDataShape } from './client';
 import { client } from './client.gen';
-import type { AddXpData, AddXpErrors, AddXpResponses, GetAllCoursesData, GetAllCoursesErrors, GetAllCoursesResponses, GetAllEmployeesData, GetAllEmployeesErrors, GetAllEmployeesResponses, GetCourseByCourseIdData, GetCourseByCourseIdErrors, GetCourseByCourseIdResponses, GetCourseByEmployeeIdData, GetCourseByEmployeeIdErrors, GetCourseByEmployeeIdResponses, GetCourseEmployeeData, GetCourseEmployeeResponses, GetEmployeeByIdData, GetEmployeeByIdErrors, GetEmployeeByIdResponses, GetLessonByIdData, GetLessonByIdErrors, GetLessonByIdResponses, GetLessonCourseByCourseIdData, GetLessonCourseByCourseIdErrors, GetLessonCourseByCourseIdResponses, LoginEmployeeData, LoginEmployeeErrors, LoginEmployeeResponses, UpdateCourseEmployeeData, UpdateCourseEmployeeErrors, UpdateCourseEmployeeResponses } from './types.gen';
+
+import type {
+  AddXpData,
+  AddXpErrors,
+  AddXpResponses,
+  CreateNewLessonEmployeeData,
+  CreateNewLessonEmployeeErrors,
+  CreateNewLessonEmployeeResponses,
+  GetAllCoursesData,
+  GetAllCoursesErrors,
+  GetAllCoursesResponses,
+  GetAllEmployeesData,
+  GetAllEmployeesErrors,
+  GetAllEmployeesResponses,
+  GetCourseByCourseIdData,
+  GetCourseByCourseIdErrors,
+  GetCourseByCourseIdResponses,
+  GetCourseByEmployeeIdData,
+  GetCourseByEmployeeIdErrors,
+  GetCourseByEmployeeIdResponses,
+  GetCourseEmployeeByCourseIdEmployeeIdData,
+  GetCourseEmployeeByCourseIdEmployeeIdErrors,
+  GetCourseEmployeeByCourseIdEmployeeIdResponses,
+  GetCourseEmployeeData,
+  GetCourseEmployeeResponses,
+  GetEmployeeByIdData,
+  GetEmployeeByIdErrors,
+  GetEmployeeByIdResponses,
+  GetLessonByIdData,
+  GetLessonByIdErrors,
+  GetLessonByIdResponses,
+  GetLessonCourseByCourseIdData,
+  GetLessonCourseByCourseIdErrors,
+  GetLessonCourseByCourseIdResponses,
+  LoginEmployeeData,
+  LoginEmployeeErrors,
+  LoginEmployeeResponses,
+  UpdateCourseEmployeeData,
+  UpdateCourseEmployeeErrors,
+  UpdateCourseEmployeeResponses,
+  UpdateThumbCountByLessonIdEmployeeIdData,
+  UpdateThumbCountByLessonIdEmployeeIdErrors,
+  UpdateThumbCountByLessonIdEmployeeIdResponses,
+} from './types.gen';
+
 
 export type Options<TData extends TDataShape = TDataShape, ThrowOnError extends boolean = boolean, TResponse = unknown> = Options2<TData, ThrowOnError, TResponse> & {
     /**
@@ -53,3 +97,16 @@ export const addXp = <ThrowOnError extends boolean = false>(options: Options<Add
 export const getLessonById = <ThrowOnError extends boolean = false>(options: Options<GetLessonByIdData, ThrowOnError>): RequestResult<GetLessonByIdResponses, GetLessonByIdErrors, ThrowOnError> => (options.client ?? client).get<GetLessonByIdResponses, GetLessonByIdErrors, ThrowOnError>({ url: '/Lesson/{id}', ...options });
 
 export const getLessonCourseByCourseId = <ThrowOnError extends boolean = false>(options: Options<GetLessonCourseByCourseIdData, ThrowOnError>): RequestResult<GetLessonCourseByCourseIdResponses, GetLessonCourseByCourseIdErrors, ThrowOnError> => (options.client ?? client).get<GetLessonCourseByCourseIdResponses, GetLessonCourseByCourseIdErrors, ThrowOnError>({ url: '/Lesson/course/{courseId}', ...options });
+
+export const getCourseEmployeeByCourseIdEmployeeId = <ThrowOnError extends boolean = false>(options: Options<GetCourseEmployeeByCourseIdEmployeeIdData, ThrowOnError>): RequestResult<GetCourseEmployeeByCourseIdEmployeeIdResponses, GetCourseEmployeeByCourseIdEmployeeIdErrors, ThrowOnError> => (options.client ?? client).get<GetCourseEmployeeByCourseIdEmployeeIdResponses, GetCourseEmployeeByCourseIdEmployeeIdErrors, ThrowOnError>({ url: '/LessonEmployee/course/{courseId}/employee/{employeeId}', ...options });
+
+export const updateThumbCountByLessonIdEmployeeId = <ThrowOnError extends boolean = false>(options: Options<UpdateThumbCountByLessonIdEmployeeIdData, ThrowOnError>): RequestResult<UpdateThumbCountByLessonIdEmployeeIdResponses, UpdateThumbCountByLessonIdEmployeeIdErrors, ThrowOnError> => (options.client ?? client).put<UpdateThumbCountByLessonIdEmployeeIdResponses, UpdateThumbCountByLessonIdEmployeeIdErrors, ThrowOnError>({ url: '/LessonEmployee/lesson/{lessonId}/employee/{employeeId}/thumb-count', ...options });
+
+export const createNewLessonEmployee = <ThrowOnError extends boolean = false>(options: Options<CreateNewLessonEmployeeData, ThrowOnError>): RequestResult<CreateNewLessonEmployeeResponses, CreateNewLessonEmployeeErrors, ThrowOnError> => (options.client ?? client).post<CreateNewLessonEmployeeResponses, CreateNewLessonEmployeeErrors, ThrowOnError>({
+    url: '/LessonEmployee/lesson/{lessonId}/employee/{employeeId}',
+    ...options,
+    headers: {
+        'Content-Type': 'application/json',
+        ...options.headers
+    }
+});
