@@ -1,5 +1,19 @@
 # Eurowind Learning Platform
 
+## Set up Gemini for lesson feedback
+
+1. Sign in to [Google AI Studio](https://aistudio.google.com/api-keys) with your Google account.
+2. On the **API Keys** page, use your existing key or select **Create API key**, choose a Google Cloud project, and copy the new key. See [Google’s API key guide](https://ai.google.dev/gemini-api/docs/api-key) if your project is missing.
+3. From the repository root, save your key in the backend’s local .NET User Secrets store. Replace the placeholder with your own key.
+
+   ```powershell
+   dotnet user-secrets set "Gemini:ApiKey" "<your Gemini API key>" --project backend
+   ```
+
+4. Restart the backend with the HTTPS launch profile. In Swagger, try `POST /LessonEmployee/lessonEmployee/feedback` using an existing lesson and employee ID and a sample task answer.
+
+Keep the key in User Secrets and out of source files, Git commits, and frontend code.
+
 ## API contracts and frontend client
 
 The backend is the source of truth. Every `dotnet build backend/Eurowind.Backend.csproj`
