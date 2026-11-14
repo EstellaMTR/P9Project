@@ -7,6 +7,7 @@ import TaskPage from './pages/TaskPage';
 import FeedbackPage from './pages/FeedbackPage';
 import TryAgainTaskPage from './pages/TryAgainTaskPage';
 import NotImplementedPage from './pages/NotImplementedPage';
+import LessonPage from './pages/LessonPage';
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(
@@ -37,6 +38,11 @@ return (
     <Route
       path="/course"
       element={<CoursePage />}
+    />
+
+    <Route
+      path="/lesson"
+      element={<LessonPage onLogout={handleLogout} />}
     />
 
     <Route
