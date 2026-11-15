@@ -1,4 +1,5 @@
-﻿using Eurowind.Backend.DTOs.LessonDTOs;
+﻿using Eurowind.Backend.DTOs;
+using Eurowind.Backend.DTOs.LessonDTOs;
 using Eurowind.Backend.Services;
 using Microsoft.AspNetCore.Mvc;
 
@@ -21,7 +22,7 @@ public class LessonEmployeeController : ControllerBase
 
 
     [HttpGet("course/{courseId:int}/employee/{employeeId:int}", Name = "GetCourseEmployeeByCourseIdEmployeeId")]
-    [ProducesResponseType(typeof(List<LessonFeedbackDTO>), StatusCodes.Status200OK)]
+    [ProducesResponseType<List<LessonEmployeeDTO>>(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<IActionResult> GetCourseEmployeeByCourseId(int courseId, int employeeId)
     {
@@ -31,7 +32,7 @@ public class LessonEmployeeController : ControllerBase
 
     [HttpPut("lesson/{lessonId:int}/employee/{employeeId:int}/thumb-count",
         Name = "UpdateThumbCountByLessonIdEmployeeId")]
-    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(void), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     public async Task<IActionResult> UpdateThumbCountByLessonId(int thumbCount, int lessonId, int employeeId)
@@ -45,7 +46,7 @@ public class LessonEmployeeController : ControllerBase
     }
 
     [HttpPost("lesson/{lessonId:int}/employee/{employeeId:int}", Name = "CreateNewLessonEmployee")]
-    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(void), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     public async Task<IActionResult> CreateLessonEmployee(
@@ -62,7 +63,7 @@ public class LessonEmployeeController : ControllerBase
     }
 
     [HttpPost("lessonEmployee/feedback", Name = "GetFeedback")]
-    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType<List<LessonFeedbackDTO>>(StatusCodes.Status200OK)]
     [ProducesResponseType<ProblemDetails>(StatusCodes.Status503ServiceUnavailable)]
     [ProducesResponseType<ProblemDetails>(StatusCodes.Status504GatewayTimeout)]
     public async Task<IActionResult> GetFeedback(string taskAnswer, int lessonId, int employeeId,

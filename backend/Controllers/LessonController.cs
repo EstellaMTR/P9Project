@@ -19,7 +19,7 @@ public class LessonController : ControllerBase
     [HttpGet("{id:int}")]
     [ProducesResponseType(typeof(Lesson), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
-    public async Task<ActionResult<int>> GetByIdAsync(int id)
+    public async Task<ActionResult<Lesson>> GetByIdAsync(int id)
     {
         var result = await _lessonService.GetByIdAsync(id);
         return result != null ? Ok(result) : NotFound();
