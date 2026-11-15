@@ -1,4 +1,5 @@
-﻿using Eurowind.Backend.Services;
+﻿using Eurowind.Backend.DTOs.LessonDTOs;
+using Eurowind.Backend.Services;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Eurowind.Backend.Controllers;
@@ -20,12 +21,12 @@ public class LessonEmployeeController : ControllerBase
 
 
     [HttpGet("course/{courseId:int}/employee/{employeeId:int}", Name = "GetCourseEmployeeByCourseIdEmployeeId")]
-    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(List<LessonFeedbackDTO>), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<IActionResult> GetCourseEmployeeByCourseId(int courseId, int employeeId)
     {
         var result = await _lessonEmployeeService.GetLessonEmployeesByCourseIdAsync(courseId, employeeId);
-        return result != null ? Ok(result) : NotFound();
+        return Ok(result);
     }
 
     [HttpPut("lesson/{lessonId:int}/employee/{employeeId:int}/thumb-count",

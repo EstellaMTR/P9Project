@@ -1,5 +1,7 @@
-﻿using Eurowind.Backend.Config;
+﻿using System.Text;
+using Eurowind.Backend.Config;
 using Eurowind.Backend.DTOs;
+using Eurowind.Backend.DTOs.LessonDTOs;
 using Eurowind.Backend.Entities;
 using Google.GenAI;
 using Microsoft.EntityFrameworkCore;
@@ -112,7 +114,27 @@ public class LessonEmployeeService
     {
     };
 
-    public async Task<OneOf<string, NotFound, Error, TimeoutError>> GetFeedbackLessonEmployeeAsync(int lessonId,
+
+    private static string lessonFeedbackToString(List<LessonFeedbackDTO>? feedback)
+    {
+        if (feedback == null) return "";
+        var builder = new StringBuilder();
+
+        var i = 0;
+        foreach (var item in feedback)
+            builder
+                .Append(i++)
+                .Append(". (")
+                .Append(item.Met ? "Met" : "Not Met")
+                .Append(") ")
+                .Append(item.Feedback)
+                .Append('\n');
+
+        return builder.ToString();
+    }
+
+    public async Task<OneOf<List<LessonFeedbackDTO>, NotFound, Error, TimeoutError>> GetFeedbackLessonEmployeeAsync(
+        int lessonId,
         int employeeId, string taskAnswer, CancellationToken cancellationToken)
     {
         var employee = await _dbContext.Employees.FindAsync(employeeId);
@@ -124,7 +146,7 @@ public class LessonEmployeeService
         using var timeout = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken);
         timeout.CancelAfter(TimeSpan.FromSeconds(30));
 
-        string feedback;
+        List<LessonFeedbackDTO> feedback;
 
         try
         {
@@ -151,16 +173,17 @@ public class LessonEmployeeService
             return new Error();
         }
 
+        var feedbackStr = lessonFeedbackToString(feedback);
         if (lessonEmployee == null)
         {
             lessonEmployee = new LessonEmployee(
                 lesson, employee, taskAnswer);
-            lessonEmployee.UpdateTaskFeedback(feedback);
+            lessonEmployee.UpdateTaskFeedback(feedbackStr);
             _dbContext.LessonEmployees.Add(lessonEmployee);
         }
         else
         {
-            lessonEmployee.UpdateAnswerAndFeedback(taskAnswer, feedback);
+            lessonEmployee.UpdateAnswerAndFeedback(taskAnswer, feedbackStr);
         }
 
         await _dbContext.SaveChangesAsync(cancellationToken);

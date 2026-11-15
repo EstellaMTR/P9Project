@@ -512,7 +512,14 @@
           "200": {
             "description": "OK",
             "content": {
-              "application/json": { }
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/LessonFeedbackDTO"
+                  }
+                }
+              }
             }
           },
           "404": {
@@ -844,6 +851,21 @@
             "type": "string"
           },
           "task": {
+            "type": "string"
+          }
+        }
+      },
+      "LessonFeedbackDTO": {
+        "required": [
+          "met",
+          "feedback"
+        ],
+        "type": "object",
+        "properties": {
+          "met": {
+            "type": "boolean"
+          },
+          "feedback": {
             "type": "string"
           }
         }
