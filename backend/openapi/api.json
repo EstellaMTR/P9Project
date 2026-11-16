@@ -213,6 +213,40 @@
         }
       }
     },
+    "/CourseEmployee/employee/{employeeId}/in-progress": {
+      "get": {
+        "tags": [
+          "CourseEmployee"
+        ],
+        "operationId": "GetInProgressCourses",
+        "parameters": [
+          {
+            "name": "employeeId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/CourseProgressDto"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/Employee": {
       "post": {
         "tags": [
@@ -792,6 +826,46 @@
           },
           "status": {
             "$ref": "#/components/schemas/CourseStatus"
+          }
+        }
+      },
+      "CourseProgressDto": {
+        "required": [
+          "courseId",
+          "title",
+          "description",
+          "xpReward",
+          "completedLessons",
+          "totalLessons",
+          "progressPercent"
+        ],
+        "type": "object",
+        "properties": {
+          "courseId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "title": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "xpReward": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "completedLessons": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "totalLessons": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "progressPercent": {
+            "type": "integer",
+            "format": "int32"
           }
         }
       },

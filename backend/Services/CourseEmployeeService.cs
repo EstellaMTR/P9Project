@@ -86,4 +86,42 @@ public class CourseEmployeeService
             ))
             .ToListAsync();
     }
+
+    public async Task<List<CourseProgressDto>> GetInProgressCoursesAsync(
+        int employeeId, CancellationToken cancellationToken)
+    {
+        var courses = await _dbContext.CourseEmployees
+            .Where(enrollment => enrollment.EmployeeId == employeeId &&
+                enrollment.Status == CourseStatus.InProgress)
+            .Select(enrollment => new
+            {
+                enrollment.CourseId,
+                enrollment.Course.Title,
+                enrollment.Course.Description,
+                enrollment.Course.XpReward,
+                TotalLessons = _dbContext.Lessons.Count(lesson => lesson.CourseId == enrollment.CourseId),
+                CompletedLessons = _dbContext.LessonEmployees.Count(progress =>
+                    progress.EmployeeId == employeeId && progress.IsCompleted &&
+                    progress.Lesson.CourseId == enrollment.CourseId)
+            })
+            .ToListAsync(cancellationToken);
+
+        return courses
+            .Select(course => new
+            {
+                Course = course,
+                Progress = course.TotalLessons == 0 ? 0 : 100.0 * course.CompletedLessons / course.TotalLessons
+            })
+            .OrderByDescending(item => item.Progress)
+            .ThenBy(item => item.Course.CourseId)
+            .Select(item => new CourseProgressDto(
+                item.Course.CourseId,
+                item.Course.Title,
+                item.Course.Description,
+                item.Course.XpReward,
+                item.Course.CompletedLessons,
+                item.Course.TotalLessons,
+                (int)Math.Round(item.Progress, MidpointRounding.AwayFromZero)))
+            .ToList();
+    }
 }
