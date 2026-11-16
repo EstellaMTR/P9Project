@@ -379,10 +379,8 @@ export type GetCourseEmployeeByCourseIdEmployeeIdResponses = {
     /**
      * OK
      */
-    200: Array<LessonEmployeeDto>;
+    200: unknown;
 };
-
-export type GetCourseEmployeeByCourseIdEmployeeIdResponse = GetCourseEmployeeByCourseIdEmployeeIdResponses[keyof GetCourseEmployeeByCourseIdEmployeeIdResponses];
 
 export type UpdateThumbCountByLessonIdEmployeeIdData = {
     body?: never;
@@ -445,36 +443,3 @@ export type CreateNewLessonEmployeeResponses = {
      */
     200: unknown;
 };
-
-export type GetFeedbackData = {
-    body?: never;
-    path?: never;
-    query?: {
-        taskAnswer?: string;
-        lessonId?: number;
-        employeeId?: number;
-    };
-    url: '/LessonEmployee/lessonEmployee/feedback';
-};
-
-export type GetFeedbackErrors = {
-    /**
-     * Service Unavailable
-     */
-    503: ProblemDetails;
-    /**
-     * Gateway Timeout
-     */
-    504: ProblemDetails;
-};
-
-export type GetFeedbackError = GetFeedbackErrors[keyof GetFeedbackErrors];
-
-export type GetFeedbackResponses = {
-    /**
-     * OK
-     */
-    200: Array<LessonFeedbackDto>;
-};
-
-export type GetFeedbackResponse = GetFeedbackResponses[keyof GetFeedbackResponses];

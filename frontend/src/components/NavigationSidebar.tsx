@@ -8,6 +8,8 @@ import WorkspacePremiumIcon from '@mui/icons-material/WorkspacePremium'
 import HelpIcon from '@mui/icons-material/Help'
 import LogoutIcon from '@mui/icons-material/Logout'
 import SettingsIcon from '@mui/icons-material/Settings'
+import { useNavigate } from 'react-router-dom'
+import { useLocation } from 'react-router-dom'
 
 
 const navigationItemStyle = {
@@ -22,7 +24,7 @@ const navigationItemStyle = {
 
 type NavigationSidebarProps = {
   defaultExpanded?: boolean
-  activeItem: string
+  onLogout?: () => void
 }
 
 type NavigationItemProps = {
@@ -30,21 +32,33 @@ type NavigationItemProps = {
   label: string
   showLabel: boolean
   isActive: boolean
+  onClick?: () => void
 }
 
 function NavigationItem({
   icon,
   label,
   showLabel,
-  isActive
+  isActive,
+  onClick
 }: NavigationItemProps) {
   return (
+
 <Box
+  onClick={onClick}
   sx={{
     ...navigationItemStyle,
+    cursor: 'pointer',
     backgroundColor: isActive ? 'secondary.main' : 'transparent',
     borderRadius: 999,
     paddingX: showLabel ? 2 : 0,
+    transition: 'background-color 0.2s ease',
+
+    '&:hover': {
+      backgroundColor: isActive
+        ? 'secondary.main'
+        : 'action.hover'
+    }
   }}
 >
    <Box
@@ -76,10 +90,24 @@ function NavigationItem({
  */ 
 function NavigationSidebar({
   defaultExpanded = false,
-  activeItem
+  onLogout
 }: NavigationSidebarProps) {
     
 const [isExpanded, setIsExpanded] = useState(defaultExpanded)
+const navigate = useNavigate()
+const location = useLocation()
+
+function handleHomeClick() {
+  navigate('/')
+}
+
+function handleNotImplementedClick() {
+  navigate('/not-implemented')
+}
+
+function handleLogoutClick() {
+  onLogout?.()
+}
 
 return (
 
@@ -137,39 +165,44 @@ return (
   icon={<HomeIcon />}
   label="Home"
   showLabel={isExpanded}
-  isActive={activeItem === 'Home'}
+  isActive={location.pathname === '/'}
+  onClick={handleHomeClick}
 />
   
  <NavigationItem
   icon={<SchoolIcon />}
   label="All Courses"
   showLabel={isExpanded}
-  isActive={activeItem === 'All Courses'}
+  isActive={false}
+  onClick={handleNotImplementedClick}
 />
  <NavigationItem
   icon={<SmartToyIcon />}
   label="Prompt Tool"
   showLabel={isExpanded}
-  isActive={activeItem === 'Prompt Tool'}
+  isActive={false}
+  onClick={handleNotImplementedClick}
 />
  <NavigationItem
   icon={<GroupsIcon />}
   label="Community"
   showLabel={isExpanded}
-  isActive={activeItem === 'Community'}
-
+  isActive={false}
+  onClick={handleNotImplementedClick}
 />
  <NavigationItem
   icon={<WorkspacePremiumIcon />}
   label="Certifications"
   showLabel={isExpanded}
-  isActive={activeItem === 'Certifications'}
+  isActive={false}
+  onClick={handleNotImplementedClick}
 />
  <NavigationItem
   icon={<HelpIcon />}
   label="Help"
   showLabel={isExpanded}
-  isActive={activeItem === 'Help'}
+  isActive={false}
+  onClick={handleNotImplementedClick}
 />
  </Box>
  </Box>
@@ -183,14 +216,16 @@ return (
   icon={<LogoutIcon />}
   label="Log out"
   showLabel={isExpanded}
-  isActive={activeItem === 'Log out'}
+  isActive={false}
+  onClick={handleLogoutClick}
 />
 
  <NavigationItem
   icon={<SettingsIcon />}
   label="Settings"
   showLabel={isExpanded}
-  isActive={activeItem === 'Settings'}
+  isActive={false}
+  onClick={handleNotImplementedClick}
 />
  </Box>
 
@@ -199,4 +234,3 @@ return (
 }
 
 export default NavigationSidebar
-
