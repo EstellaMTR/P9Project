@@ -35,5 +35,22 @@ public class LessonEmployee
     {
         ThumbCount = thumbCount;
     }
+
+    public void UpdateTaskAnswer(string taskAnswer)
+    {
+        TaskAnswer = taskAnswer;
+    }
+
+    public void UpdateTaskFeedback(string taskFeedback)
+    {
+        TaskFeedback = taskFeedback;
+    }
+
+    public void UpdateAnswerAndFeedback(string answer, string feedback)
+    {
+        TaskAnswer = answer;
+        TaskFeedback = feedback;
+        ThumbCount++;
+    }
     
 }

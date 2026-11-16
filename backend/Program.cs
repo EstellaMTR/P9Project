@@ -19,6 +19,7 @@ builder.Services.AddScoped<LessonService>();
 builder.Services.AddScoped<CourseService>();
 builder.Services.AddScoped<CourseEmployeeService>();
 builder.Services.AddScoped<LessonEmployeeService>();
+builder.Services.AddSingleton<LlmService>();
 builder.Services.AddControllers().AddJsonOptions(options =>
 {
     // Keep numeric contracts numeric in both JSON and generated clients.

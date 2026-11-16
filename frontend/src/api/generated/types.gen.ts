@@ -39,6 +39,20 @@ export type Lesson = {
     task: string;
 };
 
+export type LessonEmployeeDto = {
+    lessonId: number;
+    employeeId: number;
+    taskAnswer: null | string;
+    taskFeedback: null | string;
+    isCompleted: boolean;
+    thumbCount: number;
+};
+
+export type LessonFeedbackDto = {
+    met: boolean;
+    feedback: string;
+};
+
 export type ProblemDetails = {
     type?: null | string;
     title?: null | string;
@@ -197,7 +211,7 @@ export type GetAllEmployeesResponses = {
     /**
      * OK
      */
-    200: EmployeeDto;
+    200: Array<EmployeeDto>;
 };
 
 export type GetAllEmployeesResponse = GetAllEmployeesResponses[keyof GetAllEmployeesResponses];

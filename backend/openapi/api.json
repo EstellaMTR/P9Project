@@ -284,7 +284,10 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/EmployeeDTO"
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/EmployeeDTO"
+                  }
                 }
               }
             }
@@ -512,7 +515,14 @@
           "200": {
             "description": "OK",
             "content": {
-              "application/json": { }
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/LessonEmployeeDTO"
+                  }
+                }
+              }
             }
           },
           "404": {
@@ -667,6 +677,74 @@
           }
         }
       }
+    },
+    "/LessonEmployee/lessonEmployee/feedback": {
+      "post": {
+        "tags": [
+          "LessonEmployee"
+        ],
+        "operationId": "GetFeedback",
+        "parameters": [
+          {
+            "name": "taskAnswer",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "lessonId",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "employeeId",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/LessonFeedbackDTO"
+                  }
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Service Unavailable",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "504": {
+            "description": "Gateway Timeout",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      }
     }
   },
   "components": {
@@ -783,6 +861,61 @@
             "type": "string"
           },
           "task": {
+            "type": "string"
+          }
+        }
+      },
+      "LessonEmployeeDTO": {
+        "required": [
+          "lessonId",
+          "employeeId",
+          "taskAnswer",
+          "taskFeedback",
+          "isCompleted",
+          "thumbCount"
+        ],
+        "type": "object",
+        "properties": {
+          "lessonId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "employeeId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "taskAnswer": {
+            "type": [
+              "null",
+              "string"
+            ]
+          },
+          "taskFeedback": {
+            "type": [
+              "null",
+              "string"
+            ]
+          },
+          "isCompleted": {
+            "type": "boolean"
+          },
+          "thumbCount": {
+            "type": "integer",
+            "format": "int32"
+          }
+        }
+      },
+      "LessonFeedbackDTO": {
+        "required": [
+          "met",
+          "feedback"
+        ],
+        "type": "object",
+        "properties": {
+          "met": {
+            "type": "boolean"
+          },
+          "feedback": {
             "type": "string"
           }
         }

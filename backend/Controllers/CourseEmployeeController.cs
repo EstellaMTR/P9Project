@@ -17,7 +17,7 @@ public class CourseEmployeeController : ControllerBase
     }
 
     [HttpPut(Name = "UpdateCourseEmployee")]
-    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(void), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     public async Task<IActionResult>
@@ -33,7 +33,7 @@ public class CourseEmployeeController : ControllerBase
     }
 
     [HttpGet("employee/{employeeId:int}", Name = "GetCourseEmployee")]
-    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType<List<CourseEmployeeDto>>(StatusCodes.Status200OK)]
     public async Task<ActionResult<List<CourseEmployeeDto>>> GetCourseEmployee(int employeeId)
     {
         var courses = await _courseEmployeeService.GetCourseEmployeesByEmployeeIdAsync(employeeId);

@@ -1,4 +1,6 @@
-﻿using Eurowind.Backend.Services;
+﻿using Eurowind.Backend.DTOs;
+using Eurowind.Backend.DTOs.LessonDTOs;
+using Eurowind.Backend.Services;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Eurowind.Backend.Controllers;
@@ -9,25 +11,28 @@ namespace Eurowind.Backend.Controllers;
 public class LessonEmployeeController : ControllerBase
 {
     private readonly LessonEmployeeService _lessonEmployeeService;
+    private readonly LlmService _llmService;
 
-    public LessonEmployeeController(LessonEmployeeService lessonEmployeeService)
+
+    public LessonEmployeeController(LessonEmployeeService lessonEmployeeService, LlmService llmService)
     {
         _lessonEmployeeService = lessonEmployeeService;
+        _llmService = llmService;
     }
 
 
     [HttpGet("course/{courseId:int}/employee/{employeeId:int}", Name = "GetCourseEmployeeByCourseIdEmployeeId")]
-    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType<List<LessonEmployeeDTO>>(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<IActionResult> GetCourseEmployeeByCourseId(int courseId, int employeeId)
     {
         var result = await _lessonEmployeeService.GetLessonEmployeesByCourseIdAsync(courseId, employeeId);
-        return result != null ? Ok(result) : NotFound();
+        return Ok(result);
     }
 
     [HttpPut("lesson/{lessonId:int}/employee/{employeeId:int}/thumb-count",
         Name = "UpdateThumbCountByLessonIdEmployeeId")]
-    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(void), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     public async Task<IActionResult> UpdateThumbCountByLessonId(int thumbCount, int lessonId, int employeeId)
@@ -41,7 +46,7 @@ public class LessonEmployeeController : ControllerBase
     }
 
     [HttpPost("lesson/{lessonId:int}/employee/{employeeId:int}", Name = "CreateNewLessonEmployee")]
-    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(void), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     public async Task<IActionResult> CreateLessonEmployee(
@@ -56,6 +61,26 @@ public class LessonEmployeeController : ControllerBase
 
         return BadRequest();
     }
-    
-    
+
+    [HttpPost("lessonEmployee/feedback", Name = "GetFeedback")]
+    [ProducesResponseType<List<LessonFeedbackDTO>>(StatusCodes.Status200OK)]
+    [ProducesResponseType<ProblemDetails>(StatusCodes.Status503ServiceUnavailable)]
+    [ProducesResponseType<ProblemDetails>(StatusCodes.Status504GatewayTimeout)]
+    public async Task<IActionResult> GetFeedback(string taskAnswer, int lessonId, int employeeId,
+        CancellationToken cancellationToken)
+    {
+        var result =
+            await _lessonEmployeeService.GetFeedbackLessonEmployeeAsync(lessonId, employeeId, taskAnswer,
+                cancellationToken);
+        return result.Match<IActionResult>(
+            Ok,
+            _ => NotFound(),
+            _ => Problem(
+                "Gemini is temporarily unavailable. Please try again later.",
+                statusCode: StatusCodes.Status503ServiceUnavailable),
+            _ => Problem(
+                "Gemini did not respond within 30 seconds.",
+                statusCode: StatusCodes.Status504GatewayTimeout)
+        );
+    }
 }
