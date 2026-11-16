@@ -10,62 +10,47 @@ import NotImplementedPage from './pages/NotImplementedPage';
 import LessonPage from './pages/LessonPage';
 
 function App() {
-  const [isLoggedIn, setIsLoggedIn] = useState(
-    () => sessionStorage.getItem('isLoggedIn') === 'true',
-  );
+  const [employeeId, setEmployeeId] = useState<number | null>(() => {
+    const savedId = sessionStorage.getItem('employeeId');
+    const id = Number(savedId);
+    return Number.isInteger(id) && id > 0 ? id : null;
+  });
 
-  function handleLoginSuccess() {
-    sessionStorage.setItem('isLoggedIn', 'true');
-    setIsLoggedIn(true);
+  function handleLoginSuccess(id: number) {
+    sessionStorage.setItem('employeeId', String(id));
+    setEmployeeId(id);
   }
 
   function handleLogout() {
-    sessionStorage.removeItem('isLoggedIn');
-    setIsLoggedIn(false);
+    sessionStorage.removeItem('employeeId');
+    setEmployeeId(null);
   }
 
-  if (!isLoggedIn) {
-  return <Login onLoginSuccess={handleLoginSuccess} />;
-}
+  // if the employeeId is null, render the login page
+  if (employeeId === null) {
+    return <Login onLoginSuccess={handleLoginSuccess} />;
+  }
+  // otherwise, render the home page with the employeeId and logout handler
+  return (
+    <Routes>
+      <Route
+        path="/"
+        element={<Home employeeId={employeeId} onLogout={handleLogout} />}
+      />
 
-return (
-  <Routes>
-    <Route
-      path="/"
-      element={<Home onLogout={handleLogout} />}
-    />
+      <Route path="/course" element={<CoursePage />} />
 
-    <Route
-      path="/course"
-      element={<CoursePage />}
-    />
+      <Route path="/lesson" element={<LessonPage onLogout={handleLogout} />} />
 
-    <Route
-      path="/lesson"
-      element={<LessonPage onLogout={handleLogout} />}
-    />
+      <Route path="/task" element={<TaskPage />} />
 
-    <Route
-      path="/task"
-      element={<TaskPage />}
-    />
+      <Route path="/feedback" element={<FeedbackPage />} />
 
-    <Route
-      path="/feedback"
-      element={<FeedbackPage />}
-    />
+      <Route path="/try-again-task" element={<TryAgainTaskPage />} />
 
-    <Route
-      path="/try-again-task"
-      element={<TryAgainTaskPage />}
-    />
-
-    <Route
-      path="/not-implemented"
-      element={<NotImplementedPage />}
-    />
-  </Routes>
-);
+      <Route path="/not-implemented" element={<NotImplementedPage />} />
+    </Routes>
+  );
 }
 
 export default App;

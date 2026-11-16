@@ -8,7 +8,7 @@ import '../App.css';
 import '../styles/Login.css';
 
 type LoginProps = {
-  onLoginSuccess: () => void;
+  onLoginSuccess: (employeeId: number) => void;
 };
 
 export default function Login({ onLoginSuccess }: LoginProps) {
@@ -32,7 +32,7 @@ export default function Login({ onLoginSuccess }: LoginProps) {
         },
       });
       if (result.response?.ok && typeof result.data === 'number') {
-        onLoginSuccess();
+        onLoginSuccess(result.data);
       } else {
         setError(
           result.response?.status === 400 || result.response?.status === 404

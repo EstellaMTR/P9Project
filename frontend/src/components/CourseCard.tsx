@@ -6,9 +6,10 @@ type CourseCardProps = {
   variant: 'featured' | 'inProgress' | 'recommended';
   title: string;
   description: string;
-  duration: string;
+  duration?: string;
   progress?: number;
   xp: number;
+  actionLabel?: string;
   onAction: () => void;
 };
 
@@ -19,6 +20,7 @@ function CourseCard({
   duration,
   progress,
   xp,
+  actionLabel,
   onAction,
 }: CourseCardProps) {
   const isFeatured = variant === 'featured';
@@ -115,7 +117,7 @@ function CourseCard({
           >
             {description}
           </Typography>
-          <Typography
+          {duration && <Typography
             variant="body2"
             sx={{
               color: textColor,
@@ -124,7 +126,7 @@ function CourseCard({
             }}
           >
             {duration}
-          </Typography>
+          </Typography>}
         </Box>
 
         {isFeatured && progress !== undefined && (
@@ -194,7 +196,7 @@ function CourseCard({
             maxWidth: courseCardStyles.featuredButtonMaxWidth,
           }}
         >
-          <Button label="Continue course" color="primary" onClick={onAction} />
+          <Button label={actionLabel ?? 'Continue course'} color="primary" onClick={onAction} />
         </Box>
       ) : isRecommended ? (
         <Box
