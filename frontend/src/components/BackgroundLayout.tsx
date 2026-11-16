@@ -4,13 +4,14 @@ import NavigationSidebar from './NavigationSidebar';
 
 type BackgroundLayoutProps = {
   children: ReactNode;
+  onLogout?: () => void;
 };
 
 /**
  * This creates the background layers used on the lesson pages
  */
 
-export default function BackgroundLayout({ children }: BackgroundLayoutProps) {
+export default function BackgroundLayout({ children, onLogout }: BackgroundLayoutProps) {
   return (
     <Box
       sx={{
@@ -22,7 +23,7 @@ export default function BackgroundLayout({ children }: BackgroundLayoutProps) {
         padding: 3,
       }}
     >
-      <NavigationSidebar defaultExpanded={false} activeItem="" />
+      <NavigationSidebar defaultExpanded={false} onLogout={onLogout} />
       <Box
         sx={{
           flex: 1,

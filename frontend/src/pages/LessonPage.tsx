@@ -17,9 +17,13 @@ import BackgroundLayout from '../components/BackgroundLayout';
  * but should be changed once the lesson pages has been made in the backend.
  */
 
-export default function LessonPage() {
+type LessonPageProps = {
+  onLogout: () => void;
+};
+
+export default function LessonPage({ onLogout }: LessonPageProps) {
   return (
-    <BackgroundLayout>
+    <BackgroundLayout onLogout={onLogout}>
       <Container
         maxWidth="lg"
         sx={{
