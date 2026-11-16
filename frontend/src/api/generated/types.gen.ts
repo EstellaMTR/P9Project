@@ -4,6 +4,28 @@ export type ClientOptions = {
     baseUrl: `${string}://${string}` | (string & {});
 };
 
+export type CourseDto = {
+    id: number;
+    title: string;
+    description: string;
+    xpReward: number;
+    length: number;
+};
+
+export type CourseEmployeeDto = {
+    courseId: number;
+    status: CourseStatus;
+};
+
+export type CourseStatus = number;
+
+export type EmployeeDto = {
+    firstName: string;
+    lastName: string;
+    email: string;
+    xpAccumulated: number;
+};
+
 export type EmployeeLoginRequest = {
     email: string;
     password: string;
@@ -17,6 +39,20 @@ export type Lesson = {
     task: string;
 };
 
+export type LessonEmployeeDto = {
+    lessonId: number;
+    employeeId: number;
+    taskAnswer: null | string;
+    taskFeedback: null | string;
+    isCompleted: boolean;
+    thumbCount: number;
+};
+
+export type LessonFeedbackDto = {
+    met: boolean;
+    feedback: string;
+};
+
 export type ProblemDetails = {
     type?: null | string;
     title?: null | string;
@@ -24,6 +60,161 @@ export type ProblemDetails = {
     detail?: null | string;
     instance?: null | string;
 };
+
+export type UpdateCourseStatusRequest = {
+    courseId: number;
+    employeeId: number;
+    newStatus: CourseStatus;
+};
+
+export type GetCourseByCourseIdData = {
+    body?: never;
+    path: {
+        id: number;
+    };
+    query?: never;
+    url: '/Course/{id}';
+};
+
+export type GetCourseByCourseIdErrors = {
+    /**
+     * Not Found
+     */
+    404: ProblemDetails;
+};
+
+export type GetCourseByCourseIdError = GetCourseByCourseIdErrors[keyof GetCourseByCourseIdErrors];
+
+export type GetCourseByCourseIdResponses = {
+    /**
+     * OK
+     */
+    200: CourseDto;
+};
+
+export type GetCourseByCourseIdResponse = GetCourseByCourseIdResponses[keyof GetCourseByCourseIdResponses];
+
+export type GetAllCoursesData = {
+    body?: never;
+    path?: never;
+    query?: never;
+    url: '/Course';
+};
+
+export type GetAllCoursesErrors = {
+    /**
+     * Not Found
+     */
+    404: ProblemDetails;
+};
+
+export type GetAllCoursesError = GetAllCoursesErrors[keyof GetAllCoursesErrors];
+
+export type GetAllCoursesResponses = {
+    /**
+     * OK
+     */
+    200: Array<CourseDto>;
+};
+
+export type GetAllCoursesResponse = GetAllCoursesResponses[keyof GetAllCoursesResponses];
+
+export type GetCourseByEmployeeIdData = {
+    body?: never;
+    path: {
+        employeeId: number;
+    };
+    query?: never;
+    url: '/Course/courseEmployee/{employeeId}';
+};
+
+export type GetCourseByEmployeeIdErrors = {
+    /**
+     * Not Found
+     */
+    404: ProblemDetails;
+};
+
+export type GetCourseByEmployeeIdError = GetCourseByEmployeeIdErrors[keyof GetCourseByEmployeeIdErrors];
+
+export type GetCourseByEmployeeIdResponses = {
+    /**
+     * OK
+     */
+    200: Array<CourseDto>;
+};
+
+export type GetCourseByEmployeeIdResponse = GetCourseByEmployeeIdResponses[keyof GetCourseByEmployeeIdResponses];
+
+export type UpdateCourseEmployeeData = {
+    body: UpdateCourseStatusRequest;
+    path?: never;
+    query?: never;
+    url: '/CourseEmployee';
+};
+
+export type UpdateCourseEmployeeErrors = {
+    /**
+     * Bad Request
+     */
+    400: ProblemDetails;
+    /**
+     * Not Found
+     */
+    404: ProblemDetails;
+};
+
+export type UpdateCourseEmployeeError = UpdateCourseEmployeeErrors[keyof UpdateCourseEmployeeErrors];
+
+export type UpdateCourseEmployeeResponses = {
+    /**
+     * OK
+     */
+    200: unknown;
+};
+
+export type GetCourseEmployeeData = {
+    body?: never;
+    path: {
+        employeeId: number;
+    };
+    query?: never;
+    url: '/CourseEmployee/employee/{employeeId}';
+};
+
+export type GetCourseEmployeeResponses = {
+    /**
+     * OK
+     */
+    200: Array<CourseEmployeeDto>;
+};
+
+export type GetCourseEmployeeResponse = GetCourseEmployeeResponses[keyof GetCourseEmployeeResponses];
+
+export type GetAllEmployeesData = {
+    body?: never;
+    path?: never;
+    query?: never;
+    url: '/Employee';
+};
+
+export type GetAllEmployeesErrors = {
+    /**
+     * Not Found
+     */
+    404: ProblemDetails;
+};
+
+export type GetAllEmployeesError = GetAllEmployeesErrors[keyof GetAllEmployeesErrors];
+
+export type GetAllEmployeesResponses = {
+    /**
+     * OK
+     */
+    200: Array<EmployeeDto>;
+};
+
+export type GetAllEmployeesResponse = GetAllEmployeesResponses[keyof GetAllEmployeesResponses];
 
 export type LoginEmployeeData = {
     body: EmployeeLoginRequest;
@@ -53,6 +244,63 @@ export type LoginEmployeeResponses = {
 };
 
 export type LoginEmployeeResponse = LoginEmployeeResponses[keyof LoginEmployeeResponses];
+
+export type GetEmployeeByIdData = {
+    body?: never;
+    path: {
+        id: number;
+    };
+    query?: never;
+    url: '/Employee/{id}';
+};
+
+export type GetEmployeeByIdErrors = {
+    /**
+     * Bad Request
+     */
+    400: ProblemDetails;
+    /**
+     * Not Found
+     */
+    404: ProblemDetails;
+};
+
+export type GetEmployeeByIdError = GetEmployeeByIdErrors[keyof GetEmployeeByIdErrors];
+
+export type GetEmployeeByIdResponses = {
+    /**
+     * OK
+     */
+    200: EmployeeDto;
+};
+
+export type GetEmployeeByIdResponse = GetEmployeeByIdResponses[keyof GetEmployeeByIdResponses];
+
+export type AddXpData = {
+    body?: never;
+    path: {
+        lessonId: number;
+        employeeId: number;
+    };
+    query?: never;
+    url: '/Employee/{employeeId}/lessons/{lessonId}/xp';
+};
+
+export type AddXpErrors = {
+    /**
+     * Not Found
+     */
+    404: ProblemDetails;
+};
+
+export type AddXpError = AddXpErrors[keyof AddXpErrors];
+
+export type AddXpResponses = {
+    /**
+     * OK
+     */
+    200: unknown;
+};
 
 export type GetLessonByIdData = {
     body?: never;
@@ -107,3 +355,91 @@ export type GetLessonCourseByCourseIdResponses = {
 };
 
 export type GetLessonCourseByCourseIdResponse = GetLessonCourseByCourseIdResponses[keyof GetLessonCourseByCourseIdResponses];
+
+export type GetCourseEmployeeByCourseIdEmployeeIdData = {
+    body?: never;
+    path: {
+        courseId: number;
+        employeeId: number;
+    };
+    query?: never;
+    url: '/LessonEmployee/course/{courseId}/employee/{employeeId}';
+};
+
+export type GetCourseEmployeeByCourseIdEmployeeIdErrors = {
+    /**
+     * Not Found
+     */
+    404: ProblemDetails;
+};
+
+export type GetCourseEmployeeByCourseIdEmployeeIdError = GetCourseEmployeeByCourseIdEmployeeIdErrors[keyof GetCourseEmployeeByCourseIdEmployeeIdErrors];
+
+export type GetCourseEmployeeByCourseIdEmployeeIdResponses = {
+    /**
+     * OK
+     */
+    200: unknown;
+};
+
+export type UpdateThumbCountByLessonIdEmployeeIdData = {
+    body?: never;
+    path: {
+        lessonId: number;
+        employeeId: number;
+    };
+    query?: {
+        thumbCount?: number;
+    };
+    url: '/LessonEmployee/lesson/{lessonId}/employee/{employeeId}/thumb-count';
+};
+
+export type UpdateThumbCountByLessonIdEmployeeIdErrors = {
+    /**
+     * Bad Request
+     */
+    400: ProblemDetails;
+    /**
+     * Not Found
+     */
+    404: ProblemDetails;
+};
+
+export type UpdateThumbCountByLessonIdEmployeeIdError = UpdateThumbCountByLessonIdEmployeeIdErrors[keyof UpdateThumbCountByLessonIdEmployeeIdErrors];
+
+export type UpdateThumbCountByLessonIdEmployeeIdResponses = {
+    /**
+     * OK
+     */
+    200: unknown;
+};
+
+export type CreateNewLessonEmployeeData = {
+    body: string;
+    path: {
+        lessonId: number;
+        employeeId: number;
+    };
+    query?: never;
+    url: '/LessonEmployee/lesson/{lessonId}/employee/{employeeId}';
+};
+
+export type CreateNewLessonEmployeeErrors = {
+    /**
+     * Bad Request
+     */
+    400: ProblemDetails;
+    /**
+     * Not Found
+     */
+    404: ProblemDetails;
+};
+
+export type CreateNewLessonEmployeeError = CreateNewLessonEmployeeErrors[keyof CreateNewLessonEmployeeErrors];
+
+export type CreateNewLessonEmployeeResponses = {
+    /**
+     * OK
+     */
+    200: unknown;
+};

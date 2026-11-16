@@ -7,8 +7,8 @@ public class LessonEmployee
     
     public int LessonId {get; private set;}
     public int EmployeeId {get; private set;}
-    
-    public string TaskAnswer {get; private set;}
+
+    public string? TaskAnswer { get; private set; }
     public string? TaskFeedback {get; private set;}
     public int TryCount {get; private set;}
     public bool IsCompleted {get; private set;}
@@ -25,4 +25,32 @@ public class LessonEmployee
         IsCompleted = false;
         ThumbCount = 0;
     }
+
+    public void ChangeCompletionStatus(bool isCompleted)
+    {
+        IsCompleted = isCompleted;
+    }
+
+    public void UpdateThumbCount(int thumbCount)
+    {
+        ThumbCount = thumbCount;
+    }
+
+    public void UpdateTaskAnswer(string taskAnswer)
+    {
+        TaskAnswer = taskAnswer;
+    }
+
+    public void UpdateTaskFeedback(string taskFeedback)
+    {
+        TaskFeedback = taskFeedback;
+    }
+
+    public void UpdateAnswerAndFeedback(string answer, string feedback)
+    {
+        TaskAnswer = answer;
+        TaskFeedback = feedback;
+        ThumbCount++;
+    }
+    
 }

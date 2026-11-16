@@ -1,5 +1,4 @@
 ﻿using Eurowind.Backend.DTOs;
-using Eurowind.Backend.Entities;
 using Eurowind.Backend.Services;
 using Microsoft.AspNetCore.Mvc;
 
@@ -11,7 +10,8 @@ namespace Eurowind.Backend.Controllers;
 public class EmployeeController : ControllerBase
 {
     private readonly EmployeeService _employeeService;
-    public EmployeeController(EmployeeService employeeService)
+    
+    public EmployeeController(EmployeeService employeeService, LlmService llmService)
     {
         _employeeService = employeeService;
     }
@@ -59,4 +59,38 @@ public class EmployeeController : ControllerBase
         
         return Ok(result);
     }
+    
+    // GET ALL EMPLOYEES
+    [HttpGet(Name = "GetAllEmployees")]
+    [ProducesResponseType<List<EmployeeDTO>>(StatusCodes.Status200OK)]
+    [ProducesResponseType<ProblemDetails>(StatusCodes.Status404NotFound)]
+
+    public async Task<ActionResult<List<EmployeeDTO>>> GetAllEmployees()
+    {
+        var result = await _employeeService.GetAllEmployees();
+
+        if (result.Count == 0) // checking if list is empty
+        {
+            return NotFound();
+        }
+
+        return Ok(result);
+    }
+    
+    // PUT ACCUMULATED XP
+    [HttpPut("{employeeId}/lessons/{lessonId}/xp", Name = "AddXp")]
+    [ProducesResponseType(typeof(void), StatusCodes.Status200OK)]
+    [ProducesResponseType<ProblemDetails>(StatusCodes.Status404NotFound)]
+    public async Task<ActionResult> AddXpAsync(int lessonId, int employeeId)
+    {
+        var result = await _employeeService.AddXpAsync(lessonId, employeeId);
+
+        if (result.IsT0)
+        {
+            return Ok();
+        }
+
+        return NotFound();
+    }
+    
 }
