@@ -1,6 +1,6 @@
 import { useState } from 'react';
-import type { CourseDto, CourseProgressDto } from '../api';
-import CourseCard from './CourseCard';
+import type { CourseDto, CourseProgressDto } from '../../api';
+import CourseCard from '../CourseCard';
 
 type ContinueLearningProps = {
   courses: CourseProgressDto[] | undefined;

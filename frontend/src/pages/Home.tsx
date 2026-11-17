@@ -8,7 +8,7 @@ import {
   type CourseDto,
   type CourseProgressDto,
 } from '../api';
-import ContinueLearning from '../components/ContinueLearning';
+import ContinueLearning from '../components/HomePage/ContinueLearning';
 import NavigationSidebar from '../components/NavigationSidebar';
 import '../styles/Homepage.css';
 
