@@ -40,4 +40,13 @@ public class CourseEmployeeController : ControllerBase
         
         return Ok(courses);
     }
+
+    [HttpGet("employee/{employeeId:int}/in-progress", Name = "GetInProgressCourses")]
+    [ProducesResponseType<List<CourseProgressDto>>(StatusCodes.Status200OK)]
+    public async Task<ActionResult<List<CourseProgressDto>>> GetInProgressCourses(
+        int employeeId, CancellationToken cancellationToken)
+    {
+        var courses = await _courseEmployeeService.GetInProgressCoursesAsync(employeeId, cancellationToken);
+        return Ok(courses);
+    }
 }

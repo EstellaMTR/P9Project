@@ -17,6 +17,16 @@ export type CourseEmployeeDto = {
     status: CourseStatus;
 };
 
+export type CourseProgressDto = {
+    courseId: number;
+    title: string;
+    description: string;
+    xpReward: number;
+    completedLessons: number;
+    totalLessons: number;
+    progressPercent: number;
+};
+
 export type CourseStatus = number;
 
 export type EmployeeDto = {
@@ -190,6 +200,24 @@ export type GetCourseEmployeeResponses = {
 };
 
 export type GetCourseEmployeeResponse = GetCourseEmployeeResponses[keyof GetCourseEmployeeResponses];
+
+export type GetInProgressCoursesData = {
+    body?: never;
+    path: {
+        employeeId: number;
+    };
+    query?: never;
+    url: '/CourseEmployee/employee/{employeeId}/in-progress';
+};
+
+export type GetInProgressCoursesResponses = {
+    /**
+     * OK
+     */
+    200: Array<CourseProgressDto>;
+};
+
+export type GetInProgressCoursesResponse = GetInProgressCoursesResponses[keyof GetInProgressCoursesResponses];
 
 export type GetAllEmployeesData = {
     body?: never;
@@ -379,8 +407,10 @@ export type GetCourseEmployeeByCourseIdEmployeeIdResponses = {
     /**
      * OK
      */
-    200: unknown;
+    200: Array<LessonEmployeeDto>;
 };
+
+export type GetCourseEmployeeByCourseIdEmployeeIdResponse = GetCourseEmployeeByCourseIdEmployeeIdResponses[keyof GetCourseEmployeeByCourseIdEmployeeIdResponses];
 
 export type UpdateThumbCountByLessonIdEmployeeIdData = {
     body?: never;
@@ -443,3 +473,36 @@ export type CreateNewLessonEmployeeResponses = {
      */
     200: unknown;
 };
+
+export type GetFeedbackData = {
+    body?: never;
+    path?: never;
+    query?: {
+        taskAnswer?: string;
+        lessonId?: number;
+        employeeId?: number;
+    };
+    url: '/LessonEmployee/lessonEmployee/feedback';
+};
+
+export type GetFeedbackErrors = {
+    /**
+     * Service Unavailable
+     */
+    503: ProblemDetails;
+    /**
+     * Gateway Timeout
+     */
+    504: ProblemDetails;
+};
+
+export type GetFeedbackError = GetFeedbackErrors[keyof GetFeedbackErrors];
+
+export type GetFeedbackResponses = {
+    /**
+     * OK
+     */
+    200: Array<LessonFeedbackDto>;
+};
+
+export type GetFeedbackResponse = GetFeedbackResponses[keyof GetFeedbackResponses];
