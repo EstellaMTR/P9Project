@@ -1,0 +1,19 @@
+.course-list {
+  display: flex;
+  flex-direction: row;
+  gap: 24px;
+  padding-top: 12px;
+}
+
+.more-courses {
+  margin-top: 70px;
+}
+
+.home-course-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin: 24px 0 12px;
+}
