@@ -11,6 +11,7 @@ import {
 import ContinueLearning from '../components/HomePage/ContinueLearning';
 import NavigationSidebar from '../components/NavigationSidebar';
 import '../styles/Homepage.css';
+import RecommendedCourses from '../components/HomePage/RecommendedCourses';
 
 type HomeProps = {
   employeeId: number;
@@ -22,6 +23,7 @@ export default function Home({ employeeId, onLogout }: HomeProps) {
   const [name, setName] = useState<string>();
   const [courses, setCourses] = useState<CourseProgressDto[]>();
   const [fallbackCourse, setFallbackCourse] = useState<CourseDto>();
+  const [catalogCourses, setCatalogCourses] = useState<CourseDto[]>([]);
   const [courseError, setCourseError] = useState(false);
 
   useEffect(() => {
@@ -30,7 +32,10 @@ export default function Home({ employeeId, onLogout }: HomeProps) {
 
     async function loadEmployee() {
       try {
-        const { data } = await getEmployeeById({ path: { id: employeeId }, signal });
+        const { data } = await getEmployeeById({
+          path: { id: employeeId },
+          signal,
+        });
         if (!signal.aborted) setName(data?.firstName);
       } catch {
         if (!signal.aborted) setName(undefined);
@@ -40,18 +45,22 @@ export default function Home({ employeeId, onLogout }: HomeProps) {
     async function loadCourses() {
       try {
         const { data: rankedCourses } = await getInProgressCourses({
-          path: { employeeId }, signal, throwOnError: true,
+          path: { employeeId },
+          signal,
+          throwOnError: true,
         });
 
         if (rankedCourses.length === 0) {
           const { data: catalog, response } = await getAllCourses({ signal });
           // The catalog endpoint returns 404 when there are no courses.
+          setCatalogCourses(catalog || []);
           if (!catalog && response?.status !== 404) {
             throw new Error('Could not load the course catalog');
           }
 
           const firstCourse = catalog?.reduce<CourseDto | undefined>(
-            (first, course) => !first || course.id < first.id ? course : first,
+            (first, course) =>
+              !first || course.id < first.id ? course : first,
             undefined,
           );
 
@@ -95,6 +104,11 @@ export default function Home({ employeeId, onLogout }: HomeProps) {
             courses={courses}
             fallbackCourse={fallbackCourse}
             courseError={courseError}
+            onOpenCourse={openCourse}
+          />
+
+          <RecommendedCourses
+            courses={catalogCourses}
             onOpenCourse={openCourse}
           />
         </Box>

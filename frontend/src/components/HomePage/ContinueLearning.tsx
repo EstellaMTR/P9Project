@@ -21,12 +21,17 @@ export default function ContinueLearning({
   return (
     <section aria-labelledby="continue-learning">
       <div className="home-course-heading">
-        <h2 id="continue-learning">Continue learning</h2>
+        {fallbackCourse && courses && courses.length === 0 && (
+          <h2 id="continue-learning">Start learning</h2>
+        )}
+        {courses && courses.length > 0 && (
+          <h2 id="continue-learning">Continue learning</h2>
+        )}
         {courses && courses.length > 0 && (
           <form
             onSubmit={(event) => {
               event.preventDefault();
-              setShowAll(current => !current);
+              setShowAll((current) => !current);
             }}
           >
             <button
@@ -43,7 +48,9 @@ export default function ContinueLearning({
 
       {courseError && <p role="alert">Could not load your course progress.</p>}
       {!courseError && !courses && <p role="status">Loading your courses…</p>}
-      {courses?.length === 0 && !fallbackCourse && <p>No courses are available yet.</p>}
+      {courses?.length === 0 && !fallbackCourse && (
+        <p>No courses are available yet.</p>
+      )}
 
       <div className="home-course-list" id="home-in-progress-courses">
         {fallbackCourse && (
