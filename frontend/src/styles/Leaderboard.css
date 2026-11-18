@@ -1,0 +1,57 @@
+.leaderboard-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.leaderboard-entry {
+  display: flex;
+  align-items: center;
+  font-size: 14px;
+  gap: 8px;
+  min-width: 0;
+  box-sizing: border-box;
+  min-height: 54px;
+  margin-top: 20px;
+}
+
+.leaderboard-person {
+  flex: 1;
+  min-width: 0;
+}
+
+.leaderboard-name {
+  font-size: 12px;
+  font-weight: 700;
+  line-height: 1.4;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.leaderboard-entry > .MuiAvatar-root {
+  flex-shrink: 0;
+}
+
+.leaderboard-placement {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-inline-start: auto;
+  flex-shrink: 0;
+}
+
+.leaderboard-trophy {
+  display: block;
+  width: 20px;
+  height: 20px;
+  object-fit: contain;
+}
+
+.leaderboard-rank {
+  min-width: 3ch;
+  text-align: right;
+  white-space: nowrap;
+  font-variant-numeric: tabular-nums;
+  font-size: 16px;
+}

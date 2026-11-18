@@ -29,6 +29,7 @@ function CourseCard({
 
   return (
     <Box
+      className={`course-card course-card--${variant}`}
       sx={{
         width: isFeatured
           ? courseCardStyles.featuredWidth

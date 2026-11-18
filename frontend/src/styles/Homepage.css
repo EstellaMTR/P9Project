@@ -1,6 +1,9 @@
 .home-page {
   --home-inset: clamp(12px, 1.5vw, 24px);
   padding: var(--home-inset);
+  height: 100dvh;
+  box-sizing: border-box;
+  overflow: hidden;
 }
 
 .home-frame {
@@ -8,7 +11,10 @@
   /* The third column leaves room for progress and leaderboard content. */
   grid-template-columns: minmax(168px, 18%) minmax(0, 1fr) 19.5%;
   gap: var(--home-inset);
-  min-height: calc(100dvh - 2 * var(--home-inset));
+  height: 100%;
+  min-height: 0;
+  box-sizing: border-box;
+  overflow: hidden;
   padding: clamp(16px, 1.8vw, 28px);
   border-radius: 26px;
 }
@@ -16,6 +22,8 @@
 .home-navigation {
   display: flex;
   min-width: 0;
+  min-height: 0;
+  overflow: hidden;
 }
 
 .home-navigation > div {
@@ -37,10 +45,127 @@
 }
 
 .home-content {
+  display: flex;
+  flex-direction: column;
   min-width: 0;
-  padding: clamp(18px, 2.2vw, 36px);
+  min-height: 0;
+  overflow: hidden;
+  padding: clamp(14px, 1.5vw, 24px);
   border-radius: 12px;
   background-color: color-mix(in srgb, white 62%, transparent);
+}
+
+/* Compact card sizes apply only to the homepage. */
+.home-content .more-courses {
+  margin-block: auto;
+  padding-top: 16px;
+}
+
+.home-content .home-course-heading {
+  margin: 16px 0 10px;
+  gap: 8px;
+}
+
+.home-content .course-list {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+  padding-top: 0;
+}
+
+.home-content .course-card {
+  width: 100%;
+  min-height: 0;
+  padding: 12px;
+  gap: 10px;
+  border-radius: 14px;
+}
+
+.home-content .course-card--featured {
+  padding: clamp(14px, 1.5vw, 22px);
+}
+
+.home-content .course-card .MuiTypography-h4 {
+  font-size: clamp(22px, 2vw, 30px);
+  line-height: 1.2;
+}
+
+.home-content .course-card .MuiTypography-h6 {
+  font-size: 16px;
+  line-height: 1.25;
+}
+
+.home-content .course-card .MuiTypography-body2 {
+  font-size: 12px;
+  line-height: 1.5;
+}
+
+.home-content .course-card span.MuiTypography-body2 {
+  padding: 3px 8px;
+  font-size: 11px;
+  flex-shrink: 0;
+}
+
+.home-content .course-card .MuiButton-root {
+  width: 100%;
+  padding: 6px 12px;
+  font-size: 14px;
+  line-height: 1.4;
+  min-height: 32px;
+}
+
+.home-content .course-card--featured .MuiButton-root {
+  max-width: 210px;
+}
+
+.home-content .more-courses .course-card--recommended {
+  min-height: 175px;
+  padding: 16px;
+  gap: 14px;
+}
+
+.home-content .more-courses .MuiTypography-h6 {
+  font-size: 18px;
+}
+
+.home-content .more-courses .course-card .MuiTypography-body2 {
+  font-size: 13px;
+}
+
+.home-content .more-courses .course-card .MuiButton-root {
+  min-height: 36px;
+  font-size: 15px;
+}
+
+@media (max-height: 750px) {
+  .home-page {
+    --home-inset: 10px;
+  }
+
+  .home-frame {
+    padding: 12px;
+  }
+
+  .home-content .home-course-heading {
+    margin-top: 12px;
+  }
+
+  .home-content h1 {
+    font-size: 24px;
+  }
+
+  .home-content h2 {
+    font-size: 20px;
+  }
+
+  .right-sidebar {
+    gap: 12px;
+  }
+
+  .right-sidebar .leaderboard-entry {
+    margin-top: 8px;
+    min-height: 46px;
+  }
 }
 
 .home-content h1 {
@@ -95,15 +220,30 @@
   gap: 16px;
 }
 
+.right-sidebar {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  min-height: 0;
+  overflow: hidden;
+}
+
 @media (max-width: 1000px) {
   .home-frame {
     grid-template-columns: minmax(155px, 24%) minmax(0, 1fr);
+    overflow: hidden;
   }
 }
 
 @media (max-width: 600px) {
   .home-frame {
     grid-template-columns: minmax(0, 1fr);
-    grid-template-rows: auto 1fr;
+    grid-template-rows: auto;
+  }
+
+  .home-navigation,
+  .home-content,
+  .right-sidebar {
+    overflow: hidden;
   }
 }

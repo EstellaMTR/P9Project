@@ -77,6 +77,13 @@ public class EmployeeController : ControllerBase
         return Ok(result);
     }
     
+    [HttpGet("leaderboard", Name = "GetLeaderboard")]
+    [ProducesResponseType<List<LeaderboardEntryDto>>(StatusCodes.Status200OK)]
+    public async Task<ActionResult<List<LeaderboardEntryDto>>> GetLeaderboard(CancellationToken cancellationToken)
+    {
+        return Ok(await _employeeService.GetLeaderboardAsync(cancellationToken));
+    }
+
     // PUT ACCUMULATED XP
     [HttpPut("{employeeId}/lessons/{lessonId}/xp", Name = "AddXp")]
     [ProducesResponseType(typeof(void), StatusCodes.Status200OK)]
