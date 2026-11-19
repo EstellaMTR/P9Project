@@ -35,15 +35,6 @@
   background: transparent;
 }
 
-.home-navigation .MuiTypography-subtitle1 {
-  font-size: clamp(30px, 2.7vw, 40px);
-}
-
-.home-navigation .MuiTypography-body1 {
-  font-size: 15px;
-  font-weight: 600;
-}
-
 .home-content {
   display: flex;
   flex-direction: column;

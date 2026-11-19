@@ -1,7 +1,7 @@
 import Login from './pages/Login';
 import { useState } from 'react';
 import Home from './pages/Home';
-import { Routes, Route } from 'react-router-dom';
+import { Routes, Route, useNavigate } from 'react-router-dom';
 import CoursePage from './pages/CoursePage';
 import TaskPage from './pages/TaskPage';
 import FeedbackPage from './pages/FeedbackPage';
@@ -9,8 +9,11 @@ import TryAgainTaskPage from './pages/TryAgainTaskPage';
 import NotImplementedPage from './pages/NotImplementedPage';
 import LessonPage from './pages/LessonPage';
 import CompletionPage from './pages/CompletionPage';
+import WelcomeDialog from './components/WelcomeDialog';
 
 function App() {
+  const navigate = useNavigate();
+  const [showWelcome, setShowWelcome] = useState(false);
   const [employeeId, setEmployeeId] = useState<number | null>(() => {
     const savedId = sessionStorage.getItem('employeeId');
     const id = Number(savedId);
@@ -20,11 +23,14 @@ function App() {
   function handleLoginSuccess(id: number) {
     sessionStorage.setItem('employeeId', String(id));
     setEmployeeId(id);
+    setShowWelcome(true);
+    navigate('/');
   }
 
   function handleLogout() {
     sessionStorage.removeItem('employeeId');
     setEmployeeId(null);
+    setShowWelcome(false);
   }
 
   // if the employeeId is null, render the login page
@@ -33,6 +39,7 @@ function App() {
   }
   // otherwise, render the home page with the employeeId and logout handler
   return (
+    <>
     <Routes>
       <Route
         path="/"
@@ -50,8 +57,10 @@ function App() {
 
       <Route path="/try-again-task" element={<TryAgainTaskPage employeeId={employeeId} onLogout={handleLogout} />} />
 
-      <Route path="/not-implemented" element={<NotImplementedPage />} />
+      <Route path="/not-implemented" element={<NotImplementedPage onLogout={handleLogout} />} />
     </Routes>
+    <WelcomeDialog open={showWelcome} onClose={() => setShowWelcome(false)} />
+    </>
   );
 }
 
