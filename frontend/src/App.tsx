@@ -57,7 +57,7 @@ function App() {
 
       <Route path="/try-again-task" element={<TryAgainTaskPage employeeId={employeeId} onLogout={handleLogout} />} />
 
-      <Route path="/not-implemented" element={<NotImplementedPage />} />
+      <Route path="/not-implemented" element={<NotImplementedPage onLogout={handleLogout} />} />
     </Routes>
     <WelcomeDialog open={showWelcome} onClose={() => setShowWelcome(false)} />
     </>
