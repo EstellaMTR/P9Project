@@ -38,7 +38,7 @@ function App() {
         element={<Home employeeId={employeeId} onLogout={handleLogout} />}
       />
 
-      <Route path="/course" element={<CoursePage />} />
+      <Route path="/course" element={<CoursePage employeeId={employeeId} />} />
 
       <Route path="/lesson" element={<LessonPage onLogout={handleLogout} />} />
 
