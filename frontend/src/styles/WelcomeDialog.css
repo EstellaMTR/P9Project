@@ -1,0 +1,46 @@
+.welcome-dialog .MuiBackdrop-root {
+  background-color: rgba(171, 202, 246, 0.65);
+}
+
+.welcome-dialog .MuiDialog-paper {
+  max-width: 540px;
+  margin: 20px;
+  border-radius: 10px;
+  background: #EEF5FB;
+  box-shadow: 0 3px 5px #041e4240;
+  text-align: center;
+}
+
+.welcome-dialog .MuiDialogTitle-root {
+  padding: 28px 28px 12px;
+  font-size: clamp(24px, 3.5dvh, 30px);
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+.welcome-dialog .MuiDialogContent-root {
+  padding: 0 clamp(24px, 4vw, 40px) 32px;
+}
+
+.welcome-dialog p {
+  margin: 20px 0;
+  font-size: clamp(16px, 2.5dvh, 20px);
+  line-height: 1.3;
+}
+
+.welcome-dialog .welcome-invitation {
+  margin-top: 24px;
+  font-weight: 700;
+}
+
+.welcome-dialog .MuiButton-root {
+  padding: 9px 20px;
+  font-size: 18px;
+  border-radius: 14px;
+  box-shadow: none;
+}
+
+.welcome-dialog .MuiButton-root:hover,
+.welcome-dialog .MuiButton-root:focus-visible {
+  box-shadow: 0 4px 10px #041e4233;
+}
