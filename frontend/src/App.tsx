@@ -42,9 +42,9 @@ function App() {
 
       <Route path="/lesson" element={<LessonPage onLogout={handleLogout} />} />
 
-      <Route path="/task" element={<TaskPage onLogout={handleLogout} />} />
+      <Route path="/task" element={<TaskPage employeeId={employeeId} onLogout={handleLogout} />} />
 
-      <Route path="/feedback" element={<FeedbackPage />} />
+      <Route path="/feedback" element={<FeedbackPage employeeId={employeeId} onLogout={handleLogout} />} />
 
       <Route path="/try-again-task" element={<TryAgainTaskPage />} />
 

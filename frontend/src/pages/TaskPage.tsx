@@ -1,6 +1,11 @@
 import { useState, useEffect } from 'react';
-import { Link, useSearchParams } from 'react-router-dom';
-import { type Lesson, getLessonById, getCourseByCourseId } from '../api';
+import { Link, useNavigate, useSearchParams } from 'react-router-dom';
+import {
+  type Lesson,
+  getLessonById,
+  getCourseByCourseId,
+  getFeedback,
+} from '../api';
 import BackgroundLayout from '../components/BackgroundLayout';
 import { Box, Button, TextField, Typography } from '@mui/material';
 import ProgressBar from '../components/ProgressBar';
@@ -10,21 +15,32 @@ import taskIcon from '../assets/Task.svg';
 import '../styles/LessonPage.css';
 import '../styles/TaskPage.css';
 import ReactMarkdown from 'react-markdown';
+import { feedbackKey, type FeedbackSession } from '../feedbackSession';
 
 type TaskPageProps = {
+  employeeId: number;
   onLogout: () => void;
 };
 
-export default function TaskPage({ onLogout }: TaskPageProps) {
+export default function TaskPage({ employeeId, onLogout }: TaskPageProps) {
+  const navigate = useNavigate();
   const [searchParams] = useSearchParams();
   const lessonId = Number(searchParams.get('lessonId'));
   const [lesson, setLesson] = useState<Lesson | null>(null);
   const [courseTitle, setCourseTitle] = useState('');
   const [error, setError] = useState('');
 
+  const [answer, setAnswer] = useState('');
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitError, setSubmitError] = useState('');
+
   useEffect(() => {
     const controller = new AbortController();
     async function loadLesson() {
+      if (!Number.isInteger(lessonId) || lessonId <= 0) {
+        setError('Invalid lesson ID.');
+        return;
+      }
       try {
         const { data } = await getLessonById({
           path: { id: lessonId },
@@ -50,6 +66,44 @@ export default function TaskPage({ onLogout }: TaskPageProps) {
     void loadLesson();
     return () => controller.abort();
   }, [lessonId]);
+
+  async function handleSubmit() {
+    if (!answer.trim() || isSubmitting || !lesson) return;
+
+    setIsSubmitting(true);
+    setSubmitError('');
+
+    try {
+      const { data, error } = await getFeedback({
+        query: {
+          taskAnswer: answer,
+          lessonId,
+          employeeId,
+        },
+      });
+
+      if (!data) {
+        setSubmitError(
+          error?.detail ?? 'Could not get feedback. Please try again.',
+        );
+        return;
+      }
+
+      const result: FeedbackSession = {
+        lessonTitle: lesson.title,
+        courseTitle,
+        courseId: lesson.courseId,
+        answer,
+        feedback: data,
+      };
+      sessionStorage.setItem(feedbackKey(employeeId, lessonId), JSON.stringify(result));
+      navigate(`/feedback?lessonId=${lessonId}`);
+    } catch {
+      setSubmitError('Could not connect. Please try again.');
+    } finally {
+      setIsSubmitting(false);
+    }
+  }
 
   if (error) {
     return (
@@ -99,12 +153,23 @@ export default function TaskPage({ onLogout }: TaskPageProps) {
           >
             <Typography component="h2" id="task-lesson-heading">
               Lesson
-              <img src={lessonIcon} className="task-heading-icon" alt="" aria-hidden="true" />
+              <img
+                src={lessonIcon}
+                className="task-heading-icon"
+                alt=""
+                aria-hidden="true"
+              />
             </Typography>
             <ReactMarkdown>{lesson.description}</ReactMarkdown>
           </Box>
 
-          <Box className="task-answer-column">
+          <form
+            className="task-answer-column"
+            onSubmit={(event) => {
+              event.preventDefault();
+              void handleSubmit();
+            }}
+          >
             <Box
               component="section"
               className="task-instructions-panel"
@@ -112,22 +177,36 @@ export default function TaskPage({ onLogout }: TaskPageProps) {
             >
               <Typography component="h2" id="task-instructions-heading">
                 Task
-                <img src={taskIcon} className="task-heading-icon" alt="" aria-hidden="true" />
+                <img
+                  src={taskIcon}
+                  className="task-heading-icon"
+                  alt=""
+                  aria-hidden="true"
+                />
               </Typography>
               <ReactMarkdown>{lesson.task}</ReactMarkdown>
             </Box>
             <TextField
               multiline
               minRows={4}
+              value={answer}
+              onChange={(event) => setAnswer(event.target.value)}
+              disabled={isSubmitting}
               placeholder="Write your prompt here"
               aria-label="Your task answer"
               className="task-answer-input"
               fullWidth
             />
-            <Button className="task-submit" disabled>
-              Submit prompt
+            <Button
+              className="task-submit"
+              type="submit"
+              disabled={!answer.trim() || isSubmitting}
+            >
+              {isSubmitting ? 'Getting feedback…' : 'Submit prompt'}
             </Button>
-          </Box>
+            {submitError && <p role="alert">{submitError}</p>}
+
+          </form>
         </Box>
       </Box>
     </BackgroundLayout>
