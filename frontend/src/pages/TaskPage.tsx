@@ -10,19 +10,24 @@ import BackgroundLayout from '../components/BackgroundLayout';
 import { Box, Button, TextField, Typography } from '@mui/material';
 import ProgressBar from '../components/ProgressBar';
 import UndoIcon from '@mui/icons-material/Undo';
+import ThumbUpIcon from '@mui/icons-material/ThumbUp';
+import ThumbDownIcon from '@mui/icons-material/ThumbDown';
 import lessonIcon from '../assets/Lesson.svg';
 import taskIcon from '../assets/Task.svg';
 import '../styles/LessonPage.css';
 import '../styles/TaskPage.css';
 import ReactMarkdown from 'react-markdown';
-import { feedbackKey, type FeedbackSession } from '../feedbackSession';
+import { feedbackKey, readFeedback, type FeedbackSession } from '../feedbackSession';
+import '../styles/FeedbackPage.css';
+import '../styles/RetryLessonPage.css';
 
 type TaskPageProps = {
   employeeId: number;
   onLogout: () => void;
+  retry?: boolean;
 };
 
-export default function TaskPage({ employeeId, onLogout }: TaskPageProps) {
+export default function TaskPage({ employeeId, onLogout, retry = false }: TaskPageProps) {
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
   const lessonId = Number(searchParams.get('lessonId'));
@@ -30,7 +35,8 @@ export default function TaskPage({ employeeId, onLogout }: TaskPageProps) {
   const [courseTitle, setCourseTitle] = useState('');
   const [error, setError] = useState('');
 
-  const [answer, setAnswer] = useState('');
+  const [previousAttempt] = useState(() => retry ? readFeedback(employeeId, lessonId) : null);
+  const [answer, setAnswer] = useState(() => previousAttempt?.answer ?? '');
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitError, setSubmitError] = useState('');
 
@@ -122,12 +128,12 @@ export default function TaskPage({ employeeId, onLogout }: TaskPageProps) {
   }
 
   return (
-    <BackgroundLayout onLogout={onLogout} className="lesson-page task-page">
+    <BackgroundLayout onLogout={onLogout} className={`lesson-page task-page${retry ? ' retry-page' : ''}`}>
       <Button
         component={Link}
-        to={`/lesson?lessonId=${lessonId}`}
+        to={retry ? `/feedback?lessonId=${lessonId}` : `/lesson?lessonId=${lessonId}`}
         className="task-back-button"
-        aria-label="Back to lesson"
+        aria-label={retry ? 'Back to feedback' : 'Back to lesson'}
       >
         <UndoIcon />
       </Button>
@@ -146,6 +152,37 @@ export default function TaskPage({ employeeId, onLogout }: TaskPageProps) {
         </Box>
 
         <Box className="task-columns">
+          {retry ? (
+            <Box className="retry-review-column">
+              <details className="task-lesson-panel retry-lesson">
+                <summary>
+                  <span className="retry-lesson-heading">
+                    Lesson
+                    <img src={lessonIcon} className="task-heading-icon" alt="" />
+                  </span>
+                  <span className="retry-expand-icon" aria-hidden="true">▼</span>
+                </summary>
+                <ReactMarkdown>{lesson.description}</ReactMarkdown>
+              </details>
+              <Box component="section" className="feedback-panel" aria-labelledby="retry-feedback-title">
+                <Typography component="h2" id="retry-feedback-title">Feedback</Typography>
+                {previousAttempt ? (
+                  <ul>
+                    {previousAttempt.feedback.map((item, index) => (
+                      <li key={index}>
+                        {item.met
+                          ? <ThumbUpIcon sx={{ color: 'success.main' }} titleAccess="Positive feedback" />
+                          : <ThumbDownIcon sx={{ color: 'error.main' }} titleAccess="Constructive feedback" />}
+                        <span>{item.feedback}</span>
+                      </li>
+                    ))}
+                  </ul>
+                ) : (
+                  <p>No previous feedback is available in this session. You can still submit a new prompt.</p>
+                )}
+              </Box>
+            </Box>
+          ) : (
           <Box
             component="section"
             className="task-lesson-panel"
@@ -162,6 +199,7 @@ export default function TaskPage({ employeeId, onLogout }: TaskPageProps) {
             </Typography>
             <ReactMarkdown>{lesson.description}</ReactMarkdown>
           </Box>
+          )}
 
           <form
             className="task-answer-column"
@@ -194,6 +232,7 @@ export default function TaskPage({ employeeId, onLogout }: TaskPageProps) {
               disabled={isSubmitting}
               placeholder="Write your prompt here"
               aria-label="Your task answer"
+              helperText={retry && previousAttempt ? 'Your previous prompt is ready to edit.' : undefined}
               className="task-answer-input"
               fullWidth
             />
