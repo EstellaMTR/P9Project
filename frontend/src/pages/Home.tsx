@@ -3,6 +3,9 @@ import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import {
   getAllCourses,
+  getCourseEmployee,
+  getCourseEmployeeByCourseIdEmployeeId,
+  getLessonCourseByCourseId,
   getEmployeeById,
   getInProgressCourses,
   getLeaderboard,
@@ -29,6 +32,8 @@ export default function Home({ employeeId, onLogout }: HomeProps) {
   const [xpAccumulated, setXpAccumulated] = useState<number>();
   const [courses, setCourses] = useState<CourseProgressDto[]>();
   const [fallbackCourse, setFallbackCourse] = useState<CourseDto>();
+  const [fallbackCompleted, setFallbackCompleted] = useState(false);
+  const [fallbackProgress, setFallbackProgress] = useState(0);
   const [catalogCourses, setCatalogCourses] = useState<CourseDto[]>([]);
   const [courseError, setCourseError] = useState(false);
   const [employees, setEmployees] = useState<LeaderboardEntryDto[]>([]);
@@ -79,8 +84,30 @@ export default function Home({ employeeId, onLogout }: HomeProps) {
             undefined,
           );
 
+          const { data: enrollments } = await getCourseEmployee({
+            path: { employeeId }, signal, throwOnError: true,
+          });
+          let completed = enrollments.some((item) => item.courseId === firstCourse?.id && item.status === 2);
+          let progressPercent = completed ? 100 : 0;
+          if (firstCourse && !completed) {
+            const [lessonResult, progressResult] = await Promise.all([
+              getLessonCourseByCourseId({ path: { courseId: firstCourse.id }, signal }),
+              getCourseEmployeeByCourseIdEmployeeId({ path: { courseId: firstCourse.id, employeeId }, signal, throwOnError: true }),
+            ]);
+            if (!lessonResult.data && lessonResult.response?.status !== 404) {
+              throw new Error('Could not load course lessons');
+            }
+            const lessons = lessonResult.data ?? [];
+            const completedIds = new Set(progressResult.data.filter((item) => item.isCompleted).map((item) => item.lessonId));
+            const count = lessons.filter((lesson) => lesson.id !== undefined && completedIds.has(lesson.id)).length;
+            progressPercent = lessons.length ? Math.round(count / lessons.length * 100) : 0;
+            completed = lessons.length > 0 && count === lessons.length;
+          }
+
           if (!signal.aborted) {
             setFallbackCourse(firstCourse);
+            setFallbackCompleted(completed);
+            setFallbackProgress(progressPercent);
             setCourses([]);
           }
           return;
@@ -127,6 +154,8 @@ export default function Home({ employeeId, onLogout }: HomeProps) {
           <ContinueLearning
             courses={courses}
             fallbackCourse={fallbackCourse}
+            fallbackCompleted={fallbackCompleted}
+            fallbackProgress={fallbackProgress}
             courseError={courseError}
             onOpenCourse={openCourse}
           />

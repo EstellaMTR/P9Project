@@ -75,12 +75,50 @@
   box-shadow: none;
 }
 
+.lesson-page .lesson-back-button {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 54px;
+  min-width: 54px;
+  height: 42px;
+  padding: 8px;
+  border-radius: 12px 0 0 12px;
+  background: #041E42;
+  color: white;
+}
+
+.lesson-page .lesson-back-button:hover {
+  background: #2A3F68;
+}
+
+.lesson-back-button .MuiSvgIcon-root {
+  font-size: 30px;
+}
+
+.lesson-page .lesson-back-button + .lesson-course-button {
+  left: 54px;
+  width: max-content;
+  max-width: calc(100% - 54px);
+  min-height: 42px;
+  box-sizing: border-box;
+  padding: 10px 24px;
+  font-size: clamp(14px, 1.5vw, 18px);
+  line-height: 22px;
+  white-space: normal;
+  border-radius: 0 6px 6px 0;
+}
+
 @media (max-width: 900px) {
   .lesson-page .lesson-course-button {
     position: static;
     max-width: 100%;
     width: fit-content;
     margin-bottom: 8px;
+  }
+
+  .lesson-page .lesson-back-button + .lesson-course-button {
+    margin-left: 54px;
   }
 
   .lesson-page .lesson-content {

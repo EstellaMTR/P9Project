@@ -1,0 +1,39 @@
+.completion-page {
+  height: 100dvh;
+  padding: clamp(20px, 5dvh, 48px) clamp(20px, 6vw, 80px);
+  box-sizing: border-box;
+  overflow: hidden;
+}
+.completion-content {
+  height: 100%;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: clamp(10px, 2dvh, 20px);
+  padding: clamp(14px, 2dvh, 24px) clamp(18px, 4vw, 48px);
+  background: #EEF5FB;
+  border-radius: 12px;
+  box-shadow: 0 2px 3px #041e4240;
+  text-align: center;
+}
+.completion-content .MuiStepper-root { width: min(70%, 400px); flex-shrink: 0; }
+.completion-content h1 { margin: 0; font-size: clamp(26px, 5.8dvh, 50px); font-weight: 700; line-height: 1.1; }
+.completion-content h2 { margin: 0; font-size: clamp(18px, 3.6dvh, 30px); font-weight: 700; line-height: 1.25; }
+.completion-course-progress .MuiTypography-root { font-size: clamp(15px, 2.5dvh, 22px); }
+.completion-course-progress .MuiLinearProgress-root { width: 150px; height: 18px; margin: 8px auto 0; border: 1px solid #76879e; border-radius: 999px; background: white; }
+.completion-celebration { position: relative; flex: 1; min-height: 40px; display: grid; place-items: center; }
+.completion-celebration .MuiSvgIcon-root { font-size: clamp(50px, 12dvh, 110px); animation: completion-pop 700ms ease-out both; }
+.completion-celebration span { position: absolute; color: #49D69D; font-size: 28px; top: 15%; left: -24px; }
+.completion-celebration span:last-child { color: #F8B322; left: auto; right: -24px; top: 50%; }
+.completion-stats { display: grid; grid-template-columns: 1fr 1.4fr; align-items: start; gap: clamp(24px, 5vw, 72px); width: min(100%, 650px); }
+.completion-stats h3 { margin: 0 0 10px; font-size: clamp(14px, 2.5dvh, 20px); font-weight: 700; }
+.completion-rank-card { display: flex; align-items: center; gap: 8px; width: fit-content; max-width: 100%; margin: auto; padding: 6px 10px; border: 2px solid #041E42; border-radius: 6px; background: #CDE0FA; color: #041E42; }
+.completion-rank-card .MuiAvatar-root { width: 30px; height: 30px; font-size: 16px; }
+.completion-rank-name { display: flex; flex-direction: column; min-width: 0; text-align: left; font-size: 12px; }
+.completion-rank-name strong { overflow-wrap: anywhere; }
+.completion-actions { display: flex; justify-content: center; gap: clamp(20px, 4vw, 48px); margin-top: 8px; }
+.completion-actions .MuiButton-root { padding: 8px 22px; font-size: clamp(15px, 2.5dvh, 20px); border-radius: 12px; }
+@keyframes completion-pop { from { opacity: 0; transform: scale(.4) rotate(-15deg); } to { opacity: 1; transform: scale(1) rotate(0); } }
+@media (prefers-reduced-motion: reduce) { .completion-celebration .MuiSvgIcon-root { animation: none; } }
+@media (max-width: 600px) { .completion-page { padding: 12px; } .completion-stats { gap: 16px; } }

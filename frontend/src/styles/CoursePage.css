@@ -123,6 +123,7 @@
 }
 
 .course-completion {
+  position: relative;
   width: 110px;
   height: 110px;
   flex-shrink: 0;
@@ -133,6 +134,72 @@
   width: 100%;
   height: 100%;
   object-fit: contain;
+}
+
+.course-completion--claimed .completion-square {
+  filter: grayscale(1);
+  opacity: 0.65;
+}
+
+.course-claimed-diamond {
+  position: absolute;
+  inset: 15px;
+  background: #D5D9E2;
+  border: 3px solid #8994A6;
+  border-radius: 6px;
+  transform: rotate(45deg);
+  box-shadow: 2px 2px 3px #041e4226;
+}
+
+.course-claimed-text {
+  position: absolute;
+  inset: 26px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  color: #2A3F68;
+  font-size: 9px;
+  font-weight: 700;
+  text-align: center;
+  line-height: 1.15;
+  gap: 3px;
+}
+
+.course-claimed-text strong {
+  font-size: 16px;
+  white-space: nowrap;
+}
+
+.course-reward-check {
+  position: absolute;
+  left: 50%;
+  bottom: -8px;
+  transform: translateX(-50%);
+  width: 30px;
+  height: 30px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  background: #49D69D;
+  color: #041E42;
+  font-size: 22px;
+  font-weight: 700;
+  box-shadow: 0 2px 4px #041e4233;
+}
+
+.course-reward-label {
+  position: absolute;
+  top: calc(100% + 16px);
+  left: 50%;
+  transform: translateX(-50%);
+  width: max-content;
+  padding: 4px 10px;
+  border-radius: 999px;
+  background: #C8E2C8;
+  color: #041E42;
+  font-size: 12px;
+  font-weight: 700;
 }
 
 /* Connect circle centres; the circle backgrounds cover the line underneath. */
@@ -146,6 +213,18 @@
   transform: scaleY(-1);
   z-index: -1;
   pointer-events: none;
+}
+
+.course-action {
+  display: flex;
+  justify-content: center;
+  margin-top: -32px;
+}
+
+.course-action .MuiButton-root {
+  padding: 8px 28px;
+  font-size: 18px;
+  border-radius: 14px;
 }
 
 .course-lesson:nth-child(even) .course-lesson-line {

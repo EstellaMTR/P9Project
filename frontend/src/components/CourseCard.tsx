@@ -9,6 +9,7 @@ type CourseCardProps = {
   duration?: string;
   progress?: number;
   xp: number;
+  hideXp?: boolean;
   actionLabel?: string;
   onAction: () => void;
 };
@@ -20,6 +21,7 @@ function CourseCard({
   duration,
   progress,
   xp,
+  hideXp = false,
   actionLabel,
   onAction,
 }: CourseCardProps) {
@@ -79,7 +81,7 @@ function CourseCard({
           {title}
         </Typography>
 
-        <Typography
+        {!hideXp && <Typography
           component="span"
           variant="body2"
           sx={{
@@ -96,7 +98,7 @@ function CourseCard({
           }}
         >
           +{xp} XP
-        </Typography>
+        </Typography>}
       </Box>
 
       <Box
