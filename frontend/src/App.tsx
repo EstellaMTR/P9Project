@@ -42,7 +42,7 @@ function App() {
 
       <Route path="/lesson" element={<LessonPage onLogout={handleLogout} />} />
 
-      <Route path="/task" element={<TaskPage />} />
+      <Route path="/task" element={<TaskPage onLogout={handleLogout} />} />
 
       <Route path="/feedback" element={<FeedbackPage />} />
 
