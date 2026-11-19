@@ -1,16 +1,13 @@
-import {
-  Box,
-  Container,
-  Typography,
-  List,
-  ListItem,
-  Button,
-  Stack,
-} from '@mui/material';
+import { Box, Container, Typography, Button, Stack } from '@mui/material';
 import { ArrowForward, ArrowBack } from '@mui/icons-material';
 import lessonDescriptionIcon from '/src/assets/lessonDescriptionIcon.svg';
 import ProgressBar from '../components/ProgressBar';
 import BackgroundLayout from '../components/BackgroundLayout';
+import { useEffect, useState } from 'react';
+import { Link, useSearchParams } from 'react-router-dom';
+import { getCourseByCourseId, getLessonById, type Lesson } from '../api';
+import ReactMarkdown from 'react-markdown';
+import '../styles/LessonPage.css';
 
 /* Lesson Page, also the first step after the Course Page.
  * The content for Page is hardcoded in at the moment,
@@ -22,9 +19,69 @@ type LessonPageProps = {
 };
 
 export default function LessonPage({ onLogout }: LessonPageProps) {
+  const [searchParams] = useSearchParams();
+  const lessonId = Number(searchParams.get('lessonId'));
+  const [lesson, setLesson] = useState<Lesson | null>(null);
+  const [courseTitle, setCourseTitle] = useState('');
+  const [error, setError] = useState('');
+
+  useEffect(() => {
+    const controller = new AbortController();
+    async function loadLesson() {
+      try {
+        const { data } = await getLessonById({
+          path: { id: lessonId },
+          signal: controller.signal,
+          throwOnError: true,
+        });
+        if (!controller.signal.aborted) {
+          setLesson(data);
+        }
+        const { data: course } = await getCourseByCourseId({
+          path: { id: data.courseId },
+          signal: controller.signal,
+        });
+        if (!controller.signal.aborted) {
+          setCourseTitle(course?.title ?? 'Back to course');
+        }
+      } catch {
+        if (!controller.signal.aborted) {
+          setError('Could not load this lesson.');
+        }
+      }
+    }
+    void loadLesson();
+    return () => controller.abort();
+  }, [lessonId]);
+
+  if (error) {
+    return (
+      <BackgroundLayout onLogout={onLogout} className="lesson-page">
+        <Typography role="alert">{error}</Typography>
+      </BackgroundLayout>
+    );
+  }
+
+  if (!lesson) {
+    return (
+      <BackgroundLayout onLogout={onLogout} className="lesson-page">
+        <Typography>Loading lesson…</Typography>
+      </BackgroundLayout>
+    );
+  }
+
   return (
-    <BackgroundLayout onLogout={onLogout}>
+    <BackgroundLayout onLogout={onLogout} className="lesson-page">
+      <Button
+        component={Link}
+        to={`/course?courseId=${lesson.courseId}`}
+        className="lesson-course-button"
+        title={courseTitle || 'Back to course'}
+      >
+        {courseTitle || 'Back to course'}
+      </Button>
       <Container
+        className="lesson-content"
         maxWidth="lg"
         sx={{
           display: 'flex',
@@ -36,8 +93,11 @@ export default function LessonPage({ onLogout }: LessonPageProps) {
         {/* Progress bar*/}
         <ProgressBar activeStep={1} />
 
+        <Typography variant="h1">{lesson.title}</Typography>
+
         {/* Lesson box */}
         <Box
+          className="lesson-label"
           sx={{
             backgroundColor: 'background.default',
             borderRadius: '8px',
@@ -49,9 +109,6 @@ export default function LessonPage({ onLogout }: LessonPageProps) {
             <strong>LESSON</strong>
           </Typography>
         </Box>
-
-        {/*Heading*/}
-        <Typography variant="h1">A Common Goal</Typography>
 
         {/*Lesson description icon*/}
         <Box
@@ -68,51 +125,21 @@ export default function LessonPage({ onLogout }: LessonPageProps) {
 
         {/*Lesson box decription*/}
         <Box
+          className="lesson-description-panel"
           sx={{
             backgroundColor: 'background.default',
             borderRadius: 1,
-            padding: 4,
+            padding: 'clamp(12px, 2dvh, 24px)',
           }}
         >
-          <Typography
-            variant="h2"
-            sx={{
-              fontSize: '28px',
-              textAlign: 'center',
-            }}
-          >
-            Give Your AI a Goal
-          </Typography>
-
-          <Typography variant="body1" sx={{ fontSize: '18px' }}>
-            When prompting AI chatbots, it is important to explain clearly and
-            concisely what its goal is. The goal describes{' '}
-            <strong>what you want to achieve</strong> with the AI's response and
-            what you intend to <strong>use the output for.</strong>
-            <br />
-            <br />
-            Follow these rules to communicate the goal of your prompt:
-            <List
-              sx={{
-                listStyleType: 'disc',
-                pl: 4,
-                py: 0,
-              }}
-            >
-              <ListItem sx={{ display: 'list-item', py: 0 }}>
-                <strong>State what you want to achieve</strong>
-              </ListItem>
-              <ListItem sx={{ display: 'list-item', py: 0 }}>
-                <strong>Explain what you will use the output for</strong>
-              </ListItem>
-              <ListItem sx={{ display: 'list-item', py: 0 }}>
-                <strong>Keep it clear and concise</strong>
-              </ListItem>
-            </List>
-          </Typography>
+          <Box className="lesson-description">
+            <ReactMarkdown>{lesson.description}</ReactMarkdown>
+          </Box>
         </Box>
         <Stack direction="row" spacing={2}>
           <Button
+            component={Link}
+            to={`/course?courseId=${lesson.courseId}`}
             variant="contained"
             color="secondary"
             startIcon={<ArrowBack />}
@@ -120,6 +147,8 @@ export default function LessonPage({ onLogout }: LessonPageProps) {
             Go back
           </Button>
           <Button
+            component={Link}
+            to={`/task?lessonId=${lessonId}`}
             variant="contained"
             color="secondary"
             startIcon={<ArrowForward />}

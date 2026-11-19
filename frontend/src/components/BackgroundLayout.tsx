@@ -5,15 +5,17 @@ import NavigationSidebar from './NavigationSidebar';
 type BackgroundLayoutProps = {
   children: ReactNode;
   onLogout?: () => void;
+  className?: string;
 };
 
 /**
  * This creates the background layers used on the lesson pages
  */
 
-export default function BackgroundLayout({ children, onLogout }: BackgroundLayoutProps) {
+export default function BackgroundLayout({ children, onLogout, className }: BackgroundLayoutProps) {
   return (
     <Box
+      className={className}
       sx={{
         minHeight: '100vh',
         backgroundColor: 'background.default',
