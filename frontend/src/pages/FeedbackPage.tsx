@@ -1,10 +1,13 @@
 import { Box, Button, Stack, Typography } from '@mui/material';
 import ThumbUpIcon from '@mui/icons-material/ThumbUp';
 import ThumbDownIcon from '@mui/icons-material/ThumbDown';
-import { Link, useSearchParams } from 'react-router-dom';
+import UndoIcon from '@mui/icons-material/Undo';
+import { Link, useNavigate, useSearchParams } from 'react-router-dom';
+import { useRef, useState } from 'react';
+import { getCourseEmployeeByCourseIdEmployeeId, updateThumbCountByLessonIdEmployeeId } from '../api';
 import BackgroundLayout from '../components/BackgroundLayout';
 import ProgressBar from '../components/ProgressBar';
-import { readFeedback } from '../feedbackSession';
+import { feedbackKey, readFeedback } from '../feedbackSession';
 import '../styles/LessonPage.css';
 import '../styles/FeedbackPage.css';
 
@@ -14,10 +17,48 @@ type FeedbackPageProps = {
 };
 
 export default function FeedbackPage({ employeeId, onLogout }: FeedbackPageProps) {
+  const navigate = useNavigate();
+  const finishPending = useRef(false);
+  const [isFinishing, setIsFinishing] = useState(false);
+  const [finishError, setFinishError] = useState('');
   const [searchParams] = useSearchParams();
   const lessonId = Number(searchParams.get('lessonId'));
   const result = Number.isInteger(lessonId) && lessonId > 0
     ? readFeedback(employeeId, lessonId) : null;
+
+  async function finishSession() {
+    if (!result || finishPending.current) return;
+    finishPending.current = true;
+    setIsFinishing(true);
+    setFinishError('');
+    try {
+      const { data: records } = await getCourseEmployeeByCourseIdEmployeeId({
+        path: { courseId: result.courseId, employeeId },
+        throwOnError: true,
+      });
+      const record = records.find((item) => item.lessonId === lessonId);
+      if (!record) throw new Error('Missing lesson attempt');
+      const thumbs = Math.min(3, result.feedback.filter((item) => item.met).length);
+      if (!record.isCompleted) {
+        await updateThumbCountByLessonIdEmployeeId({
+          path: { lessonId, employeeId },
+          query: { thumbCount: thumbs },
+          throwOnError: true,
+        });
+      }
+      const completed = { ...result, completionXp: record.isCompleted ? 0 : thumbs * 10 };
+      // The backend has already saved completion; caching must not undo that success.
+      try {
+        sessionStorage.setItem(feedbackKey(employeeId, lessonId), JSON.stringify(completed));
+      } catch { /* Completion can still be loaded from the backend. */ }
+      navigate(`/lesson-completion?lessonId=${lessonId}`);
+    } catch {
+      setFinishError('Could not finish this lesson. Please try again.');
+    } finally {
+      finishPending.current = false;
+      setIsFinishing(false);
+    }
+  }
 
   if (!result) {
     return (
@@ -30,6 +71,9 @@ export default function FeedbackPage({ employeeId, onLogout }: FeedbackPageProps
 
   return (
     <BackgroundLayout onLogout={onLogout} className="lesson-page feedback-page">
+      <Button component={Link} to={`/task?lessonId=${lessonId}`} className="lesson-back-button" aria-label="Back to task">
+        <UndoIcon />
+      </Button>
       <Button component={Link} to={`/course?courseId=${result.courseId}`} className="lesson-course-button">
         {result.courseTitle || 'Back to course'}
       </Button>
@@ -56,8 +100,13 @@ export default function FeedbackPage({ employeeId, onLogout }: FeedbackPageProps
         </Box>
         <Stack direction="row" spacing={3} className="feedback-actions">
           <Button component={Link} to={`/try-again-task?lessonId=${lessonId}`} color="warning">Try again</Button>
-          <Button component={Link} to={`/course?courseId=${result.courseId}`} className="feedback-finish">Finish Session</Button>
+          <form onSubmit={(event) => { event.preventDefault(); void finishSession(); }}>
+            <Button type="submit" disabled={isFinishing} className="feedback-finish">
+              {isFinishing ? 'Finishing…' : 'Finish Session'}
+            </Button>
+          </form>
         </Stack>
+        {finishError && <Typography role="alert">{finishError}</Typography>}
       </Box>
     </BackgroundLayout>
   );

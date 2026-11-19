@@ -5,6 +5,8 @@ import CourseCard from '../CourseCard';
 type ContinueLearningProps = {
   courses: CourseProgressDto[] | undefined;
   fallbackCourse: CourseDto | undefined;
+  fallbackCompleted: boolean;
+  fallbackProgress: number;
   courseError: boolean;
   onOpenCourse: (courseId: number) => void;
 };
@@ -12,6 +14,8 @@ type ContinueLearningProps = {
 export default function ContinueLearning({
   courses,
   fallbackCourse,
+  fallbackCompleted,
+  fallbackProgress,
   courseError,
   onOpenCourse,
 }: ContinueLearningProps) {
@@ -22,7 +26,7 @@ export default function ContinueLearning({
     <section aria-labelledby="continue-learning">
       <div className="home-course-heading">
         {fallbackCourse && courses && courses.length === 0 && (
-          <h2 id="continue-learning">Start learning</h2>
+          <h2 id="continue-learning">{fallbackCompleted ? 'Review course' : fallbackProgress > 0 ? 'Continue learning' : 'Start learning'}</h2>
         )}
         {courses && courses.length > 0 && (
           <h2 id="continue-learning">Continue learning</h2>
@@ -58,8 +62,10 @@ export default function ContinueLearning({
             variant="featured"
             title={fallbackCourse.title}
             description={fallbackCourse.description}
-            xp={fallbackCourse.xpReward}
-            actionLabel="View course"
+            xp={25}
+            hideXp={fallbackCompleted}
+            progress={fallbackCompleted ? 100 : fallbackProgress}
+            actionLabel={fallbackCompleted ? 'Review course' : fallbackProgress > 0 ? 'Continue course' : 'View course'}
             onAction={() => onOpenCourse(fallbackCourse.id)}
           />
         )}
@@ -69,7 +75,7 @@ export default function ContinueLearning({
             variant={index === 0 ? 'featured' : 'inProgress'}
             title={course.title}
             description={course.description}
-            xp={course.xpReward}
+            xp={25}
             duration={`${course.completedLessons} of ${course.totalLessons} lessons completed`}
             progress={course.progressPercent}
             onAction={() => onOpenCourse(course.courseId)}

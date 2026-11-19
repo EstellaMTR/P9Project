@@ -1,5 +1,6 @@
 import { Box, Container, Typography, Button, Stack } from '@mui/material';
 import { ArrowForward, ArrowBack } from '@mui/icons-material';
+import UndoIcon from '@mui/icons-material/Undo';
 import lessonDescriptionIcon from '/src/assets/lessonDescriptionIcon.svg';
 import ProgressBar from '../components/ProgressBar';
 import BackgroundLayout from '../components/BackgroundLayout';
@@ -72,6 +73,9 @@ export default function LessonPage({ onLogout }: LessonPageProps) {
 
   return (
     <BackgroundLayout onLogout={onLogout} className="lesson-page">
+      <Button component={Link} to={`/course?courseId=${lesson.courseId}`} className="lesson-back-button" aria-label="Back to course">
+        <UndoIcon />
+      </Button>
       <Button
         component={Link}
         to={`/course?courseId=${lesson.courseId}`}

@@ -8,6 +8,7 @@ import FeedbackPage from './pages/FeedbackPage';
 import TryAgainTaskPage from './pages/TryAgainTaskPage';
 import NotImplementedPage from './pages/NotImplementedPage';
 import LessonPage from './pages/LessonPage';
+import CompletionPage from './pages/CompletionPage';
 
 function App() {
   const [employeeId, setEmployeeId] = useState<number | null>(() => {
@@ -45,6 +46,7 @@ function App() {
       <Route path="/task" element={<TaskPage employeeId={employeeId} onLogout={handleLogout} />} />
 
       <Route path="/feedback" element={<FeedbackPage employeeId={employeeId} onLogout={handleLogout} />} />
+      <Route path="/lesson-completion" element={<CompletionPage employeeId={employeeId} />} />
 
       <Route path="/try-again-task" element={<TryAgainTaskPage employeeId={employeeId} onLogout={handleLogout} />} />
 

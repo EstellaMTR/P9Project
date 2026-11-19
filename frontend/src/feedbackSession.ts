@@ -6,6 +6,7 @@ export type FeedbackSession = {
   courseId: number;
   answer: string;
   feedback: LessonFeedbackDto[];
+  completionXp?: number;
 };
 
 export function feedbackKey(employeeId: number, lessonId: number) {
@@ -19,6 +20,7 @@ export function readFeedback(employeeId: number, lessonId: number): FeedbackSess
       value && typeof value.lessonTitle === 'string' &&
       typeof value.courseTitle === 'string' && typeof value.courseId === 'number' &&
       typeof value.answer === 'string' && Array.isArray(value.feedback) &&
+      (value.completionXp === undefined || (Number.isFinite(value.completionXp) && value.completionXp >= 0)) &&
       value.feedback.every((item: unknown) =>
         typeof item === 'object' && item !== null &&
         'met' in item && typeof item.met === 'boolean' &&
