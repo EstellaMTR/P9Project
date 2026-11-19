@@ -34,16 +34,12 @@
 }
 
 .course-navigation > .MuiBox-root:hover {
-  width: 250px;
+  width: 204px;
   background-color: var(--mui-palette-background-inner, #cde0fa);
 }
 
 .course-navigation .MuiSvgIcon-root {
-  font-size: 30px;
-}
-
-.course-navigation .MuiTypography-root {
-  font-size: 15px;
+  font-size: 24px;
 }
 
 .course-content {
