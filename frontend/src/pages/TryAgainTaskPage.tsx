@@ -1,12 +1,19 @@
-import NavigationSidebar from '../components/NavigationSidebar'
+import { useSearchParams } from 'react-router-dom';
+import TaskPage from './TaskPage';
 
-export default function TryAgainTaskPage() {
+type TryAgainTaskPageProps = {
+  employeeId: number;
+  onLogout: () => void;
+};
+
+export default function TryAgainTaskPage({ employeeId, onLogout }: TryAgainTaskPageProps) {
+  const [searchParams] = useSearchParams();
   return (
-    <>
-      <NavigationSidebar defaultExpanded={false} />
-
-      <h1>Try Again Task Page</h1>
-      <p>This page is not implemented yet.</p>
-    </>
-  )
+    <TaskPage
+      key={`${employeeId}:${searchParams.get('lessonId')}`}
+      employeeId={employeeId}
+      onLogout={onLogout}
+      retry
+    />
+  );
 }

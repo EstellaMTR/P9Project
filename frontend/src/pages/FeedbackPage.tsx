@@ -55,7 +55,7 @@ export default function FeedbackPage({ employeeId, onLogout }: FeedbackPageProps
           </ul>
         </Box>
         <Stack direction="row" spacing={3} className="feedback-actions">
-          <Button component={Link} to={`/task?lessonId=${lessonId}`} color="warning">Try again</Button>
+          <Button component={Link} to={`/try-again-task?lessonId=${lessonId}`} color="warning">Try again</Button>
           <Button component={Link} to={`/course?courseId=${result.courseId}`} className="feedback-finish">Finish Session</Button>
         </Stack>
       </Box>

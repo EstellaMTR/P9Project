@@ -50,7 +50,7 @@ public class LessonEmployee
     {
         TaskAnswer = answer;
         TaskFeedback = feedback;
-        ThumbCount++;
+        TryCount++;
     }
     
 }

@@ -46,7 +46,7 @@ function App() {
 
       <Route path="/feedback" element={<FeedbackPage employeeId={employeeId} onLogout={handleLogout} />} />
 
-      <Route path="/try-again-task" element={<TryAgainTaskPage />} />
+      <Route path="/try-again-task" element={<TryAgainTaskPage employeeId={employeeId} onLogout={handleLogout} />} />
 
       <Route path="/not-implemented" element={<NotImplementedPage />} />
     </Routes>
