@@ -5,6 +5,8 @@ import BackgroundLayout from '../components/BackgroundLayout';
 import { Box, Button, TextField, Typography } from '@mui/material';
 import ProgressBar from '../components/ProgressBar';
 import UndoIcon from '@mui/icons-material/Undo';
+import lessonIcon from '../assets/Lesson.svg';
+import taskIcon from '../assets/Task.svg';
 import '../styles/LessonPage.css';
 import '../styles/TaskPage.css';
 import ReactMarkdown from 'react-markdown';
@@ -97,6 +99,7 @@ export default function TaskPage({ onLogout }: TaskPageProps) {
           >
             <Typography component="h2" id="task-lesson-heading">
               Lesson
+              <img src={lessonIcon} className="task-heading-icon" alt="" aria-hidden="true" />
             </Typography>
             <ReactMarkdown>{lesson.description}</ReactMarkdown>
           </Box>
@@ -109,6 +112,7 @@ export default function TaskPage({ onLogout }: TaskPageProps) {
             >
               <Typography component="h2" id="task-instructions-heading">
                 Task
+                <img src={taskIcon} className="task-heading-icon" alt="" aria-hidden="true" />
               </Typography>
               <ReactMarkdown>{lesson.task}</ReactMarkdown>
             </Box>

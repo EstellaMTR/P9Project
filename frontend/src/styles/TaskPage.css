@@ -21,8 +21,17 @@
 
 .task-page .lesson-course-button {
   left: 54px;
-  height: 42px;
-  border-radius: 0;
+  min-height: 42px;
+  height: auto;
+  width: max-content;
+  max-width: calc(100% - 54px);
+  box-sizing: border-box;
+  padding: 10px 24px;
+  font-size: clamp(14px, 1.5vw, 18px);
+  line-height: 22px;
+  white-space: normal;
+  overflow-wrap: anywhere;
+  border-radius: 0 6px 6px 0;
 }
 
 @media (max-width: 900px) {
@@ -77,7 +86,7 @@
   border-radius: 14px;
   min-width: 0;
   min-height: 0;
-  font-size: clamp(12px, 1.8dvh, 15px);
+  font-size: clamp(14px, 2dvh, 17px);
   line-height: 1.35;
   overflow-wrap: anywhere;
 }
@@ -102,10 +111,22 @@
 }
 
 .task-columns h2 {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
   margin: 0 0 12px;
   font-size: clamp(18px, 2.7dvh, 24px);
   font-weight: 700;
   text-align: center;
+}
+
+.task-heading-icon {
+  display: block;
+  width: 28px;
+  height: 28px;
+  object-fit: contain;
+  flex-shrink: 0;
 }
 
 .task-answer-column {
