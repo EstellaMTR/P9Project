@@ -390,6 +390,29 @@
         }
       }
     },
+    "/Employee/leaderboard": {
+      "get": {
+        "tags": [
+          "Employee"
+        ],
+        "operationId": "GetLeaderboard",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/LeaderboardEntryDto"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/Employee/{employeeId}/lessons/{lessonId}/xp": {
       "put": {
         "tags": [
@@ -908,6 +931,31 @@
           },
           "password": {
             "type": "string"
+          }
+        }
+      },
+      "LeaderboardEntryDto": {
+        "required": [
+          "employeeId",
+          "firstName",
+          "lastName",
+          "xpAccumulated"
+        ],
+        "type": "object",
+        "properties": {
+          "employeeId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "firstName": {
+            "type": "string"
+          },
+          "lastName": {
+            "type": "string"
+          },
+          "xpAccumulated": {
+            "type": "integer",
+            "format": "int32"
           }
         }
       },

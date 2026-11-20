@@ -3,15 +3,22 @@ import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import {
   getAllCourses,
+  getCourseEmployee,
+  getCourseEmployeeByCourseIdEmployeeId,
+  getLessonCourseByCourseId,
   getEmployeeById,
   getInProgressCourses,
+  getLeaderboard,
   type CourseDto,
   type CourseProgressDto,
+  type LeaderboardEntryDto,
 } from '../api';
 import ContinueLearning from '../components/HomePage/ContinueLearning';
 import NavigationSidebar from '../components/NavigationSidebar';
 import '../styles/Homepage.css';
 import RecommendedCourses from '../components/HomePage/RecommendedCourses';
+import Profile from '../components/HomePage/Profile';
+import Leaderboard from '../components/HomePage/Leaderboard';
 
 type HomeProps = {
   employeeId: number;
@@ -21,10 +28,15 @@ type HomeProps = {
 export default function Home({ employeeId, onLogout }: HomeProps) {
   const navigate = useNavigate();
   const [name, setName] = useState<string>();
+  const [lastName, setLastName] = useState<string>();
+  const [xpAccumulated, setXpAccumulated] = useState<number>();
   const [courses, setCourses] = useState<CourseProgressDto[]>();
   const [fallbackCourse, setFallbackCourse] = useState<CourseDto>();
+  const [fallbackCompleted, setFallbackCompleted] = useState(false);
+  const [fallbackProgress, setFallbackProgress] = useState(0);
   const [catalogCourses, setCatalogCourses] = useState<CourseDto[]>([]);
   const [courseError, setCourseError] = useState(false);
+  const [employees, setEmployees] = useState<LeaderboardEntryDto[]>([]);
 
   useEffect(() => {
     const controller = new AbortController();
@@ -36,9 +48,17 @@ export default function Home({ employeeId, onLogout }: HomeProps) {
           path: { id: employeeId },
           signal,
         });
-        if (!signal.aborted) setName(data?.firstName);
+        if (!signal.aborted) {
+          setName(data?.firstName);
+          setLastName(data?.lastName);
+          setXpAccumulated(data?.xpAccumulated);
+        }
       } catch {
-        if (!signal.aborted) setName(undefined);
+        if (!signal.aborted) {
+          setName(undefined);
+          setLastName(undefined);
+          setXpAccumulated(undefined);
+        }
       }
     }
 
@@ -64,8 +84,30 @@ export default function Home({ employeeId, onLogout }: HomeProps) {
             undefined,
           );
 
+          const { data: enrollments } = await getCourseEmployee({
+            path: { employeeId }, signal, throwOnError: true,
+          });
+          let completed = enrollments.some((item) => item.courseId === firstCourse?.id && item.status === 2);
+          let progressPercent = completed ? 100 : 0;
+          if (firstCourse && !completed) {
+            const [lessonResult, progressResult] = await Promise.all([
+              getLessonCourseByCourseId({ path: { courseId: firstCourse.id }, signal }),
+              getCourseEmployeeByCourseIdEmployeeId({ path: { courseId: firstCourse.id, employeeId }, signal, throwOnError: true }),
+            ]);
+            if (!lessonResult.data && lessonResult.response?.status !== 404) {
+              throw new Error('Could not load course lessons');
+            }
+            const lessons = lessonResult.data ?? [];
+            const completedIds = new Set(progressResult.data.filter((item) => item.isCompleted).map((item) => item.lessonId));
+            const count = lessons.filter((lesson) => lesson.id !== undefined && completedIds.has(lesson.id)).length;
+            progressPercent = lessons.length ? Math.round(count / lessons.length * 100) : 0;
+            completed = lessons.length > 0 && count === lessons.length;
+          }
+
           if (!signal.aborted) {
             setFallbackCourse(firstCourse);
+            setFallbackCompleted(completed);
+            setFallbackProgress(progressPercent);
             setCourses([]);
           }
           return;
@@ -80,8 +122,17 @@ export default function Home({ employeeId, onLogout }: HomeProps) {
       }
     }
 
+    async function loadEmployees() {
+      const { data: entries } = await getLeaderboard({ signal });
+
+      if (!signal.aborted && entries !== undefined) {
+        setEmployees(entries);
+      }
+    }
+
     void loadEmployee();
     void loadCourses();
+    void loadEmployees();
     return () => controller.abort();
   }, [employeeId]);
 
@@ -103,6 +154,8 @@ export default function Home({ employeeId, onLogout }: HomeProps) {
           <ContinueLearning
             courses={courses}
             fallbackCourse={fallbackCourse}
+            fallbackCompleted={fallbackCompleted}
+            fallbackProgress={fallbackProgress}
             courseError={courseError}
             onOpenCourse={openCourse}
           />
@@ -112,6 +165,16 @@ export default function Home({ employeeId, onLogout }: HomeProps) {
             onOpenCourse={openCourse}
           />
         </Box>
+        <div className="right-sidebar">
+          <Profile
+            employeeId={employeeId}
+            firstName={name}
+            lastName={lastName}
+            xpAccumulated={xpAccumulated}
+          />
+
+          <Leaderboard employees={employees} employeeId={employeeId} />
+        </div>
       </Box>
     </Box>
   );

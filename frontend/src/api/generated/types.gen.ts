@@ -41,6 +41,13 @@ export type EmployeeLoginRequest = {
     password: string;
 };
 
+export type LeaderboardEntryDto = {
+    employeeId: number;
+    firstName: string;
+    lastName: string;
+    xpAccumulated: number;
+};
+
 export type Lesson = {
     id?: number;
     courseId: number;
@@ -303,6 +310,22 @@ export type GetEmployeeByIdResponses = {
 };
 
 export type GetEmployeeByIdResponse = GetEmployeeByIdResponses[keyof GetEmployeeByIdResponses];
+
+export type GetLeaderboardData = {
+    body?: never;
+    path?: never;
+    query?: never;
+    url: '/Employee/leaderboard';
+};
+
+export type GetLeaderboardResponses = {
+    /**
+     * OK
+     */
+    200: Array<LeaderboardEntryDto>;
+};
+
+export type GetLeaderboardResponse = GetLeaderboardResponses[keyof GetLeaderboardResponses];
 
 export type AddXpData = {
     body?: never;

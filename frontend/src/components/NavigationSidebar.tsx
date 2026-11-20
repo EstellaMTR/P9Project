@@ -64,6 +64,7 @@ function NavigationItem({
    <Box
   sx={{
     width: 32,
+    flexShrink: 0,
     color: isActive ? 'common.white' : 'text.primary'
   }}
 >
@@ -74,6 +75,8 @@ function NavigationItem({
 <Typography
   sx={{
     opacity: showLabel ? 1 : 0,
+    fontSize: 15,
+    fontWeight: 600,
     transition: 'opacity 0.2s ease',
     color: isActive ? 'common.white' : 'text.primary'
   }}
@@ -115,7 +118,7 @@ return (
     onMouseEnter={() => setIsExpanded(true)}
     onMouseLeave={() => setIsExpanded(defaultExpanded)}
     sx={{
-    width: isExpanded ? 250 : 80,
+    width: isExpanded ? 204 : 80,
     position: 'absolute',
     zIndex: 1000,
     transition: 'width 0.3s ease',
@@ -138,6 +141,7 @@ return (
   variant="subtitle1"
   sx={{
     color: 'secondary.main',
+    fontSize: 'clamp(30px, 2.7vw, 40px)',
     lineHeight: 1
   }}
 >
@@ -148,7 +152,8 @@ return (
 
 <Typography
   sx={{
-    fontSize: '12px',
+    fontSize: '15px',
+    fontWeight: 600,
     color: 'secondary.main',
     marginTop: 1
   }}

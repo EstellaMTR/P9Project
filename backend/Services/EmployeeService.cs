@@ -59,7 +59,19 @@ public class EmployeeService
         // return dtoList;
         
     }
-    
+
+    public Task<List<LeaderboardEntryDto>> GetLeaderboardAsync(CancellationToken cancellationToken)
+    {
+        return _dbContext.Employees
+            .OrderByDescending(employee => employee.XpAccumulated)
+            .ThenBy(employee => employee.FirstName)
+            .ThenBy(employee => employee.LastName)
+            .ThenBy(employee => employee.Id)
+            .Select(employee => new LeaderboardEntryDto(
+                employee.Id, employee.FirstName, employee.LastName, employee.XpAccumulated))
+            .ToListAsync(cancellationToken);
+    }
+
     // ADD XP FUNCTION
     public async Task<OneOf<Success, NotFound>> AddXpAsync(int lessonId, int employeeId)
     {
