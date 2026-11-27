@@ -157,7 +157,7 @@ public class LlmService : IDisposable, IAsyncDisposable
 
 
         var response = await _client.Value.Models.GenerateContentAsync(
-            "gemini-3.5-flash-lite",
+            "gemini-3.5-flash",
             prompt,
             new GenerateContentConfig
             {
